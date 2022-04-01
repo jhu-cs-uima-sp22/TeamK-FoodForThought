@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "6954387285",
+    "project_id": "foodforthoughtapp-8c2fd",
+    "storage_bucket": "foodforthoughtapp-8c2fd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:6954387285:android:2e46b7025cbd76a6d711dc",
+        "android_client_info": {
+          "package_name": "com.example.foodforthoughtapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "6954387285-0gihkohh4e5uh8ob29vmoddh7kic7i6p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClWOcNiO2dv-qP4rOR4OsJcgNFaNFTbRQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "6954387285-0gihkohh4e5uh8ob29vmoddh7kic7i6p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

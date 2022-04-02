@@ -17,6 +17,7 @@ public class UserAuth {
     private FirebaseAuth auth;
 
     public UserAuth() {
+        // initialize this Firebase instance object in the onCreate for the main activity
         this.auth = FirebaseAuth.getInstance();
     }
 
@@ -47,8 +48,9 @@ public class UserAuth {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Log.d(AUTH_TAG, "signInWithEmail:success");
+                    // store this user object in the application for future reference
                     FirebaseUser user = auth.getCurrentUser();
-                    Log.d(AUTH_TAG, user.toString());
+                    Log.d(AUTH_TAG, "Successfully logged in user " + user.getUid());
                 } else {
                     // sign in failed
                     Log.w(AUTH_TAG, "signInWithEmail:failure", task.getException());

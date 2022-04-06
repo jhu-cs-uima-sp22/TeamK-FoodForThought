@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/name"
+            android:id="@+id/signup_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:ems="10"
@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/name_container">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/DOB"
+            android:id="@+id/signup_DOB"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:ems="10"
@@ -55,7 +55,7 @@
         app:layout_constraintTop_toBottomOf="@+id/DOB_container">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/phone_number"
+            android:id="@+id/signup_phone_number"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:ems="10"
@@ -74,7 +74,7 @@
         app:layout_constraintTop_toBottomOf="@+id/phone_number_container">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/loginEmail"
+            android:id="@+id/signup_email"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:ems="10"
@@ -94,7 +94,7 @@
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/loginPassword"
+            android:id="@+id/signup_password"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:ems="10"
@@ -115,7 +115,7 @@
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/password_confirm"
+            android:id="@+id/signup_password_confirm"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:ems="10"

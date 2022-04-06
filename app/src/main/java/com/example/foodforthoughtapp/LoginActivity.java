@@ -35,6 +35,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.login_confirm:
                 // TODO: Add input verification
                 // TODO: Change to launch map activity without this activity being tied
+                EditText loginEmail = findViewById(R.id.login_email);
+                EditText loginPassword = findViewById(R.id.login_password);
                 Intent login = new Intent(this, LoginActivity.class);
                 //login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(login);

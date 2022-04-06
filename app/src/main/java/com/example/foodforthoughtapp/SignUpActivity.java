@@ -34,10 +34,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         signUp.setOnClickListener(this);
         login.setOnClickListener(this);
 
-        birthDate = findViewById(R.id.DOB);
+        birthDate = findViewById(R.id.signup_DOB);
         birthDate.addTextChangedListener(mDateEntryWatcher);
 
-        EditText phoneNumber = findViewById(R.id.phone_number);
+        EditText phoneNumber = findViewById(R.id.signup_phone_number);
         phoneNumber.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
     }
 
@@ -52,6 +52,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.signup_confirm:
                 // TODO: Add input verification
                 // TODO: Change to launch map activity without this activity being tied?
+                EditText signupName = findViewById(R.id.signup_name);
+                EditText signupDOB = findViewById(R.id.signup_DOB);
+                EditText signupPhoneNum = findViewById(R.id.signup_phone_number);
+                EditText signupEmail = findViewById(R.id.signup_email);
+                EditText signupPassword = findViewById(R.id.signup_password);
+                EditText signupPasswordConfirm = findViewById(R.id.signup_password_confirm);
                 Intent signUp = new Intent(this, SignUpActivity.class);
                 //signUp.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(signUp);

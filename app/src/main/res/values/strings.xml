@@ -15,5 +15,7 @@
     <string name="title_activity_maps">MapsActivity</string>
     <string name="Open">My Application</string>
     <string name="Close">My Application</string>
+    <string name="search_map_hint">Enter Your City</string>
+
 
 </resources>

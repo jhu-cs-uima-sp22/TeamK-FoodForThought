@@ -5,6 +5,9 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -29,6 +32,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private DrawerLayout dl;
     private ActionBarDrawerToggle abdt;
+    private EditText searchLoc;
+    private LatLng cityCoor = new LatLng(39.29, -76.61);
+    private String cityName = "Baltimore";
 
 
     @Override
@@ -42,6 +48,28 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        searchLoc = (EditText)findViewById(R.id.plain_text_input);
+
+        Button searchButton = (Button) findViewById(R.id.refresh_map_button);
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cityName = searchLoc.getText().toString();
+                cityCoor = getLocationFromAddress(MapsActivity.this, cityName);
+                mMap.clear();
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(cityCoor));
+            }
+        });
+
+
+
+        //String cityName = searchLoc.getText().toString();
+
+        if (!cityName.isEmpty()) {
+            cityCoor = getLocationFromAddress(this, cityName);
+        }
 
         //Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         //setSupportActionBar(toolbar);
@@ -95,12 +123,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         //Initalize the map
         mMap = googleMap;
 
-        //Find the food pantries in the given cities, put them in an array, from the database
-
-        //Example array for testing
-
-
-
         //Mark all the food pantries in the array with markers, and create info windows
         //addMarkersAndInfoWindows(List<Address addresses>);
 
@@ -150,6 +172,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         for (Address address : addresses) {
             coordinates.add(getLocationFromAddress(this, address.toString()));
         }
+    }
+
+    private List<Address> getPantriesInCity(String city) {
+        return new ArrayList<>();
     }
 
 

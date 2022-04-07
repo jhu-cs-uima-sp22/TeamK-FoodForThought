@@ -1,14 +1,22 @@
 package com.example.foodforthoughtapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -39,6 +47,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 EditText loginPassword = findViewById(R.id.login_password);
                 Intent login = new Intent(this, LoginActivity.class);
                 //login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                String email = loginEmail.getText().toString();
+                String password = loginPassword.getText().toString();
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                auth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // successful login
+                                    Log.d("AUTH", "signInWithEmail:success");
+                                    // store this user object in the application for future reference
+                                    FirebaseUser user = auth.getCurrentUser();
+                                    Log.d("AUTH", "Successfully logged in user " + user.getUid());
+                                    // TODO: direct to the launch map activity
+                                } else {
+                                    // unsuccessful login
+                                    // TODO: display toast for incorrect login credentials
+                                    Log.w("AUTH", "signInWithEmail:failure", task.getException());
+                                }
+                            }
+                        });
                 startActivity(login);
                 break;
             case R.id.login_return_signup:

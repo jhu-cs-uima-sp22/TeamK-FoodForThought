@@ -1,5 +1,6 @@
 package com.example.foodforthoughtapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,16 +9,30 @@ import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.example.foodforthoughtapp.model.UserInfo;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 import java.util.Calendar;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText birthDate;
+    private FirebaseAuth auth;
+    private DatabaseReference db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +54,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         EditText phoneNumber = findViewById(R.id.signup_phone_number);
         phoneNumber.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+
+        auth = FirebaseAuth.getInstance();
+        db = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
@@ -59,7 +77,34 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 EditText signupPassword = findViewById(R.id.signup_password);
                 EditText signupPasswordConfirm = findViewById(R.id.signup_password_confirm);
                 Intent signUp = new Intent(this, SignUpActivity.class);
-                //signUp.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                //signUp.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
+
+                // create account and authenticate user
+                String email = signupEmail.getText().toString();
+                String password = signupPassword.getText().toString();
+                auth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // user account created successfully
+                                    Log.d("AUTH", "createUserWithEmail:success");
+                                    FirebaseUser user = auth.getCurrentUser();
+                                    // add this user's details to the UserInfo database
+                                    String[] name = signupName.getText().toString().split(" ");
+                                    String DOB = signupDOB.getText().toString();
+                                    String phone = signupPhoneNum.getText().toString();
+                                    UserInfo userInfo = new UserInfo(name[0], name[1], phone, DOB);
+                                    db.child("users").child(user.getUid()).setValue(userInfo);
+                                    // TODO: TODO: direct to the launch map activity
+                                } else {
+                                    // account not created successfully
+                                    Log.w("AUTH", "createUserWithEmail:failure", task.getException());
+                                    // TODO: determine type of exception and write appropriate error message
+                                }
+                            }
+                        });
+
                 startActivity(signUp);
                 break;
             default:

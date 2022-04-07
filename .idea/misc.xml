@@ -3,10 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.2477355072463768" />
-        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.2477355072463768" />
-        <entry key="app/src/main/res/layout/activity_welcome.xml" value="0.16197916666666667" />
-        <entry key="app/src/main/res/layout/nav_center.xml" value="0.2477355072463768" />
+        <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/layout/nav_center.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/layout/navigation_header.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/menu/navigation_menu.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>

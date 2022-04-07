@@ -12,4 +12,8 @@
     <string name="birthday">Date of Birth</string>
     <string name="phone_number">Phone Number</string>
 
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="Open">My Application</string>
+    <string name="Close">My Application</string>
+
 </resources>

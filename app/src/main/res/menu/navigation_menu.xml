@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
+
+    <item
+        android:id="@+id/map_view"
+        android:title="Map View" />
+
+    <item
+        android:id="@+id/opportunities"
+        android:title="Opportunities" />
+
+    <item
+        android:id="@+id/contributions"
+        android:title="Contributions" />
+
+    <item
+        android:id="@+id/settings"
+        android:title="Settings" />
+
+    <item
+        android:id="@+id/nav_logout"
+        android:title="Logout" />
+
+</menu>

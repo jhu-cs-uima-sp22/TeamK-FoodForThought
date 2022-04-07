@@ -5,8 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -20,6 +24,14 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         final Button login = findViewById(R.id.welcome_login);
         signUp.setOnClickListener(this);
         login.setOnClickListener(this);
+
+        // check whether the user is already logged in
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // the user is already authenticated
+            Log.d("AUTH", "User " + user.getUid() + " is already authenticated");
+            // TODO: launch the map activity
+        }
     }
 
     @Override

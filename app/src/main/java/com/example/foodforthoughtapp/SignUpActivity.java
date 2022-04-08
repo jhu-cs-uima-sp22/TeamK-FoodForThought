@@ -16,22 +16,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.foodforthoughtapp.model.UserInfo;
-import com.example.foodforthoughtapp.model.pantry.PantryHours;
-import com.example.foodforthoughtapp.model.pantry.PantryInfo;
-import com.example.foodforthoughtapp.model.pantry.PantryLocation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 

@@ -14,19 +14,26 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.foodforthoughtapp.model.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
+
 import java.util.Calendar;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String AUTH_EMAIL_COLLISION_MSG = "A user with this email already exists!";
+    private static final String AUTH_WEAK_PASSWORD_MSG = "Please provide a password with at least 6 characters";
     private EditText birthDate;
     private FirebaseAuth auth;
     private DatabaseReference db;
@@ -81,24 +88,28 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 String email = signupEmail.getText().toString();
                 String password = signupPassword.getText().toString();
                 auth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // user account created successfully
-                                    Log.d("AUTH", "createUserWithEmail:success");
-                                    FirebaseUser user = auth.getCurrentUser();
-                                    // add this user's details to the UserInfo database
-                                    String[] name = signupName.getText().toString().split(" ");
-                                    String DOB = signupDOB.getText().toString();
-                                    String phone = signupPhoneNum.getText().toString();
-                                    UserInfo userInfo = new UserInfo(name[0], name[1], phone, DOB);
-                                    db.child("users").child(user.getUid()).setValue(userInfo);
-                                    // TODO: TODO: direct to the launch map activity
-                                } else {
-                                    // account not created successfully
-                                    Log.w("AUTH", "createUserWithEmail:failure", task.getException());
-                                    // TODO: determine type of exception and write appropriate error message
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                // user account created successfully
+                                Log.d("AUTH", "createUserWithEmail:success");
+                                FirebaseUser user = auth.getCurrentUser();
+                                // add this user's details to the UserInfo database
+                                String[] name = signupName.getText().toString().split(" ");
+                                String DOB = signupDOB.getText().toString();
+                                String phone = signupPhoneNum.getText().toString();
+                                UserInfo userInfo = new UserInfo(name[0], name[1], phone, DOB);
+                                db.child("users").child(user.getUid()).setValue(userInfo);
+                                // TODO: TODO: direct to the launch map activity
+                            } else {
+                                // account not created successfully
+                                Exception e = task.getException();
+                                Log.w("AUTH", "createUserWithEmail:failure", e);
+                                if (e instanceof FirebaseAuthUserCollisionException) {
+                                    Toast toast = DynamicToast.makeError(getApplicationContext(), AUTH_EMAIL_COLLISION_MSG, Toast.LENGTH_SHORT);
+                                    toast.show();
+                                } else if (e instanceof FirebaseAuthWeakPasswordException) {
+                                    Toast toast = DynamicToast.makeError(getApplicationContext(), AUTH_WEAK_PASSWORD_MSG, Toast.LENGTH_SHORT);
+                                    toast.show();
                                 }
                             }
                         });

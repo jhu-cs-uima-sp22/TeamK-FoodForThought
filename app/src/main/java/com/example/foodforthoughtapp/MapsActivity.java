@@ -186,7 +186,7 @@ GoogleMap.OnMarkerClickListener{
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
         marker.showInfoWindow();
-        return false;
+        return true;
     }
 
 

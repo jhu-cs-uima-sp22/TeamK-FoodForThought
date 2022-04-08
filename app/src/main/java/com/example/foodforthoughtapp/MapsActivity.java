@@ -1,6 +1,7 @@
 package com.example.foodforthoughtapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 
+import com.example.foodforthoughtapp.model.pantry.PantryInfo;
+import com.example.foodforthoughtapp.model.pantry.PantryLocation;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -22,12 +25,19 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener,
+GoogleMap.OnMarkerClickListener{
 
     private GoogleMap mMap;
     private DrawerLayout dl;
@@ -35,6 +45,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private EditText searchLoc;
     private LatLng cityCoor = new LatLng(39.29, -76.61);
     private String cityName = "Baltimore";
+
+    DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
 
 
     @Override
@@ -60,6 +72,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 cityCoor = getLocationFromAddress(MapsActivity.this, cityName);
                 mMap.clear();
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(cityCoor));
+                List<PantryInfo> pantryList = getPantriesInCity(cityName);
+                HashMap<PantryInfo, LatLng> pantryCoordinates = getPantriesCoordinates(pantryList);
+                addMarkersAndInfoWindows(pantryCoordinates);
             }
         });
 
@@ -163,21 +178,55 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onInfoWindowClick(@NonNull Marker marker) {
-
+        Intent intent = new Intent(this, DetailedView);
+        intent.putExtra("Food Pantry", (PantryInfo) marker.getTag());
+        startActivity(intent);
     }
 
-    private void addMarkersAndInfoWindows(List<Address> addresses) {
+    @Override
+    public boolean onMarkerClick(@NonNull Marker marker) {
+        marker.showInfoWindow();
+        return false;
+    }
 
-        List<LatLng> coordinates = new ArrayList<>();
-        for (Address address : addresses) {
-            coordinates.add(getLocationFromAddress(this, address.toString()));
+
+    private void addMarkersAndInfoWindows(HashMap<PantryInfo, LatLng> pantryCoordinates) {
+        for(PantryInfo pantry : pantryCoordinates.keySet()){
+            Marker mapMarker = mMap.addMarker(new MarkerOptions().position(pantryCoordinates.get(pantry)).title(pantry.name)
+                    .snippet(pantry.location.street + ", " + pantry.location.city));
+            mapMarker.setTag(pantry);
         }
     }
 
-    private List<Address> getPantriesInCity(String city) {
-        return new ArrayList<>();
+
+    private HashMap<PantryInfo, LatLng> getPantriesCoordinates(List<PantryInfo> pantries) {
+        HashMap<PantryInfo, LatLng> pantryCoordinates = new HashMap<>();
+
+        for (PantryInfo pantry : pantries) {
+            pantryCoordinates.put(pantry, getLocationFromAddress(MapsActivity.this, pantry.location.street +
+                    ", " + pantry.location.city));
+        }
+
+        return pantryCoordinates;
+
     }
 
+    private List<PantryInfo> getPantriesInCity(String city) {
+        List<PantryInfo> pantries = new ArrayList<>();
 
+        dbref.child("pantries").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                DataSnapshot res = task.getResult();
+                for (DataSnapshot child : res.getChildren()) {
+                    PantryInfo pantry = child.getValue(PantryInfo.class);
+                    if (pantry.location.city.toLowerCase().equals(city.toLowerCase())) {
+                        pantries.add(pantry);
+                    }
+                }
+            }
+        });
 
+        return pantries;
+    }
 }

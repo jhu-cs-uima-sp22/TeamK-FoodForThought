@@ -33,6 +33,10 @@ public class PantryInfo {
         return (name + " " + " " + " " + phone + " " + website).hashCode();
     }
 
+    public ArrayList<Resource> getResources() {
+        return resources;
+    }
+
     @Override
     public boolean equals(Object other) {
         PantryInfo otherPantry = (PantryInfo) other;

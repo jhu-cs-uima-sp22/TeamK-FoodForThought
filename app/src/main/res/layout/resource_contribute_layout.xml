@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/list_item"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_marginBottom="10dp"
+    android:orientation="horizontal">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/contribute_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        card_view:cardCornerRadius="10dp"
+        card_view:cardElevation="10dp"
+        card_view:cardBackgroundColor="@color/white"
+        >
+
+
+        <CheckBox
+            android:id="@+id/resCheckBox"
+            android:layout_width="137dp"
+            android:layout_height="match_parent"
+            android:text="CheckBox"
+            android:translationX="25dp" />
+
+        <EditText
+            android:id="@+id/editCount"
+            android:layout_width="149dp"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="count"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:translationX="210dp" />
+
+    </androidx.cardview.widget.CardView>
+
+
+
+
+</LinearLayout>

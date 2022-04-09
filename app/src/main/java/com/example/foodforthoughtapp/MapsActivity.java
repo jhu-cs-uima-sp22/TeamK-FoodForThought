@@ -78,10 +78,6 @@ GoogleMap.OnMarkerClickListener{
             }
         });
 
-
-
-        //String cityName = searchLoc.getText().toString();
-
         if (!cityName.isEmpty()) {
             cityCoor = getLocationFromAddress(this, cityName);
         }

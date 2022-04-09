@@ -172,7 +172,7 @@ GoogleMap.OnMarkerClickListener{
 
     @Override
     public void onInfoWindowClick(@NonNull Marker marker) {
-        Intent intent = new Intent(this, pantryDetail.class);
+        Intent intent = new Intent(this, PantryDetail.class);
         intent.putExtra("Food Pantry", (String) marker.getTag());
         startActivity(intent);
     }

@@ -15,6 +15,17 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // check whether the user is already logged in
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // the user is already authenticated
+            Log.d("AUTH", "User " + user.getUid() + " is already authenticated");
+            // TODO: launch the map activity
+            Intent intent = new Intent(this, MapsActivity.class);
+            startActivity(intent);
+            this.finish();
+        }
+
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_welcome);
@@ -23,14 +34,6 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         final Button login = findViewById(R.id.welcome_login);
         signUp.setOnClickListener(this);
         login.setOnClickListener(this);
-
-        // check whether the user is already logged in
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            // the user is already authenticated
-            Log.d("AUTH", "User " + user.getUid() + " is already authenticated");
-            // TODO: launch the map activity
-        }
     }
 
     @Override

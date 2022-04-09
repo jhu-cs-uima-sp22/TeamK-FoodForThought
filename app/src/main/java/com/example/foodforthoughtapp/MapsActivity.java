@@ -17,6 +17,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 
 import com.example.foodforthoughtapp.model.pantry.PantryInfo;
+import com.example.foodforthoughtapp.model.pantry.PantryLocation;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -72,22 +73,16 @@ GoogleMap.OnMarkerClickListener{
                 mMap.clear();
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(cityCoor));
                 List<PantryInfo> pantryList = getPantriesInCity(cityName);
+                HashMap<PantryInfo, String> pantryKeys = getPantriesInCityAndKeys(cityName);
                 HashMap<PantryInfo, LatLng> pantryCoordinates = getPantriesCoordinates(pantryList);
-                addMarkersAndInfoWindows(pantryCoordinates);
+                addMarkersAndInfoWindows(pantryCoordinates, pantryKeys);
             }
         });
-
-
-
-        //String cityName = searchLoc.getText().toString();
 
         if (!cityName.isEmpty()) {
             cityCoor = getLocationFromAddress(this, cityName);
         }
 
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        //setSupportActionBar(toolbar);
-        //ActionBar actionBar = getSupportActionBar();
         dl = (DrawerLayout)findViewById(R.id.my_drawer_layout);
         abdt = new ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close);
         abdt.setDrawerIndicatorEnabled(true);
@@ -178,7 +173,7 @@ GoogleMap.OnMarkerClickListener{
     @Override
     public void onInfoWindowClick(@NonNull Marker marker) {
         Intent intent = new Intent(this, PantryDetail.class);
-        intent.putExtra("Food Pantry", (PantryInfo) marker.getTag());
+        intent.putExtra("Food Pantry", (String) marker.getTag());
         startActivity(intent);
     }
 
@@ -189,11 +184,11 @@ GoogleMap.OnMarkerClickListener{
     }
 
 
-    private void addMarkersAndInfoWindows(HashMap<PantryInfo, LatLng> pantryCoordinates) {
+    private void addMarkersAndInfoWindows(HashMap<PantryInfo, LatLng> pantryCoordinates, HashMap<PantryInfo, String> pantryKeys) {
         for(PantryInfo pantry : pantryCoordinates.keySet()){
             Marker mapMarker = mMap.addMarker(new MarkerOptions().position(pantryCoordinates.get(pantry)).title(pantry.name)
                     .snippet(pantry.location.street + ", " + pantry.location.city));
-            mapMarker.setTag(pantry);
+            mapMarker.setTag(pantryKeys.get(pantry));
         }
     }
 
@@ -209,6 +204,7 @@ GoogleMap.OnMarkerClickListener{
         return pantryCoordinates;
 
     }
+
 
     private List<PantryInfo> getPantriesInCity(String city) {
         List<PantryInfo> pantries = new ArrayList<>();
@@ -228,4 +224,25 @@ GoogleMap.OnMarkerClickListener{
 
         return pantries;
     }
+
+
+    private HashMap<PantryInfo, String> getPantriesInCityAndKeys(String city) {
+        HashMap<PantryInfo, String> pantries = new HashMap<>();
+
+        dbref.child("pantries").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                DataSnapshot res = task.getResult();
+                for (DataSnapshot child : res.getChildren()) {
+                    PantryInfo pantry = child.getValue(PantryInfo.class);
+                    if (pantry.location.city.toLowerCase().equals(city.toLowerCase())) {
+                        pantries.put(pantry, child.getKey());
+                    }
+                }
+            }
+        });
+
+        return pantries;
+    }
+
 }

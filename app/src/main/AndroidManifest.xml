@@ -45,7 +45,18 @@
             android:name=".MapsActivity"
             android:exported="true"
             android:label="@string/title_activity_maps">
+        </activity>
 
+        <activity
+            android:name=".PantryDetail"
+            android:exported="true"
+            android:label="@string/pantry_details">
+        </activity>
+
+        <activity
+            android:name=".ContributeActivity"
+            android:exported="true"
+            android:label="@string/contribute_activity">
         </activity>
 
     </application>

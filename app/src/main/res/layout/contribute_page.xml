@@ -404,7 +404,6 @@
         android:id="@+id/submitButton"
         android:layout_width="239dp"
         android:layout_height="57dp"
-        android:onClick="submitOnClick"
         android:text="Submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

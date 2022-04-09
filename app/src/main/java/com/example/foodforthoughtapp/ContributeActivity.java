@@ -123,8 +123,8 @@ public class ContributeActivity extends AppCompatActivity {
     }
 
     /** Called when the user presses submit button*/
-    public void submitOnClick(View view) {
-        Intent intent = new Intent(this, submitActivity.class);
-        startActivity(intent);
-    }
+    //public void submitOnClick(View view) {
+        //Intent intent = new Intent(this, submitActivity.class);
+        //startActivity(intent);
+    //}
 }

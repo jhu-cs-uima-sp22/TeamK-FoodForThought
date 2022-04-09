@@ -30,12 +30,17 @@ public class PantryDetail extends AppCompatActivity {
     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
 
 
-    protected void onCreate(LayoutInflater inflater, ViewGroup container,
+    protected View onCreateView(LayoutInflater inflater, ViewGroup container,
                             Bundle savedInstanceState) {
+        System.out.println("1 ");
         super.onCreate(savedInstanceState);
+        System.out.println("2 ");
         setContentView(R.layout.pantry_detail_page);
+        System.out.println("3 ");
         Bundle extras = getIntent().getExtras();
+        System.out.println("4 ");
         pantryKey = extras.getString("Food Pantry");
+        System.out.println("5 ");
 
         //have to get the arrayList of resources in the specific pantry
         PantryInfo pantry = dbref.child("pantries").child(pantryKey).get().getResult().getValue(PantryInfo.class);
@@ -54,6 +59,8 @@ public class PantryDetail extends AppCompatActivity {
         resourceListView.setAdapter(ra);
         registerForContextMenu(resourceListView);
         ra.notifyDataSetChanged();
+
+        return myview;
 
     }
 

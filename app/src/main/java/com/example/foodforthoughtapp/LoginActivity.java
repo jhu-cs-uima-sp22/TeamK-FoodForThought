@@ -59,7 +59,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 // store this user object in the application for future reference
                                 FirebaseUser user = auth.getCurrentUser();
                                 Log.d("AUTH", "Successfully logged in user " + user.getUid());
-                                // TODO: direct to the launch map activity
+                                Intent intent = new Intent(this, MapsActivity.class);
+                                startActivity(intent);
                             } else {
                                 // unsuccessful login
                                 Log.w("AUTH", "signInWithEmail:failure", task.getException());

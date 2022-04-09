@@ -1,6 +1,5 @@
 package com.example.foodforthoughtapp;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,14 +10,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String AUTH_INVALID_CREDENTIALS_MSG = "Invalid email/password combination";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,24 +52,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String password = loginPassword.getText().toString();
                 FirebaseAuth auth = FirebaseAuth.getInstance();
                 auth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // successful login
-                                    Log.d("AUTH", "signInWithEmail:success");
-                                    // store this user object in the application for future reference
-                                    FirebaseUser user = auth.getCurrentUser();
-                                    Log.d("AUTH", "Successfully logged in user " + user.getUid());
-                                    // TODO: direct to the launch map activity
-                                } else {
-                                    // unsuccessful login
-                                    // TODO: display toast for incorrect login credentials
-                                    Log.w("AUTH", "signInWithEmail:failure", task.getException());
-                                }
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                // successful login
+                                Log.d("AUTH", "signInWithEmail:success");
+                                // store this user object in the application for future reference
+                                FirebaseUser user = auth.getCurrentUser();
+                                Log.d("AUTH", "Successfully logged in user " + user.getUid());
+                                // TODO: direct to the launch map activity
+                            } else {
+                                // unsuccessful login
+                                Log.w("AUTH", "signInWithEmail:failure", task.getException());
+                                Toast toast = DynamicToast.makeError(getApplicationContext(), AUTH_INVALID_CREDENTIALS_MSG, Toast.LENGTH_SHORT);
+                                toast.show();
                             }
                         });
-                 startActivity(login);
+                startActivity(login);
                 break;
             case R.id.login_return_signup:
                 Intent signUp = new Intent(this, SignUpActivity.class);

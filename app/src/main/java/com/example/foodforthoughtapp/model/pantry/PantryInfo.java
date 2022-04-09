@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 // Object model for a pantry
-public class PantryInfo implements Parcelable {
+public class PantryInfo {
     public String name;
     public PantryLocation location;
     public String phone;
@@ -28,33 +28,14 @@ public class PantryInfo implements Parcelable {
         this.resources.add(res);
     }
 
-    protected PantryInfo(Parcel in) {
-        name = in.readString();
-        phone = in.readString();
-        website = in.readString();
-    }
-
-    public static final Creator<PantryInfo> CREATOR = new Creator<PantryInfo>() {
-        @Override
-        public PantryInfo createFromParcel(Parcel in) {
-            return new PantryInfo(in);
-        }
-
-        @Override
-        public PantryInfo[] newArray(int size) {
-            return new PantryInfo[size];
-        }
-    };
-
     @Override
-    public int describeContents() {
-        return 0;
+    public int hashCode() {
+        return (name + " " + " " + " " + phone + " " + website).hashCode();
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(name);
-        parcel.writeString(phone);
-        parcel.writeString(website);
+    public boolean equals(Object other) {
+        PantryInfo otherPantry = (PantryInfo) other;
+        return this.name.equals(otherPantry.name) && this.phone.equals(otherPantry.phone) && this.website.equals(otherPantry.website);
     }
 }

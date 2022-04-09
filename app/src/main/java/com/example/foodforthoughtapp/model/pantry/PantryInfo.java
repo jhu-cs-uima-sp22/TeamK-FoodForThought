@@ -3,6 +3,7 @@ package com.example.foodforthoughtapp.model.pantry;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 // Object model for a pantry
@@ -12,18 +13,19 @@ public class PantryInfo implements Parcelable {
     public String phone;
     public String website;
     public Map<String, PantryHours> hours;
-    public Map<String, Integer> resources;
+    public ArrayList<Resource> resources;
 
     public PantryInfo() {}
 
     public PantryInfo(String name, PantryLocation location, String phone, String website,
-                      Map<String, PantryHours> hours, Map<String, Integer> resources) {
+                      Map<String, PantryHours> hours, String t, int c) {
         this.name = name;
         this.location = location;
         this.phone = phone;
         this.website = website;
         this.hours = hours;
-        this.resources = resources;
+        Resource res = new Resource(t, c);
+        this.resources.add(res);
     }
 
     protected PantryInfo(Parcel in) {

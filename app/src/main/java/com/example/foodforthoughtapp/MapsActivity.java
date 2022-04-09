@@ -17,7 +17,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 
 import com.example.foodforthoughtapp.model.pantry.PantryInfo;
-import com.example.foodforthoughtapp.model.pantry.PantryLocation;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -178,7 +177,7 @@ GoogleMap.OnMarkerClickListener{
 
     @Override
     public void onInfoWindowClick(@NonNull Marker marker) {
-        Intent intent = new Intent(this, pantryDetail.class);
+        Intent intent = new Intent(this, PantryDetail.class);
         intent.putExtra("Food Pantry", (PantryInfo) marker.getTag());
         startActivity(intent);
     }

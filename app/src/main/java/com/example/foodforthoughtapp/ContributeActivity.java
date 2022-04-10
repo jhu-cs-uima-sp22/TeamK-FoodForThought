@@ -9,10 +9,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.example.foodforthoughtapp.model.pantry.PantryInfo;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -28,29 +32,22 @@ public class ContributeActivity extends AppCompatActivity {
 
     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
 
-    protected void onCreate(LayoutInflater inflater, ViewGroup container,
-                            Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contribute_page);
         Bundle extras = getIntent().getExtras();
         String pantryKey = extras.getString("Food Pantry");
 
         //have to get the arrayList of resources in the specific pantry
-        PantryInfo pantry = dbref.child("pantries").child(pantryKey).get().getResult().getValue(PantryInfo.class);
-        conResourceList = pantry.getResources();
-
-        //connect the resource list with the card view
-        View myview = inflater.inflate(R.layout.contribute_page, container, false);
-        resourceConListView = (ListView) myview.findViewById(R.id.conResourcesNeeded);
-        contributeCard = (CardView) myview.findViewById(R.id.contribute_card_view);
-
-        ca = new ContributeAdapter(this, R.layout.resource_contribute_layout, conResourceList);
-
-        //setAdapter to the arrayList that we need to use
-        //connect listview to the array adapter
-        resourceConListView .setAdapter(ca);
-        registerForContextMenu(resourceConListView);
-        ca.notifyDataSetChanged();
+        // PantryInfo pantry = dbref.child("pantries").child(pantryKey).get().getResult().getValue(PantryInfo.class);
+        dbref.child("pantries").child(pantryKey).get()
+                .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        PantryInfo pantry = task.getResult().getValue(PantryInfo.class);
+                        populateView(pantry);
+                    }
+                });
 
 
         //setting the monday/tues/thus/fri start spinners
@@ -88,8 +85,23 @@ public class ContributeActivity extends AppCompatActivity {
         setSasuSpinners(satEndSpinner);
         Spinner sunEndSpinner = (Spinner) findViewById(R.id.endSpinnerSu);
         setSasuSpinners(sunEndSpinner);
+    }
 
+    private void populateView(PantryInfo pantry) {
+        conResourceList = pantry.getResources();
 
+        //connect the resource list with the card view
+        // View myview = inflater.inflate(R.layout.contribute_page, container, false);
+        resourceConListView = (ListView) findViewById(R.id.conResourcesNeeded);
+        contributeCard = (CardView) findViewById(R.id.contribute_card_view);
+
+        ca = new ContributeAdapter(this, R.layout.resource_contribute_layout, conResourceList);
+
+        //setAdapter to the arrayList that we need to use
+        //connect listview to the array adapter
+        resourceConListView .setAdapter(ca);
+        registerForContextMenu(resourceConListView);
+        ca.notifyDataSetChanged();
     }
 
     public void setMtthfSpinners(Spinner spinner) {

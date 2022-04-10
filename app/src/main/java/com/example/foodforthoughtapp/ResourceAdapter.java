@@ -42,7 +42,7 @@ public class ResourceAdapter extends ArrayAdapter<Resource> {
         //we have to set the values of the resource to the cardview
         //need the name and the count
         String resName = res.getResourceName();
-        int resCount = res.getCount();
+        String resCount = String.valueOf(res.getCount());
 
 
         resourceName.setText(resName);

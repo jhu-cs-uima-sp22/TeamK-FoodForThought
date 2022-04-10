@@ -2,16 +2,20 @@ package com.example.foodforthoughtapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.example.foodforthoughtapp.model.pantry.PantryInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -30,10 +34,11 @@ public class PantryDetail extends AppCompatActivity {
     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
 
 
-    protected View onCreateView(LayoutInflater inflater, ViewGroup container,
-                            Bundle savedInstanceState) {
-        System.out.println("1 ");
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        System.out.println("1 ");
         System.out.println("2 ");
         setContentView(R.layout.pantry_detail_page);
         System.out.println("3 ");
@@ -43,14 +48,40 @@ public class PantryDetail extends AppCompatActivity {
         System.out.println("5 ");
 
         //have to get the arrayList of resources in the specific pantry
-        PantryInfo pantry = dbref.child("pantries").child(pantryKey).get().getResult().getValue(PantryInfo.class);
+        // PantryInfo pantry = dbref.child("pantries").child(pantryKey).get().getResult().getValue(PantryInfo.class);
+        dbref.child("pantries").child(pantryKey).get()
+                .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        PantryInfo pantry = task.getResult().getValue(PantryInfo.class);
+                        populateView(pantry);
+                    }
+                });
+//        resourceList = pantry.getResources();
+//
+//
+//        //connect the resource list with the card view
+//        // View myview = inflater.inflate(R.layout.pantry_detail_page, container, false);
+//        resourceListView = (ListView) findViewById(R.id.conResourcesNeeded);
+//        myCard = (CardView) findViewById(R.id.card_view);
+//
+//        ra = new ResourceAdapter(this, R.layout.resource_layout, resourceList);
+//
+//        //setAdapter to the arrayList that we need to use
+//        //connect listview to the array adapter
+//        resourceListView.setAdapter(ra);
+//        registerForContextMenu(resourceListView);
+//        ra.notifyDataSetChanged();
+    }
+
+    private void populateView(PantryInfo pantry) {
         resourceList = pantry.getResources();
 
 
         //connect the resource list with the card view
-        View myview = inflater.inflate(R.layout.pantry_detail_page, container, false);
-        resourceListView = (ListView) myview.findViewById(R.id.conResourcesNeeded);
-        myCard = (CardView) myview.findViewById(R.id.card_view);
+        // View myview = inflater.inflate(R.layout.pantry_detail_page, container, false);
+        resourceListView = (ListView) findViewById(R.id.conResourcesNeeded);
+        myCard = (CardView) findViewById(R.id.card_view);
 
         ra = new ResourceAdapter(this, R.layout.resource_layout, resourceList);
 
@@ -59,10 +90,41 @@ public class PantryDetail extends AppCompatActivity {
         resourceListView.setAdapter(ra);
         registerForContextMenu(resourceListView);
         ra.notifyDataSetChanged();
-
-        return myview;
-
     }
+
+//    protected View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                                Bundle savedInstanceState) {
+//        System.out.println("1 ");
+//        super.onCreate(savedInstanceState);
+//        System.out.println("2 ");
+//        setContentView(R.layout.pantry_detail_page);
+//        System.out.println("3 ");
+//        Bundle extras = getIntent().getExtras();
+//        System.out.println("4 ");
+//        pantryKey = extras.getString("Food Pantry");
+//        System.out.println("5 ");
+//
+//        //have to get the arrayList of resources in the specific pantry
+//        PantryInfo pantry = dbref.child("pantries").child(pantryKey).get().getResult().getValue(PantryInfo.class);
+//        resourceList = pantry.getResources();
+//
+//
+//        //connect the resource list with the card view
+//        View myview = inflater.inflate(R.layout.pantry_detail_page, container, false);
+//        resourceListView = (ListView) myview.findViewById(R.id.conResourcesNeeded);
+//        myCard = (CardView) myview.findViewById(R.id.card_view);
+//
+//        ra = new ResourceAdapter(this, R.layout.resource_layout, resourceList);
+//
+//        //setAdapter to the arrayList that we need to use
+//        //connect listview to the array adapter
+//        resourceListView.setAdapter(ra);
+//        registerForContextMenu(resourceListView);
+//        ra.notifyDataSetChanged();
+//
+//        return myview;
+//
+//    }
 
     /** Called when the user presses contribute button*/
     public void contributeOnClick(View view) {

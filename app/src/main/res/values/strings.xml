@@ -23,6 +23,13 @@
     <string name="contribute">Contribute</string>
     <string name="count">count</string>
 
+    <string name="submit_title">Your Request Was Submitted</string>
+    <string name="submit_subtitle">Please wait to be contacted by the\norganization by email.</string>
+
+    <string name="call">Call</string>
+    <string name="directions">Directions</string>
+    <string name="website">Website</string>
+
     <string-array name="mtthf_time_array">
         <item>08:00</item>
         <item>08:30</item>

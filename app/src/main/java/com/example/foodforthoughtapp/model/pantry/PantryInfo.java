@@ -1,9 +1,6 @@
 package com.example.foodforthoughtapp.model.pantry;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 // Object model for a pantry
@@ -13,19 +10,20 @@ public class PantryInfo {
     public String phone;
     public String website;
     public Map<String, PantryHours> hours;
-    public ArrayList<Resource> resources;
+    public List<Resource> resources;
 
     public PantryInfo() {}
 
     public PantryInfo(String name, PantryLocation location, String phone, String website,
-                      Map<String, PantryHours> hours, String t, int c) {
+                      Map<String, PantryHours> hours, List<Resource> resources) {
         this.name = name;
         this.location = location;
         this.phone = phone;
         this.website = website;
         this.hours = hours;
-        Resource res = new Resource(t, c);
-        this.resources.add(res);
+        // Resource res = new Resource(t, c);
+        // this.resources.add(res);
+        this.resources = resources;
     }
 
     @Override
@@ -33,7 +31,7 @@ public class PantryInfo {
         return (name + " " + " " + " " + phone + " " + website).hashCode();
     }
 
-    public ArrayList<Resource> getResources() {
+    public List<Resource> getResources() {
         return resources;
     }
 

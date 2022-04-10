@@ -16,9 +16,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-
 import com.example.foodforthoughtapp.model.pantry.PantryInfo;
-import com.example.foodforthoughtapp.model.pantry.PantryLocation;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -29,11 +27,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -67,15 +65,12 @@ GoogleMap.OnMarkerClickListener{
 
         Button searchButton = (Button) findViewById(R.id.refresh_map_button);
 
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cityName = searchLoc.getText().toString();
-                cityCoor = getLocationFromAddress(MapsActivity.this, cityName);
-                mMap.clear();
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(cityCoor));
-                handleSearchOnClick(cityName);
-            }
+        searchButton.setOnClickListener(view -> {
+            cityName = searchLoc.getText().toString();
+            cityCoor = getLocationFromAddress(MapsActivity.this, cityName);
+            mMap.clear();
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(cityCoor));
+            handleSearchOnClick(cityName);
         });
 
         if (!cityName.isEmpty()) {
@@ -89,24 +84,23 @@ GoogleMap.OnMarkerClickListener{
         abdt.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
-        nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int id = item.getItemId();
+        nav_view.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
 
-                if (id == R.id.map_view) {
+            if (id == R.id.map_view) {
 
-                } else if (id == R.id.opportunities) {
+            } else if (id == R.id.opportunities) {
 
-                } else if (id == R.id.contributions) {
+            } else if (id == R.id.contributions) {
 
-                } else if (id == R.id.settings) {
+            } else if (id == R.id.settings) {
 
-                } else if (id == R.id.nav_logout) {
-
-                }
-                return true;
+            } else if (id == R.id.nav_logout) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(MapsActivity.this, WelcomeActivity.class));
+                finish();
             }
+            return true;
         });
 
         //"Food Pantry"
@@ -204,21 +198,18 @@ GoogleMap.OnMarkerClickListener{
     private void handleSearchOnClick(String city) {
         HashMap<PantryInfo, String> pantries = new HashMap<>();
 
-        dbref.child("pantries").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                DataSnapshot res = task.getResult();
-                for (DataSnapshot child : res.getChildren()) {
-                    PantryInfo pantry = child.getValue(PantryInfo.class);
-                    if (pantry.location.city.toLowerCase().equals(city.toLowerCase())) {
-                        pantries.put(pantry, child.getKey());
-                    }
+        dbref.child("pantries").get().addOnCompleteListener(task -> {
+            DataSnapshot res = task.getResult();
+            for (DataSnapshot child : res.getChildren()) {
+                PantryInfo pantry = child.getValue(PantryInfo.class);
+                if (pantry.location.city.equalsIgnoreCase(city)) {
+                    pantries.put(pantry, child.getKey());
                 }
-                Log.d("DEBUG", pantries.toString());
-                HashMap<PantryInfo, LatLng> pantryCoordinates = getPantriesCoordinates(pantries.keySet());
-                Log.d("DEBUG", pantryCoordinates.toString());
-                addMarkersAndInfoWindows(pantryCoordinates, pantries);
             }
+            Log.d("DEBUG", pantries.toString());
+            HashMap<PantryInfo, LatLng> pantryCoordinates = getPantriesCoordinates(pantries.keySet());
+            Log.d("DEBUG", pantryCoordinates.toString());
+            addMarkersAndInfoWindows(pantryCoordinates, pantries);
         });
     }
 }

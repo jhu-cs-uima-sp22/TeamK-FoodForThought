@@ -7,10 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import com.example.foodforthoughtapp.model.pantry.PantryInfo;
@@ -38,14 +41,9 @@ public class PantryDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        System.out.println("1 ");
-        System.out.println("2 ");
         setContentView(R.layout.pantry_detail_page);
-        System.out.println("3 ");
         Bundle extras = getIntent().getExtras();
-        System.out.println("4 ");
         pantryKey = extras.getString("Food Pantry");
-        System.out.println("5 ");
 
         //have to get the arrayList of resources in the specific pantry
         // PantryInfo pantry = dbref.child("pantries").child(pantryKey).get().getResult().getValue(PantryInfo.class);
@@ -57,25 +55,20 @@ public class PantryDetail extends AppCompatActivity {
                         populateView(pantry);
                     }
                 });
-//        resourceList = pantry.getResources();
 //
-//
-//        //connect the resource list with the card view
-//        // View myview = inflater.inflate(R.layout.pantry_detail_page, container, false);
-//        resourceListView = (ListView) findViewById(R.id.conResourcesNeeded);
-//        myCard = (CardView) findViewById(R.id.card_view);
-//
-//        ra = new ResourceAdapter(this, R.layout.resource_layout, resourceList);
-//
-//        //setAdapter to the arrayList that we need to use
-//        //connect listview to the array adapter
-//        resourceListView.setAdapter(ra);
-//        registerForContextMenu(resourceListView);
-//        ra.notifyDataSetChanged();
     }
 
     private void populateView(PantryInfo pantry) {
         resourceList = pantry.getResources();
+
+        //setting the toolbar with the pantry name
+        String pantryName = pantry.getName();
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.nav_center);
+        TextView toolbarTitle = findViewById(R.id.toolbar_title);
+        toolbarTitle.setText(pantryName);
+        //back button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         //connect the resource list with the card view
@@ -92,39 +85,6 @@ public class PantryDetail extends AppCompatActivity {
         ra.notifyDataSetChanged();
     }
 
-//    protected View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                                Bundle savedInstanceState) {
-//        System.out.println("1 ");
-//        super.onCreate(savedInstanceState);
-//        System.out.println("2 ");
-//        setContentView(R.layout.pantry_detail_page);
-//        System.out.println("3 ");
-//        Bundle extras = getIntent().getExtras();
-//        System.out.println("4 ");
-//        pantryKey = extras.getString("Food Pantry");
-//        System.out.println("5 ");
-//
-//        //have to get the arrayList of resources in the specific pantry
-//        PantryInfo pantry = dbref.child("pantries").child(pantryKey).get().getResult().getValue(PantryInfo.class);
-//        resourceList = pantry.getResources();
-//
-//
-//        //connect the resource list with the card view
-//        View myview = inflater.inflate(R.layout.pantry_detail_page, container, false);
-//        resourceListView = (ListView) myview.findViewById(R.id.conResourcesNeeded);
-//        myCard = (CardView) myview.findViewById(R.id.card_view);
-//
-//        ra = new ResourceAdapter(this, R.layout.resource_layout, resourceList);
-//
-//        //setAdapter to the arrayList that we need to use
-//        //connect listview to the array adapter
-//        resourceListView.setAdapter(ra);
-//        registerForContextMenu(resourceListView);
-//        ra.notifyDataSetChanged();
-//
-//        return myview;
-//
-//    }
 
     /** Called when the user presses contribute button*/
     public void contributeOnClick(View view) {

@@ -20,6 +20,7 @@
 
     <string name="pantry_details">PantryDetails</string>
     <string name="contribute_activity">Contribute activity</string>
+    <string name="contribute">Contribute</string>
     <string name="count">count</string>
 
     <string-array name="mtthf_time_array">

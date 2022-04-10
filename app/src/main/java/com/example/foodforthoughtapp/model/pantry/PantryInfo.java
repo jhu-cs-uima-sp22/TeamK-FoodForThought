@@ -35,6 +35,10 @@ public class PantryInfo {
         return resources;
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public boolean equals(Object other) {
         PantryInfo otherPantry = (PantryInfo) other;

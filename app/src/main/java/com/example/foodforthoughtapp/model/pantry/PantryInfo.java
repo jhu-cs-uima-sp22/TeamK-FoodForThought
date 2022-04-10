@@ -21,8 +21,6 @@ public class PantryInfo {
         this.phone = phone;
         this.website = website;
         this.hours = hours;
-        // Resource res = new Resource(t, c);
-        // this.resources.add(res);
         this.resources = resources;
     }
 

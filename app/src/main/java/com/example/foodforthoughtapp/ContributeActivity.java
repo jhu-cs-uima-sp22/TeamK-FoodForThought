@@ -49,7 +49,6 @@ public class ContributeActivity extends AppCompatActivity {
         String pantryKey = extras.getString("Food Pantry");
 
         //have to get the arrayList of resources in the specific pantry
-        // PantryInfo pantry = dbref.child("pantries").child(pantryKey).get().getResult().getValue(PantryInfo.class);
         dbref.child("pantries").child(pantryKey).get()
                 .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override

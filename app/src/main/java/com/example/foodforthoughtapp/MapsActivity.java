@@ -74,11 +74,6 @@ GoogleMap.OnMarkerClickListener{
                 cityCoor = getLocationFromAddress(MapsActivity.this, cityName);
                 mMap.clear();
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(cityCoor));
-                // TODO: CANNOT CHAIN THESE ASYNCHRONOUS EVENTS
-                // List<PantryInfo> pantryList = getPantriesInCity(cityName);
-                // HashMap<PantryInfo, String> pantryKeys = getPantriesInCityAndKeys(cityName);
-                // HashMap<PantryInfo, LatLng> pantryCoordinates = getPantriesCoordinates(pantryList);
-                // addMarkersAndInfoWindows(pantryCoordinates, pantryKeys);
                 handleSearchOnClick(cityName);
             }
         });
@@ -144,9 +139,6 @@ GoogleMap.OnMarkerClickListener{
         //mMap.addMarker(new MarkerOptions().position(baltimore).title("Marker in Baltimore"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(baltimore));
 
-
-
-
         //Start new activity on infoWindowClick
         googleMap.setOnInfoWindowClickListener(this);
 
@@ -209,47 +201,6 @@ GoogleMap.OnMarkerClickListener{
 
     }
 
-
-    private List<PantryInfo> getPantriesInCity(String city) {
-        List<PantryInfo> pantries = new ArrayList<>();
-
-        dbref.child("pantries").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                DataSnapshot res = task.getResult();
-                for (DataSnapshot child : res.getChildren()) {
-                    PantryInfo pantry = child.getValue(PantryInfo.class);
-                    Log.d("DEBUG", pantry.location.city.toLowerCase());
-                    Log.d("DEBUG", city.toLowerCase());
-                    if (pantry.location.city.toLowerCase().equals(city.toLowerCase())) {
-                        pantries.add(pantry);
-                    }
-                }
-                Log.d("DEBUG", pantries.toString());
-            }
-        });
-        return pantries;
-    }
-
-
-    private HashMap<PantryInfo, String> getPantriesInCityAndKeys(String city) {
-        HashMap<PantryInfo, String> pantries = new HashMap<>();
-
-        dbref.child("pantries").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                DataSnapshot res = task.getResult();
-                for (DataSnapshot child : res.getChildren()) {
-                    PantryInfo pantry = child.getValue(PantryInfo.class);
-                    if (pantry.location.city.toLowerCase().equals(city.toLowerCase())) {
-                        pantries.put(pantry, child.getKey());
-                    }
-                }
-            }
-        });
-        return pantries;
-    }
-
     private void handleSearchOnClick(String city) {
         HashMap<PantryInfo, String> pantries = new HashMap<>();
 
@@ -269,8 +220,5 @@ GoogleMap.OnMarkerClickListener{
                 addMarkersAndInfoWindows(pantryCoordinates, pantries);
             }
         });
-
-
     }
-
 }

@@ -137,7 +137,7 @@ GoogleMap.OnMarkerClickListener{
 
         //Move the camera
         LatLng baltimore = new LatLng(39.29, -76.61);
-        mMap.addMarker(new MarkerOptions().position(baltimore).title("Marker in Baltimore"));
+        //mMap.addMarker(new MarkerOptions().position(baltimore).title("Marker in Baltimore"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(baltimore));
 
 

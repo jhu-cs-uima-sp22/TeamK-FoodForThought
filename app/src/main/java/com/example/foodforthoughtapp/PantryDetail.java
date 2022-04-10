@@ -2,6 +2,7 @@ package com.example.foodforthoughtapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -79,6 +80,12 @@ public class PantryDetail extends AppCompatActivity {
         ra.notifyDataSetChanged();
 
 
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        Intent myIntent = new Intent(getApplicationContext(), MapsActivity.class);
+        startActivityForResult(myIntent, 0);
+        return true;
     }
 
 

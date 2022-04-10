@@ -13,11 +13,9 @@
         android:layout_height="64dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        card_view:cardCornerRadius="10dp"
-        card_view:cardElevation="10dp"
-        card_view:cardBackgroundColor="@color/white"
-        >
-
+        card_view:cardCornerRadius="0dp"
+        card_view:cardElevation="0dp"
+        card_view:cardBackgroundColor="@color/white">
 
         <CheckBox
             android:id="@+id/resCheckBox"

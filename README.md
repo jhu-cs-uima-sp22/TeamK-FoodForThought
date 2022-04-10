@@ -15,4 +15,21 @@ The first screen to appeaer will be a page prompting you to either login or sign
 email: test@foodforthought.com
 password: test123
 ```
-2. Next
+2. Searching for food pantries <br> 
+
+Upon authentication, the user is brought to a map. Using the search bar at the top of the map, the user should input the city in which they would like to search for food pantries. For the first sprint, we have pantries exclusively in Baltimore. After clicking the Search button next to the search bar, a series of pins will appear on the map denoting the locations of all food pantries in the database in the provided city. 
+
+3. Selecting and viewing a food pantry <br>
+
+Once pins appear on the map, clicking on a pin will reveal more information about a food pantry such as its name and address. To view more specific details about a pantry, click on the info window that appears after clicking the pin for a food pantry on the map. Clicking this info window will bring you to a detailed view of the food pantry, which includes two types of information:
+- the resources the food pantry needs 
+- the hours of volunteering at this food pantry
+
+If a user would like to contribute to a food pantry (donate resources or sign up for volunteer hours), they can click the Contribute button at the bottom of the food pantry detail page. 
+
+4. Contributing to a food pantry <br>
+
+On the contribute page, the user can check a particuar resource to indicate they would like to donate some quantity of that resource and they can provide the amount of that resource in the input to the right. Alternatively, they can select the hours over which they would like to volunteer by selecting start and end times from the scroll menus next to the desired day(s). Once all this information is selected, the Submit button will send this information to the database. 
+
+## Sprint 1 Deliverables and Features
+

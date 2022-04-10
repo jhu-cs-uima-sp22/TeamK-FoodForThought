@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +36,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener,
 GoogleMap.OnMarkerClickListener{
@@ -72,10 +74,12 @@ GoogleMap.OnMarkerClickListener{
                 cityCoor = getLocationFromAddress(MapsActivity.this, cityName);
                 mMap.clear();
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(cityCoor));
-                List<PantryInfo> pantryList = getPantriesInCity(cityName);
-                HashMap<PantryInfo, String> pantryKeys = getPantriesInCityAndKeys(cityName);
-                HashMap<PantryInfo, LatLng> pantryCoordinates = getPantriesCoordinates(pantryList);
-                addMarkersAndInfoWindows(pantryCoordinates, pantryKeys);
+                // TODO: CANNOT CHAIN THESE ASYNCHRONOUS EVENTS
+                // List<PantryInfo> pantryList = getPantriesInCity(cityName);
+                // HashMap<PantryInfo, String> pantryKeys = getPantriesInCityAndKeys(cityName);
+                // HashMap<PantryInfo, LatLng> pantryCoordinates = getPantriesCoordinates(pantryList);
+                // addMarkersAndInfoWindows(pantryCoordinates, pantryKeys);
+                handleSearchOnClick(cityName);
             }
         });
 
@@ -137,7 +141,7 @@ GoogleMap.OnMarkerClickListener{
 
         //Move the camera
         LatLng baltimore = new LatLng(39.29, -76.61);
-        //mMap.addMarker(new MarkerOptions().position(baltimore).title("Marker in Baltimore"));
+        mMap.addMarker(new MarkerOptions().position(baltimore).title("Marker in Baltimore"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(baltimore));
 
 
@@ -193,7 +197,7 @@ GoogleMap.OnMarkerClickListener{
     }
 
 
-    private HashMap<PantryInfo, LatLng> getPantriesCoordinates(List<PantryInfo> pantries) {
+    private HashMap<PantryInfo, LatLng> getPantriesCoordinates(Set<PantryInfo> pantries) {
         HashMap<PantryInfo, LatLng> pantryCoordinates = new HashMap<>();
 
         for (PantryInfo pantry : pantries) {
@@ -215,13 +219,15 @@ GoogleMap.OnMarkerClickListener{
                 DataSnapshot res = task.getResult();
                 for (DataSnapshot child : res.getChildren()) {
                     PantryInfo pantry = child.getValue(PantryInfo.class);
+                    Log.d("DEBUG", pantry.location.city.toLowerCase());
+                    Log.d("DEBUG", city.toLowerCase());
                     if (pantry.location.city.toLowerCase().equals(city.toLowerCase())) {
                         pantries.add(pantry);
                     }
                 }
+                Log.d("DEBUG", pantries.toString());
             }
         });
-
         return pantries;
     }
 
@@ -241,8 +247,30 @@ GoogleMap.OnMarkerClickListener{
                 }
             }
         });
-
         return pantries;
+    }
+
+    private void handleSearchOnClick(String city) {
+        HashMap<PantryInfo, String> pantries = new HashMap<>();
+
+        dbref.child("pantries").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                DataSnapshot res = task.getResult();
+                for (DataSnapshot child : res.getChildren()) {
+                    PantryInfo pantry = child.getValue(PantryInfo.class);
+                    if (pantry.location.city.toLowerCase().equals(city.toLowerCase())) {
+                        pantries.put(pantry, child.getKey());
+                    }
+                }
+                Log.d("DEBUG", pantries.toString());
+                HashMap<PantryInfo, LatLng> pantryCoordinates = getPantriesCoordinates(pantries.keySet());
+                Log.d("DEBUG", pantryCoordinates.toString());
+                addMarkersAndInfoWindows(pantryCoordinates, pantries);
+            }
+        });
+
+
     }
 
 }

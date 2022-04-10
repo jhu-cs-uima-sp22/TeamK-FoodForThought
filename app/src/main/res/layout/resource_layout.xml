@@ -27,7 +27,7 @@
             android:gravity="center"
             android:text="@string/count"
             android:textAlignment="center"
-            android:translationX="250dp"></TextView>
+            android:translationX="250dp" />
 
         <TextView
             android:id="@+id/res"
@@ -40,7 +40,7 @@
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
             android:textColor="#000000"
-            android:textSize="18sp"></TextView>
+            android:textSize="18sp" />
 
     </androidx.cardview.widget.CardView>
 

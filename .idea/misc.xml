@@ -16,13 +16,11 @@
         <entry key="app/src/main/res/layout/activity_maps.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_welcome.xml" value="0.3098958333333333" />
-        <entry key="app/src/main/res/layout/contribute_page.xml" value="0.40092918438147446" />
+        <entry key="app/src/main/res/layout/contribute_page.xml" value="0.3001752424645685" />
         <entry key="app/src/main/res/layout/nav_center.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/navigation_header.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/pantryDetail_page.xml" value="0.3098958333333333" />
-        <entry key="app/src/main/res/layout/pantry_detail_day.xml" value="0.27291666666666664" />
-        <entry key="app/src/main/res/layout/pantry_detail_page.xml" value="0.4486175537109375" />
-        <entry key="app/src/main/res/layout/pantry_detail_page_revised.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/pantry_detail_page.xml" value="0.3011978149414062" />
         <entry key="app/src/main/res/layout/resource_contribute_layout.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/resource_layout.xml" value="0.25" />
         <entry key="app/src/main/res/menu/navigation_menu.xml" value="0.2953125" />

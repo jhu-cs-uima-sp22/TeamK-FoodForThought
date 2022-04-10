@@ -33,3 +33,23 @@ On the contribute page, the user can check a particuar resource to indicate they
 
 ## Sprint 1 Deliverables and Features
 
+1. Login, Signup pages and Authentication
+
+We fully implemented the Login and Signup Activies, and we connected these activities to Firebase Authentication to automatically handle creating new accounts and validating user credentials via email/password. The Welcome Activity acts as the main landing page for the application, which is what initially prompts a user to either login or signup. We also included persistent authentication so that a user remains authenticated after logging in on a device (unless specifying they would like to sign out). The sign out functionality is not yet complete. 
+
+2. Firebase Realtime Database Storage
+
+We are using a Firebase Reatime Database to store data related to our users and pantries. There are a few types of data:
+- UserInfo: user info such as name, email, and other information included in the SignUp page
+- PantryInfo: includes data about a pantry such as its name, location, hours of operation, and resources needed
+- UserContributions: stores data about a user's past contributions to food pantries, such as the hours they volunteered and resources donated to a particular pantry
+
+In the first sprint, we have setup UserInfo and PantryInfo to interact with the application. This means that pantries are read directly from the Firebase database to populate the Maps Activity and PantryDetail Activity. The UserContributions aspect of the database is a main deliverable for Sprint 2, as well as changing the resources needed for a pantry when a user donates resources to a pantry. 
+
+3. Maps Activity and Pantry Search
+
+TODO
+
+4. PantryDetail Activity and ContributeActivity
+
+TODO

@@ -10,7 +10,7 @@ Repository for the Food For Thought App!
 ## App Instructions
 1. Authenticating a user <br>
 
-The first screen to appeaer will be a page prompting you to either login or sign up for a new account. Feel free to use the following login information on the login page for the app, or create a new account using the sign up button:
+The first screen to appear will be a page prompting you to either login or sign up for a new account. Feel free to use the following login information on the login page for the app, or create a new account using the sign up button:
 ```
 email: test@foodforthought.com
 password: test123
@@ -35,7 +35,7 @@ On the contribute page, the user can check a particuar resource to indicate they
 
 1. Login, Signup pages and Authentication
 
-We fully implemented the Login and Signup Activies, and we connected these activities to Firebase Authentication to automatically handle creating new accounts and validating user credentials via email/password. The Welcome Activity acts as the main landing page for the application, which is what initially prompts a user to either login or signup. We also included persistent authentication so that a user remains authenticated after logging in on a device (unless specifying they would like to sign out). The sign out functionality is not yet complete. 
+We fully implemented the Login and Signup Activies, and we connected these activities to Firebase Authentication to automatically handle creating new accounts and validating user credentials via email/password. The Welcome Activity acts as the main landing page for the application, which is what initially prompts a user to either login or signup. We also included persistent authentication so that a user remains authenticated after logging in on a device (unless specifying they would like to sign out). The sign out functionality can be accessed from the navigation drawer in the Maps Activity.
 
 2. Firebase Realtime Database Storage
 

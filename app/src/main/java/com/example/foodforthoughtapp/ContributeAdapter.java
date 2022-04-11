@@ -39,9 +39,8 @@ public class ContributeAdapter extends ArrayAdapter<Resource> {
 
         CheckBox resourceCheck = (CheckBox) itemView.findViewById(R.id.resCheckBox);
         EditText resourceCount = (EditText) itemView.findViewById(R.id.editCount);
-
         resourceCheck.setText(res.getResourceName());
-        resourceCount.setHint(res.getCount());
+        resourceCount.setHint(String.valueOf(res.getCount()));
 
         return itemView;
     }

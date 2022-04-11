@@ -37,12 +37,10 @@
         android:layout_height="wrap_content"
         android:text="Hours of Operation:"
         android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.055"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.4" />
+        app:layout_constraintTop_toBottomOf="@+id/conResourcesNeeded" />
 
     <ImageView
         android:id="@+id/mapIcon"
@@ -56,7 +54,7 @@
         app:srcCompat="@drawable/ic_baseline_map_24" />
 
     <ImageView
-        android:id="@+id/webIcon3"
+        android:id="@+id/webIcon"
         android:layout_width="45dp"
         android:layout_height="45dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -76,7 +74,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.818"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/webIcon3"
+        app:layout_constraintTop_toBottomOf="@+id/webIcon"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
@@ -327,6 +325,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.523" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

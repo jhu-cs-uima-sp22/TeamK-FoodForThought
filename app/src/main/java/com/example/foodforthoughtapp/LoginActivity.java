@@ -18,8 +18,6 @@ import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String AUTH_INVALID_CREDENTIALS_MSG = "Invalid email/password combination";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,15 +39,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.login_confirm:
-                // TODO: Add input verification
                 // TODO: Change to launch map activity without this activity being tied
                 EditText loginEmail = findViewById(R.id.login_email);
                 EditText loginPassword = findViewById(R.id.login_password);
-                Intent login = new Intent(this, LoginActivity.class);
                 //login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
                 String email = loginEmail.getText().toString();
                 String password = loginPassword.getText().toString();
+
+                if (email.isEmpty() || password.isEmpty()) {
+                    Log.w("AUTH", "signInWithEmail:failure, empty email/password");
+                    Toast toast = DynamicToast.makeError(getApplicationContext(), getString(R.string.auth_invalid_credentials), Toast.LENGTH_SHORT);
+                    toast.show();
+                    break;
+                }
+
                 FirebaseAuth auth = FirebaseAuth.getInstance();
                 auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(task -> {
@@ -61,14 +65,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 Log.d("AUTH", "Successfully logged in user " + user.getUid());
                                 Intent intent = new Intent(this, MapsActivity.class);
                                 startActivity(intent);
+                                this.finish();
                             } else {
                                 // unsuccessful login
                                 Log.w("AUTH", "signInWithEmail:failure", task.getException());
-                                Toast toast = DynamicToast.makeError(getApplicationContext(), AUTH_INVALID_CREDENTIALS_MSG, Toast.LENGTH_SHORT);
+                                Toast toast = DynamicToast.makeError(getApplicationContext(), getString(R.string.auth_invalid_credentials), Toast.LENGTH_SHORT);
                                 toast.show();
+                                loginPassword.setText("");
                             }
                         });
-                startActivity(login);
                 break;
             case R.id.login_return_signup:
                 Intent signUp = new Intent(this, SignUpActivity.class);

@@ -48,7 +48,9 @@ In the first sprint, we have setup UserInfo and PantryInfo to interact with the 
 
 3. Maps Activity and Pantry Search
 
-TODO
+When entering a city to search for, please note that if you enter a city where no food pantries in our database are present,
+no markers will show up, but it will center around the city. Please make sure to enter a city that actually exists.
+For testing purposes, enter the city "Baltimore".
 
 4. PantryDetail Activity and ContributeActivity
 

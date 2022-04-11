@@ -32,8 +32,6 @@ import java.util.Calendar;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String AUTH_EMAIL_COLLISION_MSG = "A user with this email already exists!";
-    private static final String AUTH_WEAK_PASSWORD_MSG = "Please provide a password with at least 6 characters";
     private EditText birthDate;
     private FirebaseAuth auth;
     private DatabaseReference db;
@@ -73,7 +71,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 this.finish();
                 break;
             case R.id.signup_confirm:
-                // TODO: Add input verification
+                // TODO: Add input verification / restrictions for password confirmation checking
                 // TODO: Change to launch map activity without this activity being tied?
                 EditText signupName = findViewById(R.id.signup_name);
                 EditText signupDOB = findViewById(R.id.signup_DOB);
@@ -81,40 +79,55 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 EditText signupEmail = findViewById(R.id.signup_email);
                 EditText signupPassword = findViewById(R.id.signup_password);
                 EditText signupPasswordConfirm = findViewById(R.id.signup_password_confirm);
-                Intent signUp = new Intent(this, SignUpActivity.class);
                 //signUp.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
 
                 // create account and authenticate user
                 String email = signupEmail.getText().toString();
                 String password = signupPassword.getText().toString();
-                auth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                // user account created successfully
-                                Log.d("AUTH", "createUserWithEmail:success");
-                                FirebaseUser user = auth.getCurrentUser();
-                                // add this user's details to the UserInfo database
-                                String[] name = signupName.getText().toString().split(" ");
-                                String DOB = signupDOB.getText().toString();
-                                String phone = signupPhoneNum.getText().toString();
-                                UserInfo userInfo = new UserInfo(name[0], name[1], phone, DOB);
-                                db.child("users").child(user.getUid()).setValue(userInfo);
-                                // TODO: TODO: direct to the launch map activity
-                            } else {
-                                // account not created successfully
-                                Exception e = task.getException();
-                                Log.w("AUTH", "createUserWithEmail:failure", e);
-                                if (e instanceof FirebaseAuthUserCollisionException) {
-                                    Toast toast = DynamicToast.makeError(getApplicationContext(), AUTH_EMAIL_COLLISION_MSG, Toast.LENGTH_SHORT);
-                                    toast.show();
-                                } else if (e instanceof FirebaseAuthWeakPasswordException) {
-                                    Toast toast = DynamicToast.makeError(getApplicationContext(), AUTH_WEAK_PASSWORD_MSG, Toast.LENGTH_SHORT);
-                                    toast.show();
-                                }
-                            }
-                        });
+                String passwordConfirm = signupPasswordConfirm.getText().toString();
 
-                startActivity(signUp);
+                if (email.isEmpty() || password.isEmpty() || passwordConfirm.isEmpty()) {
+                    Log.w("AUTH", "signUp:failure, empty email/password");
+                    Toast toast = DynamicToast.makeError(getApplicationContext(), getString(R.string.auth_invalid_fields), Toast.LENGTH_SHORT);
+                    toast.show();
+                    break;
+                }
+
+                if (!password.equals(passwordConfirm)) {
+                    Log.w("AUTH", "signUp:failure, passwords do not match");
+                    Toast toast = DynamicToast.makeError(getApplicationContext(), getString(R.string.auth_password_mismatch), Toast.LENGTH_SHORT);
+                    toast.show();
+                    break;
+                }
+
+                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // user account created successfully
+                        Log.d("AUTH", "createUserWithEmail:success");
+                        FirebaseUser user = auth.getCurrentUser();
+                        // add this user's details to the UserInfo database
+                        String[] name = signupName.getText().toString().split(" ");
+                        String DOB = signupDOB.getText().toString();
+                        String phone = signupPhoneNum.getText().toString();
+                        UserInfo userInfo = new UserInfo(name[0], name[1], phone, DOB);
+                        db.child("users").child(user.getUid()).setValue(userInfo);
+                        Intent intent = new Intent(this, MapsActivity.class);
+                        startActivity(intent);
+                        this.finish();
+                        // TODO: TODO: direct to the launch map activity
+                    } else {
+                        // account not created successfully
+                        Exception e = task.getException();
+                        Log.w("AUTH", "createUserWithEmail:failure", e);
+                        if (e instanceof FirebaseAuthUserCollisionException) {
+                            Toast toast = DynamicToast.makeError(getApplicationContext(), getString(R.string.auth_email_collision), Toast.LENGTH_SHORT);
+                            toast.show();
+                        } else if (e instanceof FirebaseAuthWeakPasswordException) {
+                            Toast toast = DynamicToast.makeError(getApplicationContext(), getString(R.string.auth_weak_password), Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+                    }
+                });
                 break;
             default:
                 break;
@@ -166,8 +179,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 birthDate.setText(current);
                 birthDate.setSelection(Math.min(sel, current.length()));
 
-                birthDate.setError("Enter a valid date: MM/DD/YYYY");
-
+                if(current.contains("Y") && birthDate.getError() == null)
+                    birthDate.setError("Enter a valid date: MM/DD/YYYY");
+                else if(!current.contains("Y"))
+                    birthDate.setError(null);
             }
         }
 

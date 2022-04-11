@@ -1,4 +1,9 @@
 <resources>
+    <string name="auth_invalid_credentials">Invalid email/password combination</string>
+    <string name="auth_invalid_fields">Invalid entries! Please fill all fields.</string>
+    <string name="auth_password_mismatch">Passwords do not match!</string>
+    <string name="auth_email_collision">A user with this email already exists!</string>
+    <string name="auth_weak_password">Please provide a password with at least 6 characters!</string>
     <string name="app_name">Food For Thought.</string>
     <string name="app_subtitle">Give back to your community</string>
     <string name="app_sign_up">Sign Up</string>
@@ -21,7 +26,7 @@
     <string name="pantry_details">PantryDetails</string>
     <string name="contribute_activity">Contribute activity</string>
     <string name="contribute">Contribute</string>
-    <string name="count">count</string>
+    <string name="enter_count">Enter count</string>
 
     <string name="submit_title">Your Request Was Submitted</string>
     <string name="submit_subtitle">Please wait to be contacted by the\norganization by email.</string>

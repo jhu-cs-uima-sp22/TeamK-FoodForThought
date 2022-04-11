@@ -68,7 +68,7 @@
         app:layout_constraintVertical_bias="0.523" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/submit_ok"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
@@ -84,6 +84,7 @@
         android:layout_height="wrap_content"
         android:text="@string/call"
         android:textAllCaps="true"
+        android:textColor="?attr/colorPrimaryVariant"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/phoneIcon2"
         app:layout_constraintStart_toStartOf="@+id/phoneIcon2"
@@ -95,6 +96,7 @@
         android:layout_height="wrap_content"
         android:text="@string/website"
         android:textAllCaps="true"
+        android:textColor="?attr/colorPrimaryVariant"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/webIcon"
         app:layout_constraintStart_toStartOf="@+id/webIcon"
@@ -106,6 +108,7 @@
         android:layout_height="wrap_content"
         android:text="@string/directions"
         android:textAllCaps="true"
+        android:textColor="?attr/colorPrimaryVariant"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

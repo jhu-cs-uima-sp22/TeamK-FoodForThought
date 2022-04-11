@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 public class SubmitActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -13,20 +14,15 @@ public class SubmitActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_submit);
+        Button ok = findViewById(R.id.submit_ok);
+        ok.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.welcome_login:
-                Intent login = new Intent(this, LoginActivity.class);
-                startActivity(login);
-                break;
-            case R.id.welcome_sign_up:
-                Intent signUp = new Intent(this, SignUpActivity.class);
-                startActivity(signUp);
-                break;
-            default: break;
+        if (view.getId() == R.id.submit_ok) {
+            Intent map = new Intent(this, MapsActivity.class);
+            startActivity(map);
         }
     }
 }

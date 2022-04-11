@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -39,10 +40,6 @@ public class ContributeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contribute_page);
 
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.nav_center);
-        TextView toolbarTitle = findViewById(R.id.toolbar_title);
-        toolbarTitle.setText(R.string.contribute);
         //back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -50,15 +47,10 @@ public class ContributeActivity extends AppCompatActivity {
         String pantryKey = extras.getString("Food Pantry");
 
         //have to get the arrayList of resources in the specific pantry
-        dbref.child("pantries").child(pantryKey).get()
-                .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DataSnapshot> task) {
-                        PantryInfo pantry = task.getResult().getValue(PantryInfo.class);
-                        populateView(pantry);
-                    }
-                });
-
+        dbref.child("pantries").child(pantryKey).get().addOnCompleteListener(task -> {
+            PantryInfo pantry = task.getResult().getValue(PantryInfo.class);
+            populateView(pantry);
+        });
 
         //setting the monday/tues/thus/fri start spinners
         Spinner mstartSpinner = (Spinner) findViewById(R.id.strtSpinnerM);
@@ -95,9 +87,17 @@ public class ContributeActivity extends AppCompatActivity {
         setSasuSpinners(satEndSpinner);
         Spinner sunEndSpinner = (Spinner) findViewById(R.id.endSpinnerSu);
         setSasuSpinners(sunEndSpinner);
+
+        Button submitButton = (Button) findViewById(R.id.submitButton);
+        submitButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, SubmitActivity.class);
+            startActivity(intent);
+            this.finish();
+        });
     }
 
     private void populateView(PantryInfo pantry) {
+        setTitle(pantry.getName());
         conResourceList = pantry.getResources();
 
         //connect the resource list with the card view
@@ -149,10 +149,4 @@ public class ContributeActivity extends AppCompatActivity {
         startActivityForResult(myIntent, 0);
         return true;
     }
-
-    /** Called when the user presses submit button*/
-    //public void submitOnClick(View view) {
-        //Intent intent = new Intent(this, submitActivity.class);
-        //startActivity(intent);
-    //}
 }

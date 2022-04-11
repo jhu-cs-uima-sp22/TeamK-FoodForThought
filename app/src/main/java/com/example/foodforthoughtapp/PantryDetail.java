@@ -56,15 +56,9 @@ public class PantryDetail extends AppCompatActivity {
     private void populateView(PantryInfo pantry) {
         resourceList = pantry.getResources();
 
-        //setting the toolbar with the pantry name
-        String pantryName = pantry.getName();
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.nav_center);
-        TextView toolbarTitle = findViewById(R.id.toolbar_title);
-        toolbarTitle.setText(pantryName);
         //back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        setTitle(pantry.getName());
 
         //connect the resource list with the card view
         // View myview = inflater.inflate(R.layout.pantry_detail_page, container, false);
@@ -78,8 +72,6 @@ public class PantryDetail extends AppCompatActivity {
         resourceListView.setAdapter(ra);
         registerForContextMenu(resourceListView);
         ra.notifyDataSetChanged();
-
-
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
@@ -87,7 +79,6 @@ public class PantryDetail extends AppCompatActivity {
         startActivityForResult(myIntent, 0);
         return true;
     }
-
 
     /** Called when the user presses contribute button*/
     public void contributeOnClick(View view) {

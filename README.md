@@ -1,11 +1,6 @@
 # TeamK-FoodForThought
 Repository for the Food For Thought App!
 
-## TODO:
-1. Instructions for how to operate app (include sample login credentials)
-2. Description of features completed so far and the general state of the app
-3. Particular challenges faced and whether we had to change any deliverables for the sprint
-4. Other comments/relevant notes?
 
 ## App Instructions
 1. Authenticating a user <br>
@@ -54,4 +49,9 @@ For testing purposes, enter the city "Baltimore".
 
 4. PantryDetail Activity and ContributeActivity
 
-TODO
+The PantryDetail allows a user to view what resources are needed by the pantry and the hours available for volunteering. If a user wishes to donate some resources or volunteer, they can click the Contribute button. This brings them to the ContributeActivity, in which users can select which items they would like to donate and how many, or they can select which hours on given days they would like to volunteer. Upon submitting, they reach a confirmation page. We note that updating the resources needed in Firebase after a user donates is a Sprint 2 deliverable, along with keeping a log for a user's past donations and volunteer hours for a given pantry.
+
+## Challenges and Other Comments
+Overall, we only experienced a few minor bugs that we were able to resolve relatively quickly. The biggest complications were caused by occasionally using the asynchronous Firebase methods in a synchronous manner. To prevent unwanted behavior with these asynchronous methods, we addded `onCompleteListeners` to our `get()` operations when accessing data from Firebase. 
+
+Overall, we made all expected deliverables for Sprint 1.

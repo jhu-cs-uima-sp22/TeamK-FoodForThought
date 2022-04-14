@@ -92,7 +92,7 @@ GoogleMap.OnMarkerClickListener{
             } else if (id == R.id.opportunities) {
 
             } else if (id == R.id.contributions) {
-
+                // TODO: launch contributions activity
             } else if (id == R.id.settings) {
 
             } else if (id == R.id.nav_logout) {

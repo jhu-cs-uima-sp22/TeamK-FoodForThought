@@ -22,4 +22,9 @@
         <item name="colorPrimary">#00000000</item>
         <item name="colorOnPrimary">#4c565b</item>
     </style>
+
+    <style name="Theme.FFT.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>

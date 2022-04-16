@@ -6,15 +6,19 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.widget.SearchView;
 
 import com.example.foodforthoughtapp.model.pantry.PantryInfo;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -55,6 +59,9 @@ GoogleMap.OnMarkerClickListener{
 
         // Set the layout file as the content view.
         setContentView(R.layout.activity_maps);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // Get a handle to the fragment and register the callback.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -211,5 +218,16 @@ GoogleMap.OnMarkerClickListener{
             Log.d("DEBUG", pantryCoordinates.toString());
             addMarkersAndInfoWindows(pantryCoordinates, pantries);
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu,menu);
+
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setQueryHint("Enter your city");
+
+        return super.onCreateOptionsMenu(menu);
     }
 }

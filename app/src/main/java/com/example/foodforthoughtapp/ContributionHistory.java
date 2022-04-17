@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +18,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +46,7 @@ public class ContributionHistory extends AppCompatActivity {
 
     private void readData() {
         // TODO: sort list by date
+        Log.d("ContributionHistory", "Retrieving contributions history for user " + user);
         db.child("contributions").child(user).child("resourceHistory").get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
                 // throw exception and return
@@ -68,6 +75,24 @@ public class ContributionHistory extends AppCompatActivity {
                     cur.type = "VOLUNTEER";
                     contributions.add(cur);
                 }
+                Collections.sort(contributions, new Comparator<Contribution>() {
+                    @Override
+                    public int compare(Contribution c, Contribution other) {
+                        // sort by date
+                        String date1 = c.type.equals("RESOURCE") ? ((ResourceContribution) c).date : ((VolunteerContribution) c).date;
+                        String date2 = other.type.equals("RESOURCE") ? ((ResourceContribution) other).date : ((VolunteerContribution) other).date;
+                        Date cDate = null;
+                        Date otherDate = null;
+                        try {
+                            @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                            cDate = dateFormat.parse(date1);
+                            otherDate = dateFormat.parse(date2);
+                        } catch (ParseException ex) {
+                            Log.d("ContributionHistory", ex.toString());
+                        }
+                        return otherDate.compareTo(cDate);
+                    }
+                });
                 list.notifyDataSetChanged();
             });
         });

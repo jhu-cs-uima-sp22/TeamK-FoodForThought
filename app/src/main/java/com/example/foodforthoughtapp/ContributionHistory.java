@@ -45,7 +45,6 @@ public class ContributionHistory extends AppCompatActivity {
     }
 
     private void readData() {
-        // TODO: sort list by date
         Log.d("ContributionHistory", "Retrieving contributions history for user " + user);
         db.child("contributions").child(user).child("resourceHistory").get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {

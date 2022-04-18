@@ -8,6 +8,8 @@ public class UserInfo {
     public String phone;
     public String DOB;
 
+    public UserInfo() {}
+
     public UserInfo(String fname, String lname, String phone, String DOB) {
         this.fname = fname;
         this.lname = lname;

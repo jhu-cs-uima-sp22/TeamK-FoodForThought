@@ -19,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.foodforthoughtapp.model.pantry.PantryInfo;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -49,6 +51,9 @@ GoogleMap.OnMarkerClickListener{
     private EditText searchLoc;
     private LatLng cityCoor = new LatLng(39.29, -76.61);
     private String cityName = "Baltimore";
+    private FragmentTransaction transaction;
+
+    SearchView searchView;
 
     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
 
@@ -62,6 +67,10 @@ GoogleMap.OnMarkerClickListener{
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //Menu menu = toolbar.getMenu();
+        //menu.findItem(R.id.action_search).setVisible(false);
+
 
         // Get a handle to the fragment and register the callback.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -80,9 +89,34 @@ GoogleMap.OnMarkerClickListener{
             handleSearchOnClick(cityName);
         });
 
+        /*
+        Menu menu = toolbar.getMenu();
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchView = (SearchView) searchItem.getActionView();
+
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                cityName = searchView.getQuery().toString();
+                cityCoor = MapsActivity.getLocationFromAddress(MapsActivity.this, cityName);
+                mMap.clear();
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(cityCoor));
+                handleSearchOnClick(cityName);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+         */
         if (!cityName.isEmpty()) {
             cityCoor = getLocationFromAddress(this, cityName);
         }
+
+        Fragment settingsFrag = new SettingsFrag();
 
         dl = (DrawerLayout)findViewById(R.id.my_drawer_layout);
         abdt = new ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close);
@@ -101,6 +135,10 @@ GoogleMap.OnMarkerClickListener{
             } else if (id == R.id.contributions) {
 
             } else if (id == R.id.settings) {
+                transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.map,settingsFrag);
+                transaction.addToBackStack(null);
+                transaction.commit();
 
             } else if (id == R.id.nav_logout) {
                 FirebaseAuth.getInstance().signOut();
@@ -145,7 +183,7 @@ GoogleMap.OnMarkerClickListener{
 
     }
 
-    public LatLng getLocationFromAddress(Context context, String strAddress) {
+    public static LatLng getLocationFromAddress(Context context, String strAddress) {
         Geocoder coder = new Geocoder(context);
         List<Address> address;
         LatLng p1 = null;

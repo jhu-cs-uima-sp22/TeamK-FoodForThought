@@ -37,20 +37,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="128dp"
-            android:gravity="center"
-            android:text="MapView"
-            android:textSize="18sp" />
-
-    </LinearLayout>
-
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -62,23 +48,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".MapsActivity" />
-
-        <EditText
-            android:id="@+id/plain_text_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/search_map_hint"
-            android:inputType="text" />
-
-        <Button
-            android:id="@+id/refresh_map_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="false"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginEnd="10dp"
-            android:text="Search" />
 
 
     </RelativeLayout>

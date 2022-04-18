@@ -77,6 +77,8 @@ GoogleMap.OnMarkerClickListener{
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+
+        /*
         searchLoc = (EditText)findViewById(R.id.plain_text_input);
 
         Button searchButton = (Button) findViewById(R.id.refresh_map_button);
@@ -88,7 +90,7 @@ GoogleMap.OnMarkerClickListener{
             mMap.moveCamera(CameraUpdateFactory.newLatLng(cityCoor));
             handleSearchOnClick(cityName);
         });
-
+        */
         /*
         Menu menu = toolbar.getMenu();
         MenuItem searchItem = menu.findItem(R.id.action_search);

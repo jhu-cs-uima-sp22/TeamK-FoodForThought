@@ -46,6 +46,7 @@ public class ContributionHistory extends AppCompatActivity {
 
     private void readData() {
         Log.d("ContributionHistory", "Retrieving contributions history for user " + user);
+//        Log.d("ContributionHistory", db.push().getKey());
         db.child("contributions").child(user).child("resourceHistory").get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
                 // throw exception and return

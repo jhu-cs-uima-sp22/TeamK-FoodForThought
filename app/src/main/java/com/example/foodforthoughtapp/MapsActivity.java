@@ -135,7 +135,7 @@ GoogleMap.OnMarkerClickListener{
             } else if (id == R.id.opportunities) {
 
             } else if (id == R.id.contributions) {
-
+                // TODO: launch contributions activity
             } else if (id == R.id.settings) {
                 transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.map,settingsFrag);

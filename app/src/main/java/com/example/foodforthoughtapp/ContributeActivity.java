@@ -90,6 +90,7 @@ public class ContributeActivity extends AppCompatActivity {
 
         Button submitButton = (Button) findViewById(R.id.submitButton);
         submitButton.setOnClickListener(view -> {
+            // TODO: update user's contributions in Firebase
             Intent intent = new Intent(this, SubmitActivity.class);
             startActivity(intent);
             this.finish();

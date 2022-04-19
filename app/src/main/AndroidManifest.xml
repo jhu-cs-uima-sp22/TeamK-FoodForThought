@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FFT">
         <activity
+            android:name=".ContributionHistory"
+            android:exported="false" />
+        <activity
             android:name=".SubmitActivity"
             android:exported="false" />
         <activity

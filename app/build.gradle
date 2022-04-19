@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.foodforthoughtapp"
-        minSdk 21
+        minSdk 24
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -41,4 +41,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
     implementation 'com.pranavpandey.android:dynamic-toasts:4.1.0'
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
 }

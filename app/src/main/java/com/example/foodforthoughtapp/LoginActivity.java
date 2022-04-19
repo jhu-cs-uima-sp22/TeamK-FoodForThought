@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 // store this user object in the application for future reference
                                 FirebaseUser user = auth.getCurrentUser();
                                 Log.d("AUTH", "Successfully logged in user " + user.getUid());
-                                Intent intent = new Intent(this, MapsActivity.class);
+                                Intent intent = new Intent(this, MainActivity.class);
                                 startActivity(intent);
                                 this.finish();
                             } else {

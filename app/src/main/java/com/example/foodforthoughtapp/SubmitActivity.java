@@ -21,7 +21,7 @@ public class SubmitActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.submit_ok) {
-            Intent map = new Intent(this, MapsActivity.class);
+            Intent map = new Intent(this, MainActivity.class);
             startActivity(map);
         }
     }

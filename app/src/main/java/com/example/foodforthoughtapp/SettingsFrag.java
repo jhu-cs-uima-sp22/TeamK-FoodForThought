@@ -19,18 +19,22 @@ import com.google.firebase.database.FirebaseDatabase;
 public class SettingsFrag extends Fragment {
 
     private String userId;
-    private MapsActivity myact;
+    private MainActivity myact;
     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        System.out.println("Entered settings onCreateView");
+
         View view =inflater.inflate(R.layout.frag_settings, container, false);
+
+        System.out.println("Inflated settings view in fragment");
 
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        myact = (MapsActivity) getActivity();
+        myact = (MainActivity) getActivity();
         myact.getSupportActionBar().setTitle("Settings");
 
         TextInputEditText nameBoxEditText = (TextInputEditText) view.findViewById(R.id.nameBoxInput);

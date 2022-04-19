@@ -17,7 +17,7 @@
     <string name="birthday">Date of Birth</string>
     <string name="phone_number">Phone Number</string>
 
-    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps">Main</string>
     <string name="Open">My Application</string>
     <string name="Close">My Application</string>
     <string name="search_map_hint">Enter Your City</string>

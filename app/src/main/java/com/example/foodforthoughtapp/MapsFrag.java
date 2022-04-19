@@ -6,21 +6,13 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.view.ViewGroup;
 
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.foodforthoughtapp.model.pantry.PantryInfo;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,10 +22,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -42,39 +30,40 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener,
+public class MapsFrag extends Fragment implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener,
 GoogleMap.OnMarkerClickListener{
 
     private GoogleMap mMap;
-    private DrawerLayout dl;
-    private ActionBarDrawerToggle abdt;
-    private EditText searchLoc;
     private LatLng cityCoor = new LatLng(39.29, -76.61);
     private String cityName = "Baltimore";
-    private FragmentTransaction transaction;
 
-    SearchView searchView;
+    SupportMapFragment mapFragment;
+    private MainActivity myact;
+    Context cntx;
 
     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Set the layout file as the content view.
-        setContentView(R.layout.activity_maps);
+        System.out.println("Entered map onCreateView");
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        View view =inflater.inflate(R.layout.frag_maps, container, false);
 
-        //Menu menu = toolbar.getMenu();
-        //menu.findItem(R.id.action_search).setVisible(false);
+        System.out.println("Inflated activity maps view");
+
+        cntx = getActivity().getApplicationContext();
+
+        myact = (MainActivity) getActivity();
+        myact.getSupportActionBar().setTitle("Map");
+
 
 
         // Get a handle to the fragment and register the callback.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
 
@@ -85,23 +74,25 @@ GoogleMap.OnMarkerClickListener{
 
         searchButton.setOnClickListener(view -> {
             cityName = searchLoc.getText().toString();
-            cityCoor = getLocationFromAddress(MapsActivity.this, cityName);
+            cityCoor = getLocationFromAddress(MapsFrag.this, cityName);
             mMap.clear();
             mMap.moveCamera(CameraUpdateFactory.newLatLng(cityCoor));
             handleSearchOnClick(cityName);
         });
         */
+
         /*
         Menu menu = toolbar.getMenu();
         MenuItem searchItem = menu.findItem(R.id.action_search);
         searchView = (SearchView) searchItem.getActionView();
-
-
+        searchItem.setVisible(true);
+         */
+        /*
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 cityName = searchView.getQuery().toString();
-                cityCoor = MapsActivity.getLocationFromAddress(MapsActivity.this, cityName);
+                cityCoor = MapsFrag.getLocationFromAddress(MapsFrag.this, cityName);
                 mMap.clear();
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(cityCoor));
                 handleSearchOnClick(cityName);
@@ -115,47 +106,10 @@ GoogleMap.OnMarkerClickListener{
         });
          */
         if (!cityName.isEmpty()) {
-            cityCoor = getLocationFromAddress(this, cityName);
+            cityCoor = getLocationFromAddress(cntx, cityName);
         }
-
-        Fragment settingsFrag = new SettingsFrag();
-
-        dl = (DrawerLayout)findViewById(R.id.my_drawer_layout);
-        abdt = new ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close);
-        abdt.setDrawerIndicatorEnabled(true);
-        dl.addDrawerListener(abdt);
-        abdt.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
-        nav_view.setNavigationItemSelectedListener(item -> {
-            int id = item.getItemId();
-
-            if (id == R.id.map_view) {
-
-            } else if (id == R.id.opportunities) {
-
-            } else if (id == R.id.contributions) {
-
-            } else if (id == R.id.settings) {
-                transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.map,settingsFrag);
-                transaction.addToBackStack(null);
-                transaction.commit();
-
-            } else if (id == R.id.nav_logout) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(MapsActivity.this, WelcomeActivity.class));
-                finish();
-            }
-            return true;
-        });
-
         //"Food Pantry"
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+        return view;
     }
 
     /**
@@ -209,7 +163,7 @@ GoogleMap.OnMarkerClickListener{
 
     @Override
     public void onInfoWindowClick(@NonNull Marker marker) {
-        Intent intent = new Intent(this, PantryDetail.class);
+        Intent intent = new Intent(cntx, PantryDetail.class);
         intent.putExtra("Food Pantry", (String) marker.getTag());
         startActivity(intent);
     }
@@ -234,7 +188,7 @@ GoogleMap.OnMarkerClickListener{
         HashMap<PantryInfo, LatLng> pantryCoordinates = new HashMap<>();
 
         for (PantryInfo pantry : pantries) {
-            pantryCoordinates.put(pantry, getLocationFromAddress(MapsActivity.this, pantry.location.street +
+            pantryCoordinates.put(pantry, getLocationFromAddress(cntx, pantry.location.street +
                     ", " + pantry.location.city));
         }
 
@@ -260,14 +214,78 @@ GoogleMap.OnMarkerClickListener{
         });
     }
 
+    // Called at the start of the visible lifetime.
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu,menu);
-
-        MenuItem menuItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) menuItem.getActionView();
-        searchView.setQueryHint("Enter your city");
-
-        return super.onCreateOptionsMenu(menu);
+    public void onStart(){
+        super.onStart();
+        Log.d ("Other Fragment2", "onStart");
+        // Apply any required UI change now that the Fragment is visible.
     }
+
+    // Called at the start of the active lifetime.
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.d ("Other Fragment", "onResume");
+        // Resume any paused UI updates, threads, or processes required
+        // by the Fragment but suspended when it became inactive.
+    }
+
+    // Called at the end of the active lifetime.
+    @Override
+    public void onPause(){
+        Log.d ("Other Fragment", "onPause");
+        // Suspend UI updates, threads, or CPU intensive processes
+        // that don't need to be updated when the Activity isn't
+        // the active foreground activity.
+        // Persist all edits or state changes
+        // as after this call the process is likely to be killed.
+        super.onPause();
+    }
+
+    // Called to save UI state changes at the
+    // end of the active lifecycle.
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        Log.d ("Other Fragment", "onSaveInstanceState");
+        // Save UI state changes to the savedInstanceState.
+        // This bundle will be passed to onCreate, onCreateView, and
+        // onCreateView if the parent Activity is killed and restarted.
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    // Called at the end of the visible lifetime.
+    @Override
+    public void onStop(){
+        Log.d ("Other Fragment", "onStop");
+        // Suspend remaining UI updates, threads, or processing
+        // that aren't required when the Fragment isn't visible.
+        super.onStop();
+    }
+
+    // Called when the Fragment's View has been detached.
+    @Override
+    public void onDestroyView() {
+        Log.d ("Other Fragment", "onDestroyView");
+        // Clean up resources related to the View.
+        super.onDestroyView();
+    }
+
+    // Called at the end of the full lifetime.
+    @Override
+    public void onDestroy(){
+        Log.d ("Other Fragment", "onDestroy");
+        // Clean up any resources including ending threads,
+        // closing database connections etc.
+        super.onDestroy();
+    }
+
+    // Called when the Fragment has been detached from its parent Activity.
+    @Override
+    public void onDetach() {
+        Log.d ("Other Fragment", "onDetach");
+        super.onDetach();
+    }
+
+
 }

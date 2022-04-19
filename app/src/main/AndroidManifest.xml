@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.foodforthoughtapp">
 
+    <uses-permission android:name="your.package.name.permission.MAPS_RECEIVE"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -42,7 +43,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:label="@string/title_activity_maps"
             android:theme="@style/Theme.FFT.NoActionBar"/>

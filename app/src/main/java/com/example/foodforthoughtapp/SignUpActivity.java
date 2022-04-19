@@ -111,7 +111,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         String phone = signupPhoneNum.getText().toString();
                         UserInfo userInfo = new UserInfo(name[0], name[1], phone, DOB);
                         db.child("users").child(user.getUid()).setValue(userInfo);
-                        Intent intent = new Intent(this, MapsActivity.class);
+                        Intent intent = new Intent(this, MainActivity.class);
                         startActivity(intent);
                         this.finish();
                         // TODO: TODO: direct to the launch map activity

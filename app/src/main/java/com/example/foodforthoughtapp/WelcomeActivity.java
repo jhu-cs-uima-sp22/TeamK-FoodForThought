@@ -21,7 +21,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             // the user is already authenticated
             Log.d("AUTH", "User " + user.getUid() + " is already authenticated");
             // TODO: launch the map activity
-            Intent intent = new Intent(this, MapsActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             this.finish();
         }

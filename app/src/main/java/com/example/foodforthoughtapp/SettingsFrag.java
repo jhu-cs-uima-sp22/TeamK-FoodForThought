@@ -26,11 +26,7 @@ public class SettingsFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        System.out.println("Entered settings onCreateView");
-
         View view =inflater.inflate(R.layout.frag_settings, container, false);
-
-        System.out.println("Inflated settings view in fragment");
 
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 

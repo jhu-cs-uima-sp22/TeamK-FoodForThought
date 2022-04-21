@@ -49,11 +49,7 @@ GoogleMap.OnMarkerClickListener{
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        System.out.println("Entered map onCreateView");
-
         View view =inflater.inflate(R.layout.frag_maps, container, false);
-
-        System.out.println("Inflated activity maps view");
 
         cntx = getActivity().getApplicationContext();
 

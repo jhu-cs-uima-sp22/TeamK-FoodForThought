@@ -34,15 +34,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        System.out.println("Created Main Activity");
-
         // Set the layout file as the content view.
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        System.out.println("Set up toolbars and support bar");
 
         //Menu menu = toolbar.getMenu();
         //menu.findItem(R.id.action_search).setVisible(false);
@@ -89,12 +85,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         settings = new SettingsFrag();
         map = new MapsFrag();
 
-        System.out.println("Set up required fragments");
-
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, settings).commit();
-
-        System.out.println("Added fragment to the screen initially");
+                .add(R.id.fragment_container, map).commit();
 
         dl = (DrawerLayout)findViewById(R.id.my_drawer_layout);
         abdt = new ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close);
@@ -103,12 +95,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         abdt.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        System.out.println("Created drawer");
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        System.out.println("Created navigation view");
         /*
         NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
         nav_view.setNavigationItemSelectedListener(item -> {

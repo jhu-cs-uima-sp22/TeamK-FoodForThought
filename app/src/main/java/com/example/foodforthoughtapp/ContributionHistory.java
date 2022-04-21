@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ContributionHistory extends AppCompatActivity {
+    // TODO: NEED TO MAKE THIS A FRAGMENT
 
     private final String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
     private final DatabaseReference db = FirebaseDatabase.getInstance().getReference();

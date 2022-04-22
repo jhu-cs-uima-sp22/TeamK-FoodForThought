@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -84,6 +85,7 @@ public class ContributeActivity extends AppCompatActivity {
 
     private void populateHours(PantryInfo pantry) {
         Map<String, PantryHours> hours = pantry.hours;
+        LinearLayout days = findViewById(R.id.linearLayout);
         if (hours.containsKey("Monday")) {
             Spinner mstartSpinner = (Spinner) findViewById(R.id.strtSpinnerM);
             Spinner mendSpinner = (Spinner) findViewById(R.id.endSpinnerM);
@@ -91,6 +93,8 @@ public class ContributeActivity extends AppCompatActivity {
             List<CharSequence> times = getHoursArray(hours.get("Monday"));
             setSpinner(mstartSpinner, times);
             setSpinner(mendSpinner, times);
+        } else {
+            days.removeView(findViewById(R.id.mondayLayout));
         }
         if (hours.containsKey("Tuesday")) {
             Spinner tstartSpinner = (Spinner) findViewById(R.id.strtSpinnerT);
@@ -99,6 +103,8 @@ public class ContributeActivity extends AppCompatActivity {
             List<CharSequence> times = getHoursArray(hours.get("Monday"));
             setSpinner(tstartSpinner, times);
             setSpinner(tendSpinner, times);
+        } else {
+            days.removeView(findViewById(R.id.tuesdayLayout));
         }
         if (hours.containsKey("Wednesday")) {
             Spinner wstartSpinner = (Spinner) findViewById(R.id.strtSpinnerW);
@@ -107,6 +113,8 @@ public class ContributeActivity extends AppCompatActivity {
             List<CharSequence> times = getHoursArray(hours.get("Monday"));
             setSpinner(wstartSpinner, times);
             setSpinner(wendSpinner, times);
+        } else {
+            days.removeView(findViewById(R.id.wednesdayLayout));
         }
         if (hours.containsKey("Thursday")) {
             Spinner thstartSpinner = (Spinner) findViewById(R.id.strtSpinnerTh);
@@ -115,6 +123,8 @@ public class ContributeActivity extends AppCompatActivity {
             List<CharSequence> times = getHoursArray(hours.get("Monday"));
             setSpinner(thstartSpinner, times);
             setSpinner(thendSpinner, times);
+        } else {
+            days.removeView(findViewById(R.id.thursdayLayout));
         }
         if (hours.containsKey("Friday")) {
             Spinner fstartSpinner = (Spinner) findViewById(R.id.strtSpinnerF);
@@ -123,6 +133,8 @@ public class ContributeActivity extends AppCompatActivity {
             List<CharSequence> times = getHoursArray(hours.get("Monday"));
             setSpinner(fstartSpinner, times);
             setSpinner(fendSpinner, times);
+        } else {
+            days.removeView(findViewById(R.id.fridayLayout));
         }
         if (hours.containsKey("Saturday")) {
             Spinner sastartSpinner = (Spinner) findViewById(R.id.strtSpinnerSa);
@@ -131,6 +143,8 @@ public class ContributeActivity extends AppCompatActivity {
             List<CharSequence> times = getHoursArray(hours.get("Monday"));
             setSpinner(sastartSpinner, times);
             setSpinner(saendSpinner, times);
+        } else {
+            days.removeView(findViewById(R.id.saturdayLayout));
         }
         if (hours.containsKey("Sunday")) {
             Spinner sustartSpinner = (Spinner) findViewById(R.id.strtSpinnerSu);
@@ -139,6 +153,8 @@ public class ContributeActivity extends AppCompatActivity {
             List<CharSequence> times = getHoursArray(hours.get("Monday"));
             setSpinner(sustartSpinner, times);
             setSpinner(suendSpinner, times);
+        } else {
+            days.removeView(findViewById(R.id.sundayLayout));
         }
     }
 

@@ -97,6 +97,7 @@
         ]]>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mondayLayout"
             android:layout_width="match_parent"
             android:layout_height="40dp">
 
@@ -150,6 +151,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tuesdayLayout"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -204,6 +206,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/wednesdayLayout"
             android:layout_width="match_parent"
             android:layout_height="40dp">
 
@@ -257,6 +260,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/thursdayLayout"
             android:layout_width="match_parent"
             android:layout_height="40dp">
 
@@ -310,6 +314,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fridayLayout"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -364,6 +369,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/saturdayLayout"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -418,6 +424,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/sundayLayout"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             app:layout_constraintEnd_toEndOf="parent"

@@ -2,6 +2,7 @@ package com.example.foodforthoughtapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FragmentTransaction transaction;
     private Fragment settings;
     private Fragment map;
+    private Fragment contributions;
 
     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
 
@@ -84,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         settings = new SettingsFrag();
         map = new MapsFrag();
+        contributions = new ContributionsFrag();
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, map).commit();
@@ -154,7 +157,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.opportunities) {
 
         } else if (id == R.id.contributions) {
-
+            transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, contributions);
+            transaction.addToBackStack(null);
+            transaction.commit();
         } else if (id == R.id.settings) {
             transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container,settings);
@@ -166,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
             finish();
         }
+        dl.closeDrawer(Gravity.LEFT);
         return true;
     }
 }

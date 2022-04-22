@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -37,6 +38,7 @@ public class ContributeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contribute_page);
+        findViewById(R.id.mainLayout).setVisibility(View.INVISIBLE);
         //back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -47,6 +49,7 @@ public class ContributeActivity extends AppCompatActivity {
         dbref.child("pantries").child(pantryKey).get().addOnCompleteListener(task -> {
             PantryInfo pantry = task.getResult().getValue(PantryInfo.class);
             populateView(pantry);
+            findViewById(R.id.mainLayout).setVisibility(View.VISIBLE);
         });
 
         Button submitButton = (Button) findViewById(R.id.submitButton);

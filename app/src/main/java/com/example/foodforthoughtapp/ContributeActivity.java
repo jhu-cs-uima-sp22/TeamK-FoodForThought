@@ -1,31 +1,28 @@
 package com.example.foodforthoughtapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.example.foodforthoughtapp.model.pantry.PantryHours;
 import com.example.foodforthoughtapp.model.pantry.PantryInfo;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ContributeActivity extends AppCompatActivity {
     List conResourceList = new ArrayList();
@@ -39,7 +36,6 @@ public class ContributeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contribute_page);
-
         //back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -52,52 +48,23 @@ public class ContributeActivity extends AppCompatActivity {
             populateView(pantry);
         });
 
-        //setting the monday/tues/thus/fri start spinners
-        Spinner mstartSpinner = (Spinner) findViewById(R.id.strtSpinnerM);
-        setMtthfSpinners(mstartSpinner);
-        Spinner tstartSpinner = (Spinner) findViewById(R.id.strtSpinnerT);
-        setMtthfSpinners(tstartSpinner);
-        Spinner thstartSpinner = (Spinner) findViewById(R.id.strtSpinnerTh);
-        setMtthfSpinners(thstartSpinner);
-        Spinner fstartSpinner = (Spinner) findViewById(R.id.strtSpinnerF);
-        setMtthfSpinners(fstartSpinner);
-
-        //setting the monday/tues/thus/fri end spinners
-        Spinner mendSpinner = (Spinner) findViewById(R.id.endSpinnerM);
-        setMtthfSpinners(mendSpinner);
-        Spinner tendSpinner = (Spinner) findViewById(R.id.endSpinnerT);
-        setMtthfSpinners(tendSpinner);
-        Spinner thendSpinner = (Spinner) findViewById(R.id.endSpinnerTh);
-        setMtthfSpinners(thendSpinner);
-        Spinner fendSpinner = (Spinner) findViewById(R.id.endSpinnerF);
-        setMtthfSpinners(fendSpinner);
-
-        //setting the wednesday start and end spinners
-        Spinner wstrtSpinner = (Spinner) findViewById(R.id.strtSpinnerW);
-        setWSpinners(wstrtSpinner);
-        Spinner wendSpinner = (Spinner) findViewById(R.id.endSpinnerW);
-        setWSpinners(wendSpinner);
-
-        //setting the sat/sun start and end spinners
-        Spinner satStrtSpinner = (Spinner) findViewById(R.id.strtSpinnerSa);
-        setSasuSpinners(satStrtSpinner);
-        Spinner sunStrtSpinner = (Spinner) findViewById(R.id.strtSpinnerSu);
-        setSasuSpinners(sunStrtSpinner);
-        Spinner satEndSpinner = (Spinner) findViewById(R.id.endSpinnerSa);
-        setSasuSpinners(satEndSpinner);
-        Spinner sunEndSpinner = (Spinner) findViewById(R.id.endSpinnerSu);
-        setSasuSpinners(sunEndSpinner);
-
         Button submitButton = (Button) findViewById(R.id.submitButton);
         submitButton.setOnClickListener(view -> {
             // TODO: update user's contributions in Firebase
+            submitContribution();
             Intent intent = new Intent(this, SubmitActivity.class);
             startActivity(intent);
             this.finish();
         });
     }
 
+    // submits a user's contribution to the database
+    private void submitContribution() {
+        // TODO
+    }
+
     private void populateView(PantryInfo pantry) {
+        populateHours(pantry);
         setTitle(pantry.getName());
         conResourceList = pantry.getResources();
 
@@ -115,30 +82,88 @@ public class ContributeActivity extends AppCompatActivity {
         ca.notifyDataSetChanged();
     }
 
-    public void setMtthfSpinners(Spinner spinner) {
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.mtthf_time_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+    private void populateHours(PantryInfo pantry) {
+        Map<String, PantryHours> hours = pantry.hours;
+        if (hours.containsKey("Monday")) {
+            Spinner mstartSpinner = (Spinner) findViewById(R.id.strtSpinnerM);
+            Spinner mendSpinner = (Spinner) findViewById(R.id.endSpinnerM);
+            // get array for selecting times based on the hours
+            List<CharSequence> times = getHoursArray(hours.get("Monday"));
+            setSpinner(mstartSpinner, times);
+            setSpinner(mendSpinner, times);
+        }
+        if (hours.containsKey("Tuesday")) {
+            Spinner tstartSpinner = (Spinner) findViewById(R.id.strtSpinnerT);
+            Spinner tendSpinner = (Spinner) findViewById(R.id.endSpinnerT);
+            // get array for selecting times based on the hours
+            List<CharSequence> times = getHoursArray(hours.get("Monday"));
+            setSpinner(tstartSpinner, times);
+            setSpinner(tendSpinner, times);
+        }
+        if (hours.containsKey("Wednesday")) {
+            Spinner wstartSpinner = (Spinner) findViewById(R.id.strtSpinnerW);
+            Spinner wendSpinner = (Spinner) findViewById(R.id.endSpinnerW);
+            // get array for selecting times based on the hours
+            List<CharSequence> times = getHoursArray(hours.get("Monday"));
+            setSpinner(wstartSpinner, times);
+            setSpinner(wendSpinner, times);
+        }
+        if (hours.containsKey("Thursday")) {
+            Spinner thstartSpinner = (Spinner) findViewById(R.id.strtSpinnerTh);
+            Spinner thendSpinner = (Spinner) findViewById(R.id.endSpinnerTh);
+            // get array for selecting times based on the hours
+            List<CharSequence> times = getHoursArray(hours.get("Monday"));
+            setSpinner(thstartSpinner, times);
+            setSpinner(thendSpinner, times);
+        }
+        if (hours.containsKey("Friday")) {
+            Spinner fstartSpinner = (Spinner) findViewById(R.id.strtSpinnerF);
+            Spinner fendSpinner = (Spinner) findViewById(R.id.endSpinnerF);
+            // get array for selecting times based on the hours
+            List<CharSequence> times = getHoursArray(hours.get("Monday"));
+            setSpinner(fstartSpinner, times);
+            setSpinner(fendSpinner, times);
+        }
+        if (hours.containsKey("Saturday")) {
+            Spinner sastartSpinner = (Spinner) findViewById(R.id.strtSpinnerSa);
+            Spinner saendSpinner = (Spinner) findViewById(R.id.endSpinnerSa);
+            // get array for selecting times based on the hours
+            List<CharSequence> times = getHoursArray(hours.get("Monday"));
+            setSpinner(sastartSpinner, times);
+            setSpinner(saendSpinner, times);
+        }
+        if (hours.containsKey("Sunday")) {
+            Spinner sustartSpinner = (Spinner) findViewById(R.id.strtSpinnerSu);
+            Spinner suendSpinner = (Spinner) findViewById(R.id.endSpinnerSu);
+            // get array for selecting times based on the hours
+            List<CharSequence> times = getHoursArray(hours.get("Monday"));
+            setSpinner(sustartSpinner, times);
+            setSpinner(suendSpinner, times);
+        }
     }
 
-    public void setWSpinners(Spinner spinner) {
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.w_time_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+    @SuppressLint("NewApi")
+    private List<CharSequence> getHoursArray(PantryHours monday) {
+        LocalTime start, end;
+        try {
+            start = LocalTime.parse(monday.startTime);
+            end = LocalTime.parse(monday.endTime);
+            int intervals = (int) start.until(end, ChronoUnit.MINUTES) / 30;
+            List<CharSequence> times = new ArrayList<>();
+            for (int i = 0 ; i < intervals + 1; i++) {
+                times.add(start.plusMinutes(i * 30).toString());
+            }
+            return times;
+        } catch (Exception e) {
+            Log.d("ContributeActivity", e.toString());
+        }
+        return null;
     }
 
-    public void setSasuSpinners(Spinner spinner) {
+    public void setSpinner(Spinner spinner, List<CharSequence> times) {
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.ss_time_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, times);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner

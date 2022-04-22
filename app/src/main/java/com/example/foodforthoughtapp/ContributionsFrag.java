@@ -1,14 +1,18 @@
 package com.example.foodforthoughtapp;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
+import android.view.ViewGroup;
 
 import com.example.foodforthoughtapp.model.contributions.Contribution;
 import com.example.foodforthoughtapp.model.contributions.ResourceContribution;
@@ -24,30 +28,34 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class ContributionHistory extends AppCompatActivity {
-    // TODO: NEED TO MAKE THIS A FRAGMENT
+public class ContributionsFrag extends Fragment {
 
     private final String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
     private final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
     private List<Contribution> contributions;
     private ComplexRecyclerViewAdapter list;
+    private Context context;
+    private MainActivity main;
+    private View view;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contribution_history);
+        view = inflater.inflate(R.layout.frag_contributions, container, false);
+        main = (MainActivity) getActivity();
+        context = main.getApplicationContext();
+        main.getSupportActionBar().setTitle("My Contributions");
         contributions = new ArrayList<>();
         initUI();
         readData();
+        return view;
     }
 
     private void readData() {
         Log.d("ContributionHistory", "Retrieving contributions history for user " + user);
-//        Log.d("ContributionHistory", db.push().getKey());
         db.child("contributions").child(user).child("resourceHistory").get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
                 // throw exception and return
@@ -76,23 +84,20 @@ public class ContributionHistory extends AppCompatActivity {
                     cur.type = "VOLUNTEER";
                     contributions.add(cur);
                 }
-                Collections.sort(contributions, new Comparator<Contribution>() {
-                    @Override
-                    public int compare(Contribution c, Contribution other) {
-                        // sort by date
-                        String date1 = c.type.equals("RESOURCE") ? ((ResourceContribution) c).date : ((VolunteerContribution) c).date;
-                        String date2 = other.type.equals("RESOURCE") ? ((ResourceContribution) other).date : ((VolunteerContribution) other).date;
-                        Date cDate = null;
-                        Date otherDate = null;
-                        try {
-                            @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-                            cDate = dateFormat.parse(date1);
-                            otherDate = dateFormat.parse(date2);
-                        } catch (ParseException ex) {
-                            Log.d("ContributionHistory", ex.toString());
-                        }
-                        return otherDate.compareTo(cDate);
+                Collections.sort(contributions, (c, other) -> {
+                    // sort by date
+                    String date1 = c.type.equals("RESOURCE") ? ((ResourceContribution) c).date : ((VolunteerContribution) c).date;
+                    String date2 = other.type.equals("RESOURCE") ? ((ResourceContribution) other).date : ((VolunteerContribution) other).date;
+                    Date cDate = null;
+                    Date otherDate = null;
+                    try {
+                        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                        cDate = dateFormat.parse(date1);
+                        otherDate = dateFormat.parse(date2);
+                    } catch (ParseException ex) {
+                        Log.d("ContributionHistory", ex.toString());
                     }
+                    return otherDate.compareTo(cDate);
                 });
                 list.notifyDataSetChanged();
             });
@@ -100,9 +105,9 @@ public class ContributionHistory extends AppCompatActivity {
     }
 
     private void initUI() {
-        RecyclerView recyclerView = findViewById(R.id.contributionsList);
+        RecyclerView recyclerView = view.findViewById(R.id.contributionsList);
         list = new ComplexRecyclerViewAdapter(contributions);
         recyclerView.setAdapter(list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
     }
 }

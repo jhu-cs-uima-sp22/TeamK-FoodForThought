@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 
 import com.example.foodforthoughtapp.model.pantry.PantryInfo;
@@ -37,6 +38,8 @@ GoogleMap.OnMarkerClickListener{
     private LatLng cityCoor = new LatLng(39.29, -76.61);
     private String cityName = "Baltimore";
 
+    SearchView searchView;
+
     SupportMapFragment mapFragment;
     private MainActivity myact;
     Context cntx;
@@ -50,6 +53,8 @@ GoogleMap.OnMarkerClickListener{
         super.onCreate(savedInstanceState);
 
         View view =inflater.inflate(R.layout.frag_maps, container, false);
+
+        searchView = view.findViewById(R.id.idSearchView);
 
         cntx = getActivity().getApplicationContext();
 
@@ -83,12 +88,12 @@ GoogleMap.OnMarkerClickListener{
         searchView = (SearchView) searchItem.getActionView();
         searchItem.setVisible(true);
          */
-        /*
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 cityName = searchView.getQuery().toString();
-                cityCoor = MapsFrag.getLocationFromAddress(MapsFrag.this, cityName);
+                cityCoor = MapsFrag.getLocationFromAddress(cntx, cityName);
                 mMap.clear();
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(cityCoor));
                 handleSearchOnClick(cityName);
@@ -100,7 +105,7 @@ GoogleMap.OnMarkerClickListener{
                 return false;
             }
         });
-         */
+
         if (!cityName.isEmpty()) {
             cityCoor = getLocationFromAddress(cntx, cityName);
         }

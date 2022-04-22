@@ -8,11 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.foodforthoughtapp.model.UserInfo;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -29,6 +34,13 @@ public class SettingsFrag extends Fragment {
         View view =inflater.inflate(R.layout.frag_settings, container, false);
 
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        dbref.child("users").child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                UserInfo user = task.getResult().getValue(UserInfo.class);
+            }
+        });
 
         myact = (MainActivity) getActivity();
         myact.getSupportActionBar().setTitle("Settings");
@@ -48,6 +60,7 @@ public class SettingsFrag extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
                 //Set name to the changed text
+
             }
         });
 

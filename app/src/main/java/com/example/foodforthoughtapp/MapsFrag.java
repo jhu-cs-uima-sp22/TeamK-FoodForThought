@@ -96,6 +96,7 @@ GoogleMap.OnMarkerClickListener{
                 cityCoor = MapsFrag.getLocationFromAddress(cntx, cityName);
                 mMap.clear();
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(cityCoor));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
                 handleSearchOnClick(cityName);
                 return false;
             }

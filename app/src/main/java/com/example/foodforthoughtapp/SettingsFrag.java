@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +28,8 @@ public class SettingsFrag extends Fragment {
     private MainActivity myact;
     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
 
+    private UserInfo user;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -38,15 +41,23 @@ public class SettingsFrag extends Fragment {
         dbref.child("users").child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
-                UserInfo user = task.getResult().getValue(UserInfo.class);
+                user = task.getResult().getValue(UserInfo.class);
             }
         });
 
         myact = (MainActivity) getActivity();
         myact.getSupportActionBar().setTitle("Settings");
 
-        TextInputEditText nameBoxEditText = (TextInputEditText) view.findViewById(R.id.nameBoxInput);
-        nameBoxEditText.addTextChangedListener(new TextWatcher() {
+        TextView nameBox = view.findViewById(R.id.nameBox);
+        TextView dobBox = view.findViewById(R.id.dobBox);
+
+        nameBox.setText(user.getFname() + " " + user.getLname());
+        dobBox.setText(user.getDOB());
+
+        EditText phoneBox = view.findViewById(R.id.editPhone);
+        phoneBox.setText(user.getPhone());
+
+        phoneBox.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -59,46 +70,14 @@ public class SettingsFrag extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                //Set name to the changed text
-
+                String newPhone = phoneBox.getText().toString();
+                dbref.child("users").child(userId).child("phone").setValue(newPhone);
+                phoneBox.setText(newPhone);
             }
         });
 
-        TextInputEditText emailBoxEditText = (TextInputEditText) view.findViewById(R.id.emailBoxInput);
-        emailBoxEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                //Set email to the changed text
-            }
-        });
-
-        TextInputEditText phoneBoxEditText = (TextInputEditText) view.findViewById(R.id.phoneBoxInput);
-        phoneBoxEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                //Set phone to the changed text
-            }
-        });
 
 
         return view;

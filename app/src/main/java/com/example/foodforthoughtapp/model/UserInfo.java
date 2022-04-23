@@ -1,5 +1,9 @@
 package com.example.foodforthoughtapp.model;
 
+import com.example.foodforthoughtapp.model.pantry.Resource;
+
+import java.util.List;
+
 // Object model for a user
 public class UserInfo {
 
@@ -15,5 +19,19 @@ public class UserInfo {
         this.lname = lname;
         this.phone = phone;
         this.DOB = DOB;
+    }
+
+    public String getFname() {
+        return fname;
+    }
+
+    public String getLname() {
+        return lname;
+    }
+
+    public String getPhone(){return phone;}
+
+    public String getDOB() {
+        return DOB;
     }
 }

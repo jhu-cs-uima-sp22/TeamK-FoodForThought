@@ -4,10 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -15,14 +18,20 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.example.foodforthoughtapp.model.contributions.ResourceContribution;
+import com.example.foodforthoughtapp.model.contributions.VolunteerContribution;
 import com.example.foodforthoughtapp.model.pantry.PantryHours;
 import com.example.foodforthoughtapp.model.pantry.PantryInfo;
+import com.example.foodforthoughtapp.model.pantry.Resource;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -32,8 +41,10 @@ public class ContributeActivity extends AppCompatActivity {
 
     private ListView resourceConListView;
     private CardView contributeCard;
-
-    DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
+    private PantryInfo pantry;
+    private String pantryID;
+    private DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
+    private static final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,18 +54,18 @@ public class ContributeActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle extras = getIntent().getExtras();
-        String pantryKey = extras.getString("Food Pantry");
+        pantryID = extras.getString("Food Pantry");
 
         //have to get the arrayList of resources in the specific pantry
-        dbref.child("pantries").child(pantryKey).get().addOnCompleteListener(task -> {
+        dbref.child("pantries").child(pantryID).get().addOnCompleteListener(task -> {
             PantryInfo pantry = task.getResult().getValue(PantryInfo.class);
+            this.pantry = pantry;
             populateView(pantry);
             findViewById(R.id.mainLayout).setVisibility(View.VISIBLE);
         });
 
         Button submitButton = (Button) findViewById(R.id.submitButton);
         submitButton.setOnClickListener(view -> {
-            // TODO: update user's contributions in Firebase
             submitContribution();
             Intent intent = new Intent(this, SubmitActivity.class);
             startActivity(intent);
@@ -65,6 +76,78 @@ public class ContributeActivity extends AppCompatActivity {
     // submits a user's contribution to the database
     private void submitContribution() {
         // TODO
+        List<VolunteerContribution> volunteering = getVolunteerHours();
+        if (volunteering != null) {
+            for (VolunteerContribution contribution : volunteering) {
+                dbref.child("contributions").child(userID).child("volunteerHistory").push().setValue(contribution);
+            }
+            Log.d("ContributeActivity", "Submitted "
+                    + volunteering.size() + " volunteer opportunities for user "
+                    + userID);
+        }
+        ResourceContribution donations = getDonation();
+        if (donations != null) {
+            dbref.child("contributions").child(userID).child("resourceHistory").push().setValue(donations);
+            Log.d("ContributeActivity", "Submitted donation contribution for user "
+                    + userID);
+        }
+    }
+
+    private List<VolunteerContribution> getVolunteerHours() {
+        List<VolunteerContribution> volunteering = new ArrayList<>();
+        for (String day : pantry.hours.keySet()) {
+            Pair<Spinner, Spinner> times = getTimeSpinners(day);
+            String start = times.first.getSelectedItem().toString();
+            String end = times.second.getSelectedItem().toString();
+            if (!start.equals("None") && !end.equals("None")) {
+                PantryHours hours = new PantryHours(start, end);
+                VolunteerContribution cur = new VolunteerContribution("01/01/2020", pantryID, hours);
+                volunteering.add(cur);
+            }
+        }
+        return !volunteering.isEmpty() ? volunteering : null;
+    }
+
+    private Pair<Spinner, Spinner> getTimeSpinners(String day) {
+        switch (day) {
+            case "Monday":
+                return new Pair<>(findViewById(R.id.strtSpinnerM), findViewById(R.id.endSpinnerM));
+            case "Tuesday":
+                return new Pair<>(findViewById(R.id.strtSpinnerT), findViewById(R.id.endSpinnerT));
+            case "Wednesday":
+                return new Pair<>(findViewById(R.id.strtSpinnerW), findViewById(R.id.endSpinnerW));
+            case "Thursday":
+                return new Pair<>(findViewById(R.id.strtSpinnerTh), findViewById(R.id.endSpinnerTh));
+            case "Friday":
+                return new Pair<>(findViewById(R.id.strtSpinnerF), findViewById(R.id.endSpinnerF));
+            case "Saturday":
+                return new Pair<>(findViewById(R.id.strtSpinnerSa), findViewById(R.id.endSpinnerSa));
+            case "Sunday":
+                return new Pair<>(findViewById(R.id.strtSpinnerSu), findViewById(R.id.endSpinnerSu));
+            default:
+                return null;
+        }
+    }
+
+    private ResourceContribution getDonation() {
+        List<Resource> resources = new ArrayList<>();
+        for (int i = 0; i < resourceConListView.getChildCount(); i++) {
+            View cur = resourceConListView.getChildAt(i);
+            CheckBox resourceCheck = (CheckBox) cur.findViewById(R.id.resCheckBox);
+            EditText resourceCount = (EditText) cur.findViewById(R.id.editCount);
+            if (resourceCheck.isChecked()) {
+                if (!resourceCount.getText().toString().isEmpty()) {
+                    resources.add(new Resource(resourceCheck.getText().toString(),
+                            Integer.parseInt(resourceCount.getText().toString())));
+                }
+            }
+        }
+        if (resources.isEmpty()) {
+            return null;
+        }
+        // TODO: hardcode date for now
+        String date = "01/04/2020";
+        return new ResourceContribution(date, pantryID, resources);
     }
 
     private void populateView(PantryInfo pantry) {
@@ -73,7 +156,6 @@ public class ContributeActivity extends AppCompatActivity {
         conResourceList = pantry.getResources();
 
         //connect the resource list with the card view
-        // View myview = inflater.inflate(R.layout.contribute_page, container, false);
         resourceConListView = (ListView) findViewById(R.id.conResourcesNeeded);
         contributeCard = (CardView) findViewById(R.id.contribute_card_view);
 
@@ -168,7 +250,7 @@ public class ContributeActivity extends AppCompatActivity {
             start = LocalTime.parse(monday.startTime);
             end = LocalTime.parse(monday.endTime);
             int intervals = (int) start.until(end, ChronoUnit.MINUTES) / 30;
-            List<CharSequence> times = new ArrayList<>();
+            List<CharSequence> times = new ArrayList<>(Collections.singletonList("None"));
             for (int i = 0 ; i < intervals + 1; i++) {
                 times.add(start.plusMinutes(i * 30).toString());
             }

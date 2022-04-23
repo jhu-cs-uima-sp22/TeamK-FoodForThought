@@ -9,6 +9,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import androidx.annotation.Nullable;
+
 import com.example.foodforthoughtapp.model.pantry.Resource;
 
 import java.util.List;
@@ -43,5 +45,11 @@ public class ContributeAdapter extends ArrayAdapter<Resource> {
         resourceCount.setHint(String.valueOf(res.getCount()));
 
         return itemView;
+    }
+
+    @Nullable
+    @Override
+    public Resource getItem(int position) {
+        return super.getItem(position);
     }
 }

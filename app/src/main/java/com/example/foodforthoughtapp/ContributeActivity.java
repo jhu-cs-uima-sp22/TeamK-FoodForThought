@@ -101,7 +101,7 @@ public class ContributeActivity extends AppCompatActivity {
             String end = times.second.getSelectedItem().toString();
             if (!start.equals("None") && !end.equals("None")) {
                 PantryHours hours = new PantryHours(start, end);
-                VolunteerContribution cur = new VolunteerContribution("01/01/2020", pantryID, hours);
+                VolunteerContribution cur = new VolunteerContribution("05/05/2022", pantryID, hours);
                 volunteering.add(cur);
             }
         }

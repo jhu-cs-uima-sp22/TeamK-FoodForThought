@@ -39,6 +39,7 @@ public class ContributionsFrag extends Fragment {
     private Context context;
     private MainActivity main;
     private View view;
+    private static final @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
     @Nullable
     @Override
@@ -68,7 +69,15 @@ public class ContributionsFrag extends Fragment {
             for (DataSnapshot child : result.getChildren()) {
                 ResourceContribution cur = child.getValue(ResourceContribution.class);
                 cur.type = "RESOURCE";
-                contributions.add(cur);
+                // TODO: Don't add if date is in the future -- should exist in contributions
+                try {
+                    Date curDate = dateFormat.parse(cur.date);
+                    if (new Date().compareTo(curDate) >= 0) {
+                        contributions.add(cur);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
             db.child("contributions").child(user).child("volunteerHistory").get().addOnCompleteListener(task1 -> {
                 if (!task1.isSuccessful()) {
@@ -82,7 +91,14 @@ public class ContributionsFrag extends Fragment {
                 for (DataSnapshot child : result1.getChildren()) {
                     VolunteerContribution cur = child.getValue(VolunteerContribution.class);
                     cur.type = "VOLUNTEER";
-                    contributions.add(cur);
+                    try {
+                        Date curDate = dateFormat.parse(cur.date);
+                        if (new Date().compareTo(curDate) >= 0) {
+                            contributions.add(cur);
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
                 Collections.sort(contributions, (c, other) -> {
                     // sort by date
@@ -91,7 +107,6 @@ public class ContributionsFrag extends Fragment {
                     Date cDate = null;
                     Date otherDate = null;
                     try {
-                        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
                         cDate = dateFormat.parse(date1);
                         otherDate = dateFormat.parse(date2);
                     } catch (ParseException ex) {

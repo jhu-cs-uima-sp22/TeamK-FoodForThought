@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -75,7 +76,6 @@ public class ContributeActivity extends AppCompatActivity {
 
     // submits a user's contribution to the database
     private void submitContribution() {
-        // TODO
         List<VolunteerContribution> volunteering = getVolunteerHours();
         if (volunteering != null) {
             for (VolunteerContribution contribution : volunteering) {
@@ -175,7 +175,9 @@ public class ContributeActivity extends AppCompatActivity {
             Spinner mstartSpinner = (Spinner) findViewById(R.id.strtSpinnerM);
             Spinner mendSpinner = (Spinner) findViewById(R.id.endSpinnerM);
             // get array for selecting times based on the hours
-            List<CharSequence> times = getHoursArray(hours.get("Monday"));
+            PantryHours curHours = hours.get("Monday");
+            ((TextView) findViewById(R.id.mTimeTextView)).setText(curHours.toString());
+            List<CharSequence> times = getHoursArray(curHours);
             setSpinner(mstartSpinner, times);
             setSpinner(mendSpinner, times);
         } else {
@@ -185,7 +187,9 @@ public class ContributeActivity extends AppCompatActivity {
             Spinner tstartSpinner = (Spinner) findViewById(R.id.strtSpinnerT);
             Spinner tendSpinner = (Spinner) findViewById(R.id.endSpinnerT);
             // get array for selecting times based on the hours
-            List<CharSequence> times = getHoursArray(hours.get("Monday"));
+            PantryHours curHours = hours.get("Tuesday");
+            ((TextView) findViewById(R.id.tuesTimeTextView)).setText(curHours.toString());
+            List<CharSequence> times = getHoursArray(curHours);
             setSpinner(tstartSpinner, times);
             setSpinner(tendSpinner, times);
         } else {
@@ -195,7 +199,9 @@ public class ContributeActivity extends AppCompatActivity {
             Spinner wstartSpinner = (Spinner) findViewById(R.id.strtSpinnerW);
             Spinner wendSpinner = (Spinner) findViewById(R.id.endSpinnerW);
             // get array for selecting times based on the hours
-            List<CharSequence> times = getHoursArray(hours.get("Monday"));
+            PantryHours curHours = hours.get("Wednesday");
+            ((TextView) findViewById(R.id.weTimeTextView)).setText(curHours.toString());
+            List<CharSequence> times = getHoursArray(curHours);
             setSpinner(wstartSpinner, times);
             setSpinner(wendSpinner, times);
         } else {
@@ -205,7 +211,9 @@ public class ContributeActivity extends AppCompatActivity {
             Spinner thstartSpinner = (Spinner) findViewById(R.id.strtSpinnerTh);
             Spinner thendSpinner = (Spinner) findViewById(R.id.endSpinnerTh);
             // get array for selecting times based on the hours
-            List<CharSequence> times = getHoursArray(hours.get("Monday"));
+            PantryHours curHours = hours.get("Thursday");
+            ((TextView) findViewById(R.id.thursTimeTextView)).setText(curHours.toString());
+            List<CharSequence> times = getHoursArray(curHours);
             setSpinner(thstartSpinner, times);
             setSpinner(thendSpinner, times);
         } else {
@@ -215,7 +223,9 @@ public class ContributeActivity extends AppCompatActivity {
             Spinner fstartSpinner = (Spinner) findViewById(R.id.strtSpinnerF);
             Spinner fendSpinner = (Spinner) findViewById(R.id.endSpinnerF);
             // get array for selecting times based on the hours
-            List<CharSequence> times = getHoursArray(hours.get("Monday"));
+            PantryHours curHours = hours.get("Friday");
+            ((TextView) findViewById(R.id.frTimeTextView)).setText(curHours.toString());
+            List<CharSequence> times = getHoursArray(curHours);
             setSpinner(fstartSpinner, times);
             setSpinner(fendSpinner, times);
         } else {
@@ -225,7 +235,9 @@ public class ContributeActivity extends AppCompatActivity {
             Spinner sastartSpinner = (Spinner) findViewById(R.id.strtSpinnerSa);
             Spinner saendSpinner = (Spinner) findViewById(R.id.endSpinnerSa);
             // get array for selecting times based on the hours
-            List<CharSequence> times = getHoursArray(hours.get("Monday"));
+            PantryHours curHours = hours.get("Saturday");
+            ((TextView) findViewById(R.id.satTimeTextView)).setText(curHours.toString());
+            List<CharSequence> times = getHoursArray(curHours);
             setSpinner(sastartSpinner, times);
             setSpinner(saendSpinner, times);
         } else {
@@ -235,7 +247,9 @@ public class ContributeActivity extends AppCompatActivity {
             Spinner sustartSpinner = (Spinner) findViewById(R.id.strtSpinnerSu);
             Spinner suendSpinner = (Spinner) findViewById(R.id.endSpinnerSu);
             // get array for selecting times based on the hours
-            List<CharSequence> times = getHoursArray(hours.get("Monday"));
+            PantryHours curHours = hours.get("Sunday");
+            ((TextView) findViewById(R.id.sunTimeTextView)).setText(curHours.toString());
+            List<CharSequence> times = getHoursArray(curHours);
             setSpinner(sustartSpinner, times);
             setSpinner(suendSpinner, times);
         } else {

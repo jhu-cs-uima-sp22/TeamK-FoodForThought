@@ -134,6 +134,7 @@
         app:layout_constraintTop_toBottomOf="@+id/volHrsTextView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/monDetailView"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -163,6 +164,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tuesDetailView"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -192,6 +194,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/wedDetailView"
             android:layout_width="match_parent"
             android:layout_height="40dp">
 
@@ -219,6 +222,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/thursDetailView"
             android:layout_width="match_parent"
             android:layout_height="40dp">
 
@@ -246,6 +250,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/friDetailView"
             android:layout_width="match_parent"
             android:layout_height="40dp">
 
@@ -273,6 +278,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/satDetailView"
             android:layout_width="match_parent"
             android:layout_height="40dp">
 
@@ -300,6 +306,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/sunDetailView"
             android:layout_width="match_parent"
             android:layout_height="40dp">
 

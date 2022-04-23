@@ -151,8 +151,8 @@ public class ContributeActivity extends AppCompatActivity {
     }
 
     private void populateView(PantryInfo pantry) {
-        populateHours(pantry);
         setTitle(pantry.getName());
+        populateHours(pantry);
         conResourceList = pantry.getResources();
 
         //connect the resource list with the card view

@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -24,7 +25,10 @@ import com.example.foodforthoughtapp.model.contributions.VolunteerContribution;
 import com.example.foodforthoughtapp.model.pantry.PantryHours;
 import com.example.foodforthoughtapp.model.pantry.PantryInfo;
 import com.example.foodforthoughtapp.model.pantry.Resource;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -33,6 +37,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -85,11 +90,24 @@ public class ContributeActivity extends AppCompatActivity {
                     + volunteering.size() + " volunteer opportunities for user "
                     + userID);
         }
-        ResourceContribution donations = getDonation();
+//        ResourceContribution donations = getDonation();
+        Pair<ResourceContribution, Map<Resource, Integer>> donations = getDonation();
         if (donations != null) {
+            // TODO: change the count of resources needed in the pantries object for each resources donated
             dbref.child("contributions").child(userID).child("resourceHistory").push().setValue(donations);
             Log.d("ContributeActivity", "Submitted donation contribution for user "
                     + userID);
+            submitContributionToPantry(donations.first, donations.second);
+        }
+    }
+
+    private void submitContributionToPantry(ResourceContribution contribution, Map<Resource, Integer> oldCounts) {
+        for (Resource res : contribution.resources) {
+            int oldCount = oldCounts.get(res);
+            int newCount = oldCount - res.count;
+            dbref.child("pantries").child(pantryID).child("resources").get().addOnCompleteListener(task -> {
+
+            });
         }
     }
 
@@ -129,16 +147,20 @@ public class ContributeActivity extends AppCompatActivity {
         }
     }
 
-    private ResourceContribution getDonation() {
+    private Pair<ResourceContribution, Map<Resource, Integer>> getDonation() {
         List<Resource> resources = new ArrayList<>();
+        Map<Resource, Integer> oldCounts = new HashMap<>();
         for (int i = 0; i < resourceConListView.getChildCount(); i++) {
             View cur = resourceConListView.getChildAt(i);
             CheckBox resourceCheck = (CheckBox) cur.findViewById(R.id.resCheckBox);
             EditText resourceCount = (EditText) cur.findViewById(R.id.editCount);
             if (resourceCheck.isChecked()) {
                 if (!resourceCount.getText().toString().isEmpty()) {
-                    resources.add(new Resource(resourceCheck.getText().toString(),
-                            Integer.parseInt(resourceCount.getText().toString())));
+                    Resource res = new Resource(resourceCheck.getText().toString(),
+                            Integer.parseInt(resourceCount.getText().toString()));
+                    resources.add(res);
+                    int prevResourceCount = Integer.parseInt(((EditText) cur.findViewById(R.id.editCount)).getHint().toString());
+                    oldCounts.put(res, prevResourceCount);
                 }
             }
         }
@@ -147,7 +169,7 @@ public class ContributeActivity extends AppCompatActivity {
         }
         // TODO: hardcode date for now
         String date = "01/04/2020";
-        return new ResourceContribution(date, pantryID, resources);
+        return new Pair<>(new ResourceContribution(date, pantryID, resources), oldCounts);
     }
 
     private void populateView(PantryInfo pantry) {

@@ -45,60 +45,60 @@ public class SettingsFrag extends Fragment {
         myact = (MainActivity) getActivity();
         myact.getSupportActionBar().setTitle("Settings");
 
-        TextInputEditText nameBoxEditText = (TextInputEditText) view.findViewById(R.id.nameBoxInput);
-        nameBoxEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                //Set name to the changed text
-
-            }
-        });
-
-        TextInputEditText emailBoxEditText = (TextInputEditText) view.findViewById(R.id.emailBoxInput);
-        emailBoxEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                //Set email to the changed text
-            }
-        });
-
-        TextInputEditText phoneBoxEditText = (TextInputEditText) view.findViewById(R.id.phoneBoxInput);
-        phoneBoxEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                //Set phone to the changed text
-            }
-        });
+//        TextInputEditText nameBoxEditText = (TextInputEditText) view.findViewById(R.id.nameBoxInput);
+//        nameBoxEditText.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//                //Set name to the changed text
+//
+//            }
+//        });
+//
+//        TextInputEditText emailBoxEditText = (TextInputEditText) view.findViewById(R.id.emailBoxInput);
+//        emailBoxEditText.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//                //Set email to the changed text
+//            }
+//        });
+//
+//        TextInputEditText phoneBoxEditText = (TextInputEditText) view.findViewById(R.id.phoneBoxInput);
+//        phoneBoxEditText.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//                //Set phone to the changed text
+//            }
+//        });
 
 
         return view;

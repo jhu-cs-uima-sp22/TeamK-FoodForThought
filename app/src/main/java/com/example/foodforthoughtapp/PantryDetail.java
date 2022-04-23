@@ -85,49 +85,49 @@ public class PantryDetail extends AppCompatActivity {
             PantryHours curHours = hours.get("Monday");
             ((TextView) findViewById(R.id.monHoursView)).setText(curHours.toString());
         } else {
-            ((TextView) findViewById(R.id.monHoursView)).setText("Unavailable");
+            ((TextView) findViewById(R.id.monHoursView)).setText(R.string.NO_HOURS_DISPLAY_TEXT);
         }
         if (hours.containsKey("Tuesday")) {
             // get array for selecting times based on the hours
             PantryHours curHours = hours.get("Tuesday");
             ((TextView) findViewById(R.id.tuesHoursView)).setText(curHours.toString());
         } else {
-            ((TextView) findViewById(R.id.tuesHoursView)).setText("Unavailable");
+            ((TextView) findViewById(R.id.tuesHoursView)).setText(R.string.NO_HOURS_DISPLAY_TEXT);
         }
         if (hours.containsKey("Wednesday")) {
             // get array for selecting times based on the hours
             PantryHours curHours = hours.get("Wednesday");
             ((TextView) findViewById(R.id.wedHoursView)).setText(curHours.toString());
         } else {
-            ((TextView) findViewById(R.id.wedHoursView)).setText("Unavailable");
+            ((TextView) findViewById(R.id.wedHoursView)).setText(R.string.NO_HOURS_DISPLAY_TEXT);
         }
         if (hours.containsKey("Thursday")) {
             // get array for selecting times based on the hours
             PantryHours curHours = hours.get("Thursday");
             ((TextView) findViewById(R.id.thursHoursView)).setText(curHours.toString());
         } else {
-            ((TextView) findViewById(R.id.thursHoursView)).setText("Unavailable");
+            ((TextView) findViewById(R.id.thursHoursView)).setText(R.string.NO_HOURS_DISPLAY_TEXT);
         }
         if (hours.containsKey("Friday")) {
             // get array for selecting times based on the hours
             PantryHours curHours = hours.get("Friday");
             ((TextView) findViewById(R.id.friHoursView)).setText(curHours.toString());
         } else {
-            ((TextView) findViewById(R.id.friHoursView)).setText("Unavailable");
+            ((TextView) findViewById(R.id.friHoursView)).setText(R.string.NO_HOURS_DISPLAY_TEXT);
         }
         if (hours.containsKey("Saturday")) {
             // get array for selecting times based on the hours
             PantryHours curHours = hours.get("Saturday");
             ((TextView) findViewById(R.id.satHoursView)).setText(curHours.toString());
         } else {
-            ((TextView) findViewById(R.id.satHoursView)).setText("Unavailable");
+            ((TextView) findViewById(R.id.satHoursView)).setText(R.string.NO_HOURS_DISPLAY_TEXT);
         }
         if (hours.containsKey("Sunday")) {
             // get array for selecting times based on the hours
             PantryHours curHours = hours.get("Sunday");
             ((TextView) findViewById(R.id.sunHoursView)).setText(curHours.toString());
         } else {
-            ((TextView) findViewById(R.id.sunHoursView)).setText("Unavailable");
+            ((TextView) findViewById(R.id.sunHoursView)).setText(R.string.NO_HOURS_DISPLAY_TEXT);
         }
     }
 

@@ -92,10 +92,8 @@ public class ContributeActivity extends AppCompatActivity {
                     + volunteering.size() + " volunteer opportunities for user "
                     + userID);
         }
-//        ResourceContribution donations = getDonation();
         Pair<ResourceContribution, Set<String>> donations = getDonation();
         if (donations != null) {
-            // TODO: change the count of resources needed in the pantries object for each resources donated
             dbref.child("contributions").child(userID).child("resourceHistory").push().setValue(donations.first);
             Log.d("ContributeActivity", "Submitted donation contribution for user "
                     + userID);

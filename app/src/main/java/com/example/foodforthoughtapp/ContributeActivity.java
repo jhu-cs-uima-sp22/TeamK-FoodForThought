@@ -14,7 +14,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -23,7 +25,10 @@ import com.example.foodforthoughtapp.model.contributions.VolunteerContribution;
 import com.example.foodforthoughtapp.model.pantry.PantryHours;
 import com.example.foodforthoughtapp.model.pantry.PantryInfo;
 import com.example.foodforthoughtapp.model.pantry.Resource;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -32,8 +37,11 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ContributeActivity extends AppCompatActivity {
     List conResourceList = new ArrayList();
@@ -75,7 +83,6 @@ public class ContributeActivity extends AppCompatActivity {
 
     // submits a user's contribution to the database
     private void submitContribution() {
-        // TODO
         List<VolunteerContribution> volunteering = getVolunteerHours();
         if (volunteering != null) {
             for (VolunteerContribution contribution : volunteering) {
@@ -85,12 +92,41 @@ public class ContributeActivity extends AppCompatActivity {
                     + volunteering.size() + " volunteer opportunities for user "
                     + userID);
         }
-        ResourceContribution donations = getDonation();
+        Pair<ResourceContribution, Set<String>> donations = getDonation();
         if (donations != null) {
-            dbref.child("contributions").child(userID).child("resourceHistory").push().setValue(donations);
+            dbref.child("contributions").child(userID).child("resourceHistory").push().setValue(donations.first);
             Log.d("ContributeActivity", "Submitted donation contribution for user "
                     + userID);
+            submitContributionToPantry(donations.first, donations.second);
         }
+    }
+
+    private void submitContributionToPantry(ResourceContribution contribution, Set<String> changed) {
+        List<Resource> updatedResources = new ArrayList<>();
+        dbref.child("pantries").child(pantryID).child("resources").get().addOnCompleteListener(task -> {
+            for (DataSnapshot resource : task.getResult().getChildren()) {
+                Resource cur = resource.getValue(Resource.class);
+                if (!changed.contains(cur.resourceName)) {
+                    updatedResources.add(cur);
+                } else {
+                    int remove = 0;
+                    for (Resource r : contribution.resources) {
+                        if (r.resourceName.equals(cur.resourceName)) {
+                            remove = r.count;
+                            break;
+                        }
+                    }
+                    cur.count -= remove;
+                    if (cur.count > 0) {
+                        updatedResources.add(cur);
+                    }
+                }
+            }
+            // update the Resources list in the database
+            Log.d("ContributeActivity", "Updating Pantry " + pantryID +
+                    "'s resources in database");
+            dbref.child("pantries").child(pantryID).child("resources").setValue(updatedResources);
+        });
     }
 
     private List<VolunteerContribution> getVolunteerHours() {
@@ -129,16 +165,19 @@ public class ContributeActivity extends AppCompatActivity {
         }
     }
 
-    private ResourceContribution getDonation() {
+    private Pair<ResourceContribution, Set<String>> getDonation() {
         List<Resource> resources = new ArrayList<>();
+        Set<String> donated = new HashSet<>();
         for (int i = 0; i < resourceConListView.getChildCount(); i++) {
             View cur = resourceConListView.getChildAt(i);
             CheckBox resourceCheck = (CheckBox) cur.findViewById(R.id.resCheckBox);
             EditText resourceCount = (EditText) cur.findViewById(R.id.editCount);
             if (resourceCheck.isChecked()) {
                 if (!resourceCount.getText().toString().isEmpty()) {
-                    resources.add(new Resource(resourceCheck.getText().toString(),
-                            Integer.parseInt(resourceCount.getText().toString())));
+                    Resource res = new Resource(resourceCheck.getText().toString(),
+                            Integer.parseInt(resourceCount.getText().toString()));
+                    resources.add(res);
+                    donated.add(res.resourceName);
                 }
             }
         }
@@ -147,7 +186,7 @@ public class ContributeActivity extends AppCompatActivity {
         }
         // TODO: hardcode date for now
         String date = "01/04/2020";
-        return new ResourceContribution(date, pantryID, resources);
+        return new Pair<>(new ResourceContribution(date, pantryID, resources), donated);
     }
 
     private void populateView(PantryInfo pantry) {
@@ -175,7 +214,9 @@ public class ContributeActivity extends AppCompatActivity {
             Spinner mstartSpinner = (Spinner) findViewById(R.id.strtSpinnerM);
             Spinner mendSpinner = (Spinner) findViewById(R.id.endSpinnerM);
             // get array for selecting times based on the hours
-            List<CharSequence> times = getHoursArray(hours.get("Monday"));
+            PantryHours curHours = hours.get("Monday");
+            ((TextView) findViewById(R.id.mTimeTextView)).setText(curHours.toString());
+            List<CharSequence> times = getHoursArray(curHours);
             setSpinner(mstartSpinner, times);
             setSpinner(mendSpinner, times);
         } else {
@@ -185,7 +226,9 @@ public class ContributeActivity extends AppCompatActivity {
             Spinner tstartSpinner = (Spinner) findViewById(R.id.strtSpinnerT);
             Spinner tendSpinner = (Spinner) findViewById(R.id.endSpinnerT);
             // get array for selecting times based on the hours
-            List<CharSequence> times = getHoursArray(hours.get("Monday"));
+            PantryHours curHours = hours.get("Tuesday");
+            ((TextView) findViewById(R.id.tuesTimeTextView)).setText(curHours.toString());
+            List<CharSequence> times = getHoursArray(curHours);
             setSpinner(tstartSpinner, times);
             setSpinner(tendSpinner, times);
         } else {
@@ -195,7 +238,9 @@ public class ContributeActivity extends AppCompatActivity {
             Spinner wstartSpinner = (Spinner) findViewById(R.id.strtSpinnerW);
             Spinner wendSpinner = (Spinner) findViewById(R.id.endSpinnerW);
             // get array for selecting times based on the hours
-            List<CharSequence> times = getHoursArray(hours.get("Monday"));
+            PantryHours curHours = hours.get("Wednesday");
+            ((TextView) findViewById(R.id.weTimeTextView)).setText(curHours.toString());
+            List<CharSequence> times = getHoursArray(curHours);
             setSpinner(wstartSpinner, times);
             setSpinner(wendSpinner, times);
         } else {
@@ -205,7 +250,9 @@ public class ContributeActivity extends AppCompatActivity {
             Spinner thstartSpinner = (Spinner) findViewById(R.id.strtSpinnerTh);
             Spinner thendSpinner = (Spinner) findViewById(R.id.endSpinnerTh);
             // get array for selecting times based on the hours
-            List<CharSequence> times = getHoursArray(hours.get("Monday"));
+            PantryHours curHours = hours.get("Thursday");
+            ((TextView) findViewById(R.id.thursTimeTextView)).setText(curHours.toString());
+            List<CharSequence> times = getHoursArray(curHours);
             setSpinner(thstartSpinner, times);
             setSpinner(thendSpinner, times);
         } else {
@@ -215,7 +262,9 @@ public class ContributeActivity extends AppCompatActivity {
             Spinner fstartSpinner = (Spinner) findViewById(R.id.strtSpinnerF);
             Spinner fendSpinner = (Spinner) findViewById(R.id.endSpinnerF);
             // get array for selecting times based on the hours
-            List<CharSequence> times = getHoursArray(hours.get("Monday"));
+            PantryHours curHours = hours.get("Friday");
+            ((TextView) findViewById(R.id.frTimeTextView)).setText(curHours.toString());
+            List<CharSequence> times = getHoursArray(curHours);
             setSpinner(fstartSpinner, times);
             setSpinner(fendSpinner, times);
         } else {
@@ -225,7 +274,9 @@ public class ContributeActivity extends AppCompatActivity {
             Spinner sastartSpinner = (Spinner) findViewById(R.id.strtSpinnerSa);
             Spinner saendSpinner = (Spinner) findViewById(R.id.endSpinnerSa);
             // get array for selecting times based on the hours
-            List<CharSequence> times = getHoursArray(hours.get("Monday"));
+            PantryHours curHours = hours.get("Saturday");
+            ((TextView) findViewById(R.id.satTimeTextView)).setText(curHours.toString());
+            List<CharSequence> times = getHoursArray(curHours);
             setSpinner(sastartSpinner, times);
             setSpinner(saendSpinner, times);
         } else {
@@ -235,7 +286,9 @@ public class ContributeActivity extends AppCompatActivity {
             Spinner sustartSpinner = (Spinner) findViewById(R.id.strtSpinnerSu);
             Spinner suendSpinner = (Spinner) findViewById(R.id.endSpinnerSu);
             // get array for selecting times based on the hours
-            List<CharSequence> times = getHoursArray(hours.get("Monday"));
+            PantryHours curHours = hours.get("Sunday");
+            ((TextView) findViewById(R.id.sunTimeTextView)).setText(curHours.toString());
+            List<CharSequence> times = getHoursArray(curHours);
             setSpinner(sustartSpinner, times);
             setSpinner(suendSpinner, times);
         } else {

@@ -37,6 +37,7 @@
     <string name="pantry_volunteer_logo">Pantry Volunteer Logo</string>
     <string name="_09_00_14_00_on_mm_dd_yyyy">09:00 - 14:00 on MM/DD/YYYY</string>
     <string name="sample_pantry">Sample Pantry</string>
+    <string name="NO_HOURS_DISPLAY_TEXT">Unavailable</string>
 
     <string-array name="mtthf_time_array">
     </string-array>

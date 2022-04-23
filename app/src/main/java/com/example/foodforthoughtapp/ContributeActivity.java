@@ -38,8 +38,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ContributeActivity extends AppCompatActivity {
     List conResourceList = new ArrayList();
@@ -91,24 +93,42 @@ public class ContributeActivity extends AppCompatActivity {
                     + userID);
         }
 //        ResourceContribution donations = getDonation();
-        Pair<ResourceContribution, Map<Resource, Integer>> donations = getDonation();
+        Pair<ResourceContribution, Set<String>> donations = getDonation();
         if (donations != null) {
             // TODO: change the count of resources needed in the pantries object for each resources donated
-            dbref.child("contributions").child(userID).child("resourceHistory").push().setValue(donations);
+            dbref.child("contributions").child(userID).child("resourceHistory").push().setValue(donations.first);
             Log.d("ContributeActivity", "Submitted donation contribution for user "
                     + userID);
             submitContributionToPantry(donations.first, donations.second);
         }
     }
 
-    private void submitContributionToPantry(ResourceContribution contribution, Map<Resource, Integer> oldCounts) {
-        for (Resource res : contribution.resources) {
-            int oldCount = oldCounts.get(res);
-            int newCount = oldCount - res.count;
-            dbref.child("pantries").child(pantryID).child("resources").get().addOnCompleteListener(task -> {
-
-            });
-        }
+    private void submitContributionToPantry(ResourceContribution contribution, Set<String> changed) {
+        List<Resource> updatedResources = new ArrayList<>();
+        dbref.child("pantries").child(pantryID).child("resources").get().addOnCompleteListener(task -> {
+            for (DataSnapshot resource : task.getResult().getChildren()) {
+                Resource cur = resource.getValue(Resource.class);
+                if (!changed.contains(cur.resourceName)) {
+                    updatedResources.add(cur);
+                } else {
+                    int remove = 0;
+                    for (Resource r : contribution.resources) {
+                        if (r.resourceName.equals(cur.resourceName)) {
+                            remove = r.count;
+                            break;
+                        }
+                    }
+                    cur.count -= remove;
+                    if (cur.count > 0) {
+                        updatedResources.add(cur);
+                    }
+                }
+            }
+            // update the Resources list in the database
+            Log.d("ContributeActivity", "Updating Pantry " + pantryID +
+                    "'s resources in database");
+            dbref.child("pantries").child(pantryID).child("resources").setValue(updatedResources);
+        });
     }
 
     private List<VolunteerContribution> getVolunteerHours() {
@@ -147,9 +167,9 @@ public class ContributeActivity extends AppCompatActivity {
         }
     }
 
-    private Pair<ResourceContribution, Map<Resource, Integer>> getDonation() {
+    private Pair<ResourceContribution, Set<String>> getDonation() {
         List<Resource> resources = new ArrayList<>();
-        Map<Resource, Integer> oldCounts = new HashMap<>();
+        Set<String> donated = new HashSet<>();
         for (int i = 0; i < resourceConListView.getChildCount(); i++) {
             View cur = resourceConListView.getChildAt(i);
             CheckBox resourceCheck = (CheckBox) cur.findViewById(R.id.resCheckBox);
@@ -159,8 +179,7 @@ public class ContributeActivity extends AppCompatActivity {
                     Resource res = new Resource(resourceCheck.getText().toString(),
                             Integer.parseInt(resourceCount.getText().toString()));
                     resources.add(res);
-                    int prevResourceCount = Integer.parseInt(((EditText) cur.findViewById(R.id.editCount)).getHint().toString());
-                    oldCounts.put(res, prevResourceCount);
+                    donated.add(res.resourceName);
                 }
             }
         }
@@ -169,7 +188,7 @@ public class ContributeActivity extends AppCompatActivity {
         }
         // TODO: hardcode date for now
         String date = "01/04/2020";
-        return new Pair<>(new ResourceContribution(date, pantryID, resources), oldCounts);
+        return new Pair<>(new ResourceContribution(date, pantryID, resources), donated);
     }
 
     private void populateView(PantryInfo pantry) {

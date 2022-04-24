@@ -241,7 +241,7 @@
                 app:tint="#147650"/>
 
             <EditText
-                android:id="@+id/endText8"
+                android:id="@+id/endText3"
                 android:layout_width="76dp"
                 android:layout_height="23dp"
                 android:ems="10"
@@ -255,7 +255,7 @@
                 app:layout_constraintVertical_bias="0.588" />
 
             <EditText
-                android:id="@+id/startText9"
+                android:id="@+id/startText3"
                 android:layout_width="76dp"
                 android:layout_height="23dp"
                 android:ems="10"
@@ -302,7 +302,7 @@
                 app:tint="#147650"/>
 
             <EditText
-                android:id="@+id/endText9"
+                android:id="@+id/endText4"
                 android:layout_width="76dp"
                 android:layout_height="23dp"
                 android:ems="10"
@@ -316,7 +316,7 @@
                 app:layout_constraintVertical_bias="0.588" />
 
             <EditText
-                android:id="@+id/startText10"
+                android:id="@+id/startText4"
                 android:layout_width="76dp"
                 android:layout_height="23dp"
                 android:ems="10"
@@ -365,7 +365,7 @@
                 app:tint="#147650"/>
 
             <EditText
-                android:id="@+id/endText10"
+                android:id="@+id/endText5"
                 android:layout_width="76dp"
                 android:layout_height="23dp"
                 android:ems="10"
@@ -379,7 +379,7 @@
                 app:layout_constraintVertical_bias="0.588" />
 
             <EditText
-                android:id="@+id/startText11"
+                android:id="@+id/startText5"
                 android:layout_width="76dp"
                 android:layout_height="23dp"
                 android:ems="10"
@@ -428,7 +428,7 @@
                 app:tint="#147650"/>
 
             <EditText
-                android:id="@+id/endText11"
+                android:id="@+id/endText6"
                 android:layout_width="76dp"
                 android:layout_height="23dp"
                 android:ems="10"
@@ -442,7 +442,7 @@
                 app:layout_constraintVertical_bias="0.588" />
 
             <EditText
-                android:id="@+id/startText12"
+                android:id="@+id/startText6"
                 android:layout_width="76dp"
                 android:layout_height="23dp"
                 android:ems="10"
@@ -477,7 +477,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <EditText
-                android:id="@+id/endText12"
+                android:id="@+id/endText7"
                 android:layout_width="76dp"
                 android:layout_height="23dp"
                 android:ems="10"
@@ -491,7 +491,7 @@
                 app:layout_constraintVertical_bias="0.588" />
 
             <EditText
-                android:id="@+id/startText14"
+                android:id="@+id/startText7"
                 android:layout_width="76dp"
                 android:layout_height="23dp"
                 android:ems="10"
@@ -520,6 +520,8 @@
 
 
     </LinearLayout>
+
+    
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

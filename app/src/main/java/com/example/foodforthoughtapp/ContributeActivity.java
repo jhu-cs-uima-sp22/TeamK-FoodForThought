@@ -80,7 +80,7 @@ public class ContributeActivity extends AppCompatActivity {
 
         ImageButton addDay = (ImageButton) findViewById(R.id.addDay1);
         addDay.setOnClickListener(view -> {
-            //newDay();
+            newDay2();
         });
     }
 
@@ -101,21 +101,96 @@ public class ContributeActivity extends AppCompatActivity {
         registerForContextMenu(resourceConListView);
         ca.notifyDataSetChanged();
     }
-    /*
+
 
     //set the add button
-    private void newDay() {
+    private void newDay2() {
         Spinner daySpinner = (Spinner) findViewById(R.id.daySpinner2);
         TextView startText2 = (TextView) findViewById(R.id.startText2);
         TextView endText2 = (TextView) findViewById(R.id.endText2);
+        ImageButton addDay = (ImageButton) findViewById(R.id.addDay2);
         daySpinner.setVisibility(View.VISIBLE);
         startText2.setVisibility(View.VISIBLE);
         endText2.setVisibility(View.VISIBLE);
+        addDay.setVisibility(View.VISIBLE);
+        ImageButton addDay2 = (ImageButton) findViewById(R.id.addDay2);
+        addDay.setOnClickListener(view -> {
+            newDay3();
+        });
     }
 
-    //THIS IS THE NEW LAYOUT CODE
+    private void newDay3() {
+        Spinner daySpinner = (Spinner) findViewById(R.id.daySpinner3);
+        TextView startText2 = (TextView) findViewById(R.id.startText3);
+        TextView endText2 = (TextView) findViewById(R.id.endText2);
+        ImageButton addDay = (ImageButton) findViewById(R.id.addDay3);
+        daySpinner.setVisibility(View.VISIBLE);
+        startText2.setVisibility(View.VISIBLE);
+        endText2.setVisibility(View.VISIBLE);
+        addDay.setVisibility(View.VISIBLE);
+        ImageButton addDay2 = (ImageButton) findViewById(R.id.addDay3);
+        addDay.setOnClickListener(view -> {
+            newDay4();
+        });
+    }
 
-    // submits a user's contribution to the database
+    private void newDay4() {
+        Spinner daySpinner = (Spinner) findViewById(R.id.daySpinner4);
+        TextView startText2 = (TextView) findViewById(R.id.startText4);
+        TextView endText2 = (TextView) findViewById(R.id.endText2);
+        ImageButton addDay = (ImageButton) findViewById(R.id.addDay2);
+        daySpinner.setVisibility(View.VISIBLE);
+        startText2.setVisibility(View.VISIBLE);
+        endText2.setVisibility(View.VISIBLE);
+        addDay.setVisibility(View.VISIBLE);
+        ImageButton addDay2 = (ImageButton) findViewById(R.id.addDay2);
+        addDay.setOnClickListener(view -> {
+            newDay5();
+        });
+    }
+
+    private void newDay5() {
+        Spinner daySpinner = (Spinner) findViewById(R.id.daySpinner2);
+        TextView startText2 = (TextView) findViewById(R.id.startText2);
+        TextView endText2 = (TextView) findViewById(R.id.endText2);
+        ImageButton addDay = (ImageButton) findViewById(R.id.addDay2);
+        daySpinner.setVisibility(View.VISIBLE);
+        startText2.setVisibility(View.VISIBLE);
+        endText2.setVisibility(View.VISIBLE);
+        addDay.setVisibility(View.VISIBLE);
+        ImageButton addDay2 = (ImageButton) findViewById(R.id.addDay2);
+        addDay.setOnClickListener(view -> {
+            newDay6();
+        });
+    }
+
+    private void newDay6() {
+        Spinner daySpinner = (Spinner) findViewById(R.id.daySpinner2);
+        TextView startText2 = (TextView) findViewById(R.id.startText2);
+        TextView endText2 = (TextView) findViewById(R.id.endText2);
+        ImageButton addDay = (ImageButton) findViewById(R.id.addDay2);
+        daySpinner.setVisibility(View.VISIBLE);
+        startText2.setVisibility(View.VISIBLE);
+        endText2.setVisibility(View.VISIBLE);
+        addDay.setVisibility(View.VISIBLE);
+        ImageButton addDay2 = (ImageButton) findViewById(R.id.addDay2);
+        addDay.setOnClickListener(view -> {
+            newDay7();
+        });
+    }
+
+    private void newDay7() {
+        Spinner daySpinner = (Spinner) findViewById(R.id.daySpinner2);
+        TextView startText2 = (TextView) findViewById(R.id.startText2);
+        TextView endText2 = (TextView) findViewById(R.id.endText2);
+        ImageButton addDay = (ImageButton) findViewById(R.id.addDay2);
+        daySpinner.setVisibility(View.VISIBLE);
+        startText2.setVisibility(View.VISIBLE);
+        endText2.setVisibility(View.VISIBLE);
+        addDay.setVisibility(View.VISIBLE);
+    }
+
+    /*// submits a user's contribution to the database
     private void submitContribution() {
         List<VolunteerContribution> volunteering = getVolunteerHours();
         if (volunteering != null) {

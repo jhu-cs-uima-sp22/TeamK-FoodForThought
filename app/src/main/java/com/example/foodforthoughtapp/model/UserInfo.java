@@ -1,9 +1,5 @@
 package com.example.foodforthoughtapp.model;
 
-import com.example.foodforthoughtapp.model.pantry.Resource;
-
-import java.util.List;
-
 // Object model for a user
 public class UserInfo {
 
@@ -21,17 +17,27 @@ public class UserInfo {
         this.DOB = DOB;
     }
 
-    public String getFname() {
-        return fname;
-    }
+//    public String getFname() {
+//        return fname;
+//    }
+//
+//    public String getLname() {
+//        return lname;
+//    }
+//
+//    public String getPhone(){return phone;}
+//
+//    public String getDOB() {
+//        return DOB;
+//    }
 
-    public String getLname() {
-        return lname;
-    }
-
-    public String getPhone(){return phone;}
-
-    public String getDOB() {
-        return DOB;
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "fname='" + fname + '\'' +
+                ", lname='" + lname + '\'' +
+                ", phone='" + phone + '\'' +
+                ", DOB='" + DOB + '\'' +
+                '}';
     }
 }

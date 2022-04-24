@@ -25,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class SettingsFrag extends Fragment {
 
     private String userId;
+    private String userEmail;
     private MainActivity myact;
     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
 
@@ -37,6 +38,7 @@ public class SettingsFrag extends Fragment {
         View view =inflater.inflate(R.layout.frag_settings, container, false);
 
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
         dbref.child("users").child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -57,6 +59,9 @@ public class SettingsFrag extends Fragment {
         EditText phoneBox = view.findViewById(R.id.editPhone);
         phoneBox.setText(user.getPhone());
 
+        EditText emailBox = view.findViewById(R.id.editEmail);
+        emailBox.setText(userEmail);
+
         phoneBox.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -73,6 +78,25 @@ public class SettingsFrag extends Fragment {
                 String newPhone = phoneBox.getText().toString();
                 dbref.child("users").child(userId).child("phone").setValue(newPhone);
                 phoneBox.setText(newPhone);
+            }
+        });
+
+        emailBox.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String newEmail = emailBox.getText().toString();
+                emailBox.setText(newEmail);
+                FirebaseAuth.getInstance().getCurrentUser().updateEmail(newEmail);
             }
         });
 

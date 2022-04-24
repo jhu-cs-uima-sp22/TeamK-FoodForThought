@@ -141,7 +141,7 @@ public class ContributeActivity extends AppCompatActivity {
         TextView datePicker = findViewById(R.id.datePicker4);
         datePicker.setOnClickListener(dateOnClickListener);
         TextView endText2 = (TextView) findViewById(R.id.endText2);
-        ImageButton addDay = (ImageButton) findViewById(R.id.addDay2);
+        ImageButton addDay = (ImageButton) findViewById(R.id.addDay4);
         findViewById(R.id.thursdayLayout).setVisibility(View.VISIBLE);
         ImageButton addDay2 = (ImageButton) findViewById(R.id.addDay2);
         addDay.setOnClickListener(view -> {
@@ -154,7 +154,7 @@ public class ContributeActivity extends AppCompatActivity {
         datePicker.setOnClickListener(dateOnClickListener);
         TextView startText2 = (TextView) findViewById(R.id.startText2);
         TextView endText2 = (TextView) findViewById(R.id.endText2);
-        ImageButton addDay = (ImageButton) findViewById(R.id.addDay2);
+        ImageButton addDay = (ImageButton) findViewById(R.id.addDay5);
         findViewById(R.id.fridayLayout).setVisibility(View.VISIBLE);
         ImageButton addDay2 = (ImageButton) findViewById(R.id.addDay2);
         addDay.setOnClickListener(view -> {
@@ -167,7 +167,7 @@ public class ContributeActivity extends AppCompatActivity {
         datePicker.setOnClickListener(dateOnClickListener);
         TextView startText2 = (TextView) findViewById(R.id.startText2);
         TextView endText2 = (TextView) findViewById(R.id.endText2);
-        ImageButton addDay = (ImageButton) findViewById(R.id.addDay2);
+        ImageButton addDay = (ImageButton) findViewById(R.id.addDay6);
         findViewById(R.id.saturdayLayout).setVisibility(View.VISIBLE);
         ImageButton addDay2 = (ImageButton) findViewById(R.id.addDay2);
         addDay.setOnClickListener(view -> {

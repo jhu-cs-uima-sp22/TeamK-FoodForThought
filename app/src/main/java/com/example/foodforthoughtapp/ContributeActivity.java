@@ -11,12 +11,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -25,8 +25,6 @@ import com.example.foodforthoughtapp.model.contributions.VolunteerContribution;
 import com.example.foodforthoughtapp.model.pantry.PantryHours;
 import com.example.foodforthoughtapp.model.pantry.PantryInfo;
 import com.example.foodforthoughtapp.model.pantry.Resource;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -35,9 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -56,8 +52,10 @@ public class ContributeActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.contribute_page);
-        findViewById(R.id.mainLayout).setVisibility(View.INVISIBLE);
+        //setContentView(R.layout.contribute_page);
+        //NEW CONTRIBUTE PAGE
+        setContentView(R.layout.new_contribute_page);
+        findViewById(R.id.mainLayout2).setVisibility(View.INVISIBLE);
         //back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -69,17 +67,53 @@ public class ContributeActivity extends AppCompatActivity {
             PantryInfo pantry = task.getResult().getValue(PantryInfo.class);
             this.pantry = pantry;
             populateView(pantry);
-            findViewById(R.id.mainLayout).setVisibility(View.VISIBLE);
+            findViewById(R.id.mainLayout2).setVisibility(View.VISIBLE);
         });
 
-        Button submitButton = (Button) findViewById(R.id.submitButton);
+        /*Button submitButton = (Button) findViewById(R.id.submitButtonNew);
         submitButton.setOnClickListener(view -> {
             submitContribution();
             Intent intent = new Intent(this, SubmitActivity.class);
             startActivity(intent);
             this.finish();
+        });*/
+
+        ImageButton addDay = (ImageButton) findViewById(R.id.addDay1);
+        addDay.setOnClickListener(view -> {
+            //newDay();
         });
     }
+
+    private void populateView(PantryInfo pantry) {
+        setTitle(pantry.getName());
+        //populateHours(pantry);
+        conResourceList = pantry.getResources();
+
+        //connect the resource list with the card view
+        resourceConListView = (ListView) findViewById(R.id.conResourcesNeededNew);
+        contributeCard = (CardView) findViewById(R.id.contribute_card_view);
+
+        ca = new ContributeAdapter(this, R.layout.resource_contribute_layout, conResourceList);
+
+        //setAdapter to the arrayList that we need to use
+        //connect listview to the array adapter
+        resourceConListView .setAdapter(ca);
+        registerForContextMenu(resourceConListView);
+        ca.notifyDataSetChanged();
+    }
+    /*
+
+    //set the add button
+    private void newDay() {
+        Spinner daySpinner = (Spinner) findViewById(R.id.daySpinner2);
+        TextView startText2 = (TextView) findViewById(R.id.startText2);
+        TextView endText2 = (TextView) findViewById(R.id.endText2);
+        daySpinner.setVisibility(View.VISIBLE);
+        startText2.setVisibility(View.VISIBLE);
+        endText2.setVisibility(View.VISIBLE);
+    }
+
+    //THIS IS THE NEW LAYOUT CODE
 
     // submits a user's contribution to the database
     private void submitContribution() {
@@ -189,23 +223,7 @@ public class ContributeActivity extends AppCompatActivity {
         return new Pair<>(new ResourceContribution(date, pantryID, resources), donated);
     }
 
-    private void populateView(PantryInfo pantry) {
-        setTitle(pantry.getName());
-        populateHours(pantry);
-        conResourceList = pantry.getResources();
 
-        //connect the resource list with the card view
-        resourceConListView = (ListView) findViewById(R.id.conResourcesNeeded);
-        contributeCard = (CardView) findViewById(R.id.contribute_card_view);
-
-        ca = new ContributeAdapter(this, R.layout.resource_contribute_layout, conResourceList);
-
-        //setAdapter to the arrayList that we need to use
-        //connect listview to the array adapter
-        resourceConListView .setAdapter(ca);
-        registerForContextMenu(resourceConListView);
-        ca.notifyDataSetChanged();
-    }
 
     private void populateHours(PantryInfo pantry) {
         Map<String, PantryHours> hours = pantry.hours;
@@ -328,5 +346,6 @@ public class ContributeActivity extends AppCompatActivity {
         Intent myIntent = new Intent(getApplicationContext(), PantryDetail.class);
         startActivityForResult(myIntent, 0);
         return true;
-    }
+    }*/
+
 }

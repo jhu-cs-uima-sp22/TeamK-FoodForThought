@@ -3,39 +3,34 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/drawable-v24/activity_main.xml" value="0.2595" />
-        <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/drawable/activity_main.xml" value="0.2595" />
         <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/drawable/ic_baseline_person_pin_24.xml" value="0.2265" />
-        <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/drawable/ic_search_24.xml" value="0.2265" />
-        <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/drawable/nav_menu.xml" value="0.2265" />
-        <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/layout/activity_login.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/layout/activity_maps.xml" value="0.1" />
-        <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/layout/activity_settings.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/layout/activity_sign_up.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/layout/activity_submit.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/layout/activity_welcome.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/layout/app_bar_main.xml" value="0.1" />
-        <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/layout/frag_maps.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/layout/frag_settings.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/layout/fragment_opportunities.xml" value="0.1" />
+        <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/layout/activity_maps.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/layout/nav_center.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/layout/navigation_header.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/layout/resource_layout.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/menu/app_bar_main.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/menu/main_menu.xml" value="0.2" />
         <entry key="..\:/Users/saket/AndroidStudioProjects/TeamK-FoodForThought/app/src/main/res/menu/navigation_menu.xml" value="0.25416666666666665" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_call_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_map_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_web_24.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.240625" />
         <entry key="app/src/main/res/layout/activity_maps.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/activity_submit.xml" value="0.240625" />
         <entry key="app/src/main/res/layout/activity_welcome.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.240625" />
         <entry key="app/src/main/res/layout/contribute_page.xml" value="0.3350860595703125" />
+        <entry key="app/src/main/res/layout/contribution_donation_view.xml" value="0.240625" />
+        <entry key="app/src/main/res/layout/contribution_volunteer_view.xml" value="0.240625" />
+        <entry key="app/src/main/res/layout/frag_contributions.xml" value="0.240625" />
+        <entry key="app/src/main/res/layout/frag_maps.xml" value="0.240625" />
+        <entry key="app/src/main/res/layout/frag_settings.xml" value="0.240625" />
+        <entry key="app/src/main/res/layout/fragment_opportunities.xml" value="0.240625" />
         <entry key="app/src/main/res/layout/nav_center.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/navigation_header.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/new_contribute_page.xml" value="0.13730328401779734" />
         <entry key="app/src/main/res/layout/pantryDetail_page.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/pantry_detail_page.xml" value="0.23509979248046897" />
         <entry key="app/src/main/res/layout/resource_contribute_layout.xml" value="0.2953125" />

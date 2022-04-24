@@ -6,19 +6,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.example.foodforthoughtapp.model.pantry.PantryHours;
 import com.example.foodforthoughtapp.model.pantry.PantryInfo;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -42,7 +36,7 @@ public class PantryDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.pantry_detail_page);
-        findViewById(R.id.mainLayout).setVisibility(View.INVISIBLE);
+        findViewById(R.id.mainLayout2).setVisibility(View.INVISIBLE);
         Bundle extras = getIntent().getExtras();
         pantryKey = extras.getString("Food Pantry");
 
@@ -51,7 +45,7 @@ public class PantryDetail extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     pantry = task.getResult().getValue(PantryInfo.class);
                     populateView();
-                    findViewById(R.id.mainLayout).setVisibility(View.VISIBLE);
+                    findViewById(R.id.mainLayout2).setVisibility(View.VISIBLE);
                 });
     }
 
@@ -65,7 +59,7 @@ public class PantryDetail extends AppCompatActivity {
 
         //connect the resource list with the card view
         // View myview = inflater.inflate(R.layout.pantry_detail_page, container, false);
-        resourceListView = (ListView) findViewById(R.id.conResourcesNeeded);
+        resourceListView = (ListView) findViewById(R.id.conResourcesNeededNew);
         myCard = (CardView) findViewById(R.id.card_view);
 
         ra = new ResourceAdapter(this, R.layout.resource_layout, resourceList);

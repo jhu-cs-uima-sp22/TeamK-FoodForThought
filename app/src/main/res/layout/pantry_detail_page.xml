@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mainLayout"
+    android:id="@+id/mainLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PantryDetail">
@@ -21,7 +21,7 @@
         app:layout_constraintVertical_bias="0.046" />
 
     <ListView
-        android:id="@+id/conResourcesNeeded"
+        android:id="@+id/conResourcesNeededNew"
         android:layout_width="376dp"
         android:layout_height="188dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -40,7 +40,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.055"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/conResourcesNeeded" />
+        app:layout_constraintTop_toBottomOf="@+id/conResourcesNeededNew" />
 
     <ImageView
         android:id="@+id/mapIcon"
@@ -113,7 +113,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/submitButton"
+        android:id="@+id/submitButtonNew"
         android:layout_width="239dp"
         android:layout_height="57dp"
         android:onClick="contributeOnClick"

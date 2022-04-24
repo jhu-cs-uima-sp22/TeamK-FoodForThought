@@ -3,20 +3,17 @@ package com.example.foodforthoughtapp;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-
 import com.example.foodforthoughtapp.model.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -27,9 +24,13 @@ public class SettingsFrag extends Fragment {
     private String userId;
     private String userEmail;
     private MainActivity myact;
-    DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
-
+    private DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
     private UserInfo user;
+    // UI elements
+    private TextView nameBox;
+    private TextView dobBox;
+    private EditText phoneBox;
+    private EditText emailBox;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,43 +44,30 @@ public class SettingsFrag extends Fragment {
         dbref.child("users").child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.d("SettingsFrag", task.getException().toString());
+                }
                 user = task.getResult().getValue(UserInfo.class);
+                initUI();
             }
         });
 
         myact = (MainActivity) getActivity();
         myact.getSupportActionBar().setTitle("Settings");
 
-        TextView nameBox = view.findViewById(R.id.nameBox);
-        TextView dobBox = view.findViewById(R.id.dobBox);
+        nameBox = view.findViewById(R.id.nameBox);
+        dobBox = view.findViewById(R.id.dobBox);
+        phoneBox = view.findViewById(R.id.editPhone);
+        emailBox = view.findViewById(R.id.editEmail);
 
-        nameBox.setText(user.getFname() + " " + user.getLname());
-        dobBox.setText(user.getDOB());
+        return view;
+    }
 
-        EditText phoneBox = view.findViewById(R.id.editPhone);
-        phoneBox.setText(user.getPhone());
-
-        EditText emailBox = view.findViewById(R.id.editEmail);
+    private void initUI() {
+        nameBox.setText(user.fname + " " + user.lname);
+        dobBox.setText(user.DOB);
+        phoneBox.setText(user.phone);
         emailBox.setText(userEmail);
-
-        phoneBox.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String newPhone = phoneBox.getText().toString();
-                dbref.child("users").child(userId).child("phone").setValue(newPhone);
-                phoneBox.setText(newPhone);
-            }
-        });
 
         emailBox.addTextChangedListener(new TextWatcher() {
             @Override
@@ -100,11 +88,24 @@ public class SettingsFrag extends Fragment {
             }
         });
 
+        phoneBox.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
 
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
 
-        return view;
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String newPhone = phoneBox.getText().toString();
+                dbref.child("users").child(userId).child("phone").setValue(newPhone);
+                phoneBox.setText(newPhone);
+            }
+        });
     }
 
 }

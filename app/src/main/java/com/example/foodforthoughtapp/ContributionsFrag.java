@@ -124,6 +124,8 @@ public class ContributionsFrag extends Fragment {
                     } catch (ParseException ex) {
                         Log.d("ContributionHistory", ex.toString());
                     }
+                    if(showFutureOnly)
+                        return cDate.compareTo(otherDate);
                     return otherDate.compareTo(cDate);
                 });
                 list.notifyDataSetChanged();
@@ -133,7 +135,7 @@ public class ContributionsFrag extends Fragment {
 
     private void initUI() {
         RecyclerView recyclerView = view.findViewById(R.id.contributionsList);
-        list = new ComplexRecyclerViewAdapter(contributions);
+        list = new ComplexRecyclerViewAdapter(contributions, showFutureOnly);
         recyclerView.setAdapter(list);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
     }

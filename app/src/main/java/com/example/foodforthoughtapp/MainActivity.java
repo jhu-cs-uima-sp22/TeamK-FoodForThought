@@ -9,8 +9,8 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Fragment settings;
     private Fragment map;
     private Fragment contributions;
+    private Fragment opportunities;
 
     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
 
@@ -86,7 +87,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         settings = new SettingsFrag();
         map = new MapsFrag();
-        contributions = new ContributionsFrag();
+        contributions = new ContributionsFrag(false);
+        opportunities = new ContributionsFrag(true);
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, map).commit();
@@ -151,7 +153,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             transaction.addToBackStack(null);
             transaction.commit();
         } else if (id == R.id.opportunities) {
-
+            transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, opportunities);
+            transaction.addToBackStack(null);
+            transaction.commit();
         } else if (id == R.id.contributions) {
             transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, contributions);
@@ -162,13 +167,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             transaction.replace(R.id.fragment_container,settings);
             transaction.addToBackStack(null);
             transaction.commit();
-
         } else if (id == R.id.nav_logout) {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(MainActivity.this, WelcomeActivity.class));
             finish();
         }
-        dl.closeDrawer(Gravity.LEFT);
+        dl.closeDrawer(GravityCompat.START);
         return true;
     }
 }

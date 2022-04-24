@@ -1,6 +1,5 @@
 package com.example.foodforthoughtapp;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +21,15 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     // view type encodings
     private static final int DONATION = 0;
     private static final int VOLUNTEERING = 1;
+    private final String donatePrefix;
+    private final String volunteerPrefix;
     private final List<Contribution> history;
     private final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
 
-    public ComplexRecyclerViewAdapter(List<Contribution> history) {
+    public ComplexRecyclerViewAdapter(List<Contribution> history, boolean showFutureOnly) {
         this.history = history;
+        donatePrefix = showFutureOnly ? "Donating" : "Donated";
+        volunteerPrefix = showFutureOnly ? "Volunteering" : "Volunteered";
     }
 
     @NonNull
@@ -52,7 +55,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             db.child("pantries").child(pantryID).child("name").get().addOnCompleteListener(task -> {
                 String pantryName = task.getResult().getValue(String.class);
                 ((DonationViewHolder) holder).pantryName.setText(pantryName);
-                ((DonationViewHolder) holder).resourcesList.setText(data.toString());
+                ((DonationViewHolder) holder).resourcesList.setText(donatePrefix + data.toString());
             });
         } else if (holder.getItemViewType() == VOLUNTEERING) {
             VolunteerContribution data = (VolunteerContribution) history.get(position);
@@ -60,7 +63,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             db.child("pantries").child(pantryID).child("name").get().addOnCompleteListener(task -> {
                 String pantryName = task.getResult().getValue(String.class);
                 ((VolunteerViewHolder) holder).pantryName.setText(pantryName);
-                ((VolunteerViewHolder) holder).hoursDescription.setText(data.toString());
+                ((VolunteerViewHolder) holder).hoursDescription.setText(volunteerPrefix + data.toString());
             });
         }
     }

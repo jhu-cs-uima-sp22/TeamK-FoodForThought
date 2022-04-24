@@ -1,18 +1,11 @@
 package com.example.foodforthoughtapp;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Pair;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
+import android.widget.DatePicker;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,42 +13,40 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import com.example.foodforthoughtapp.model.contributions.ResourceContribution;
-import com.example.foodforthoughtapp.model.contributions.VolunteerContribution;
-import com.example.foodforthoughtapp.model.pantry.PantryHours;
 import com.example.foodforthoughtapp.model.pantry.PantryInfo;
-import com.example.foodforthoughtapp.model.pantry.Resource;
+import com.example.foodforthoughtapp.model.pantry.VolDateTime;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class ContributeActivity extends AppCompatActivity {
     List conResourceList = new ArrayList();
     ContributeAdapter ca;
-
     private ListView resourceConListView;
     private CardView contributeCard;
+
+    protected List conVolunteerList = new ArrayList();
+    VolunteerDateAdapter va;
+    private ListView conDateHoursView;
+    private CardView datePickerCard;
+
     private PantryInfo pantry;
     private String pantryID;
     private DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
     private static final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.contribute_page);
         //NEW CONTRIBUTE PAGE
         setContentView(R.layout.new_contribute_page);
-        findViewById(R.id.mainLayout2).setVisibility(View.INVISIBLE);
+//        findViewById(R.id.mainLayout2).setVisibility(View.INVISIBLE);
         //back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -64,10 +55,20 @@ public class ContributeActivity extends AppCompatActivity {
 
         //have to get the arrayList of resources in the specific pantry
         dbref.child("pantries").child(pantryID).get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.d("ContributeActivity", "Unsuccessful");
+                Log.d("ContributeActivity", task.getException().toString());
+            }
             PantryInfo pantry = task.getResult().getValue(PantryInfo.class);
             this.pantry = pantry;
             populateView(pantry);
-            findViewById(R.id.mainLayout2).setVisibility(View.VISIBLE);
+
+            initVolHours(pantry);
+            ImageButton addDay = (ImageButton) findViewById(R.id.add_day);
+            addDay.setOnClickListener(view -> {
+                addDay(pantry);
+            });
+            //findViewById(R.id.mainLayout2).setVisibility(View.VISIBLE);
         });
 
         /*Button submitButton = (Button) findViewById(R.id.submitButtonNew);
@@ -77,14 +78,30 @@ public class ContributeActivity extends AppCompatActivity {
             startActivity(intent);
             this.finish();
         });*/
+    }
 
-        ImageButton addDay = (ImageButton) findViewById(R.id.addDay1);
-        addDay.setOnClickListener(view -> {
-            newDay2();
-        });
+    private void addDay(PantryInfo pantry) {
+        conVolunteerList.add(new VolDateTime("", "", ""));
+        va.notifyDataSetChanged();
+    }
+
+    private void initVolHours(PantryInfo pantry) {
+        Log.d("ContributeActivity", "Initializing volunteer card view");
+
+        //connect the resource list with the card view
+        conDateHoursView = (ListView) findViewById(R.id.conDatesHours);
+        datePickerCard = (CardView) findViewById(R.id.contribute_date_picker_view);
+        va = new VolunteerDateAdapter(this, R.layout.volunteer_date_picker, conVolunteerList, pantry);
+
+        //setAdapter to the arrayList that we need to use
+        //connect listview to the array adapter
+        conDateHoursView.setAdapter(va);
+        // registerForContextMenu(resourceConListView);
+        va.notifyDataSetChanged();
     }
 
     private void populateView(PantryInfo pantry) {
+        Log.d("ContributeActivity", "Populating view with pantry information");
         setTitle(pantry.getName());
         //populateHours(pantry);
         conResourceList = pantry.getResources();
@@ -97,97 +114,9 @@ public class ContributeActivity extends AppCompatActivity {
 
         //setAdapter to the arrayList that we need to use
         //connect listview to the array adapter
-        resourceConListView .setAdapter(ca);
-        registerForContextMenu(resourceConListView);
+        resourceConListView.setAdapter(ca);
+        // registerForContextMenu(resourceConListView);
         ca.notifyDataSetChanged();
-    }
-
-
-    //set the add button
-    private void newDay2() {
-        Spinner daySpinner = (Spinner) findViewById(R.id.daySpinner2);
-        TextView startText2 = (TextView) findViewById(R.id.startText2);
-        TextView endText2 = (TextView) findViewById(R.id.endText2);
-        ImageButton addDay = (ImageButton) findViewById(R.id.addDay2);
-        daySpinner.setVisibility(View.VISIBLE);
-        startText2.setVisibility(View.VISIBLE);
-        endText2.setVisibility(View.VISIBLE);
-        addDay.setVisibility(View.VISIBLE);
-        ImageButton addDay2 = (ImageButton) findViewById(R.id.addDay2);
-        addDay.setOnClickListener(view -> {
-            newDay3();
-        });
-    }
-
-    private void newDay3() {
-        Spinner daySpinner = (Spinner) findViewById(R.id.daySpinner3);
-        TextView startText2 = (TextView) findViewById(R.id.startText3);
-        TextView endText2 = (TextView) findViewById(R.id.endText2);
-        ImageButton addDay = (ImageButton) findViewById(R.id.addDay3);
-        daySpinner.setVisibility(View.VISIBLE);
-        startText2.setVisibility(View.VISIBLE);
-        endText2.setVisibility(View.VISIBLE);
-        addDay.setVisibility(View.VISIBLE);
-        ImageButton addDay2 = (ImageButton) findViewById(R.id.addDay3);
-        addDay.setOnClickListener(view -> {
-            newDay4();
-        });
-    }
-
-    private void newDay4() {
-        Spinner daySpinner = (Spinner) findViewById(R.id.daySpinner4);
-        TextView startText2 = (TextView) findViewById(R.id.startText4);
-        TextView endText2 = (TextView) findViewById(R.id.endText2);
-        ImageButton addDay = (ImageButton) findViewById(R.id.addDay2);
-        daySpinner.setVisibility(View.VISIBLE);
-        startText2.setVisibility(View.VISIBLE);
-        endText2.setVisibility(View.VISIBLE);
-        addDay.setVisibility(View.VISIBLE);
-        ImageButton addDay2 = (ImageButton) findViewById(R.id.addDay2);
-        addDay.setOnClickListener(view -> {
-            newDay5();
-        });
-    }
-
-    private void newDay5() {
-        Spinner daySpinner = (Spinner) findViewById(R.id.daySpinner2);
-        TextView startText2 = (TextView) findViewById(R.id.startText2);
-        TextView endText2 = (TextView) findViewById(R.id.endText2);
-        ImageButton addDay = (ImageButton) findViewById(R.id.addDay2);
-        daySpinner.setVisibility(View.VISIBLE);
-        startText2.setVisibility(View.VISIBLE);
-        endText2.setVisibility(View.VISIBLE);
-        addDay.setVisibility(View.VISIBLE);
-        ImageButton addDay2 = (ImageButton) findViewById(R.id.addDay2);
-        addDay.setOnClickListener(view -> {
-            newDay6();
-        });
-    }
-
-    private void newDay6() {
-        Spinner daySpinner = (Spinner) findViewById(R.id.daySpinner2);
-        TextView startText2 = (TextView) findViewById(R.id.startText2);
-        TextView endText2 = (TextView) findViewById(R.id.endText2);
-        ImageButton addDay = (ImageButton) findViewById(R.id.addDay2);
-        daySpinner.setVisibility(View.VISIBLE);
-        startText2.setVisibility(View.VISIBLE);
-        endText2.setVisibility(View.VISIBLE);
-        addDay.setVisibility(View.VISIBLE);
-        ImageButton addDay2 = (ImageButton) findViewById(R.id.addDay2);
-        addDay.setOnClickListener(view -> {
-            newDay7();
-        });
-    }
-
-    private void newDay7() {
-        Spinner daySpinner = (Spinner) findViewById(R.id.daySpinner2);
-        TextView startText2 = (TextView) findViewById(R.id.startText2);
-        TextView endText2 = (TextView) findViewById(R.id.endText2);
-        ImageButton addDay = (ImageButton) findViewById(R.id.addDay2);
-        daySpinner.setVisibility(View.VISIBLE);
-        startText2.setVisibility(View.VISIBLE);
-        endText2.setVisibility(View.VISIBLE);
-        addDay.setVisibility(View.VISIBLE);
     }
 
     /*// submits a user's contribution to the database

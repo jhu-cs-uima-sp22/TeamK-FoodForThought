@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.example.foodforthoughtapp.model.UserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -27,10 +28,10 @@ public class SettingsFrag extends Fragment {
     private DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
     private UserInfo user;
     // UI elements
-    private TextView nameBox;
-    private TextView dobBox;
-    private EditText phoneBox;
-    private EditText emailBox;
+    private TextInputEditText nameBox;
+    private TextInputEditText dobBox;
+    private TextInputEditText phoneBox;
+    private TextInputEditText emailBox;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,10 +56,10 @@ public class SettingsFrag extends Fragment {
         myact = (MainActivity) getActivity();
         myact.getSupportActionBar().setTitle("Settings");
 
-        nameBox = view.findViewById(R.id.nameBox);
-        dobBox = view.findViewById(R.id.dobBox);
-        phoneBox = view.findViewById(R.id.editPhone);
-        emailBox = view.findViewById(R.id.editEmail);
+        nameBox =  view.findViewById(R.id.nameInput);
+        dobBox = view.findViewById(R.id.dobInput);
+        phoneBox = view.findViewById(R.id.phoneInput);
+        emailBox = view.findViewById(R.id.emailInput);
 
         return view;
     }
@@ -68,6 +69,9 @@ public class SettingsFrag extends Fragment {
         dobBox.setText(user.DOB);
         phoneBox.setText(user.phone);
         emailBox.setText(userEmail);
+
+        nameBox.setEnabled(false);
+        dobBox.setEnabled(false);
 
         emailBox.addTextChangedListener(new TextWatcher() {
             @Override

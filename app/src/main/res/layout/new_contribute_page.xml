@@ -105,18 +105,6 @@
             android:layout_width="match_parent"
             android:layout_height="40dp">
 
-            <Spinner
-                android:id="@+id/daySpinner"
-                android:layout_width="124dp"
-                android:layout_height="21dp"
-                android:entries="@array/day_array"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.056"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.526" />
-
             <EditText
                 android:id="@+id/startText"
                 android:layout_width="76dp"
@@ -156,28 +144,53 @@
                 app:srcCompat="@drawable/ic_baseline_add_circle_24"
                 app:tint="#147650" />
 
+            <TextView
+                android:id="@+id/datePicker"
+                android:layout_width="124dp"
+                android:layout_height="21dp"
+                android:layout_marginStart="16dp"
+                android:lineSpacingExtra="18sp"
+                android:text="Select Date"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tuesdayLayout"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/datePicker2"
+                android:layout_width="124dp"
+                android:layout_height="21dp"
+                android:layout_marginStart="16dp"
+                android:lineSpacingExtra="18sp"
+                android:text="Select Date"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/addDay2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.958"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_add_circle_24"
-                android:visibility="invisible"
-                app:tint="#147650"/>
+                app:tint="#147650" />
 
             <EditText
                 android:id="@+id/endText2"
@@ -185,7 +198,7 @@
                 android:layout_height="23dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.828"
@@ -199,7 +212,7 @@
                 android:layout_height="23dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.546"
@@ -207,38 +220,39 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.588" />
 
-            <Spinner
-                android:id="@+id/daySpinner2"
-                android:layout_width="124dp"
-                android:layout_height="21dp"
-                android:entries="@array/day_array"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.056"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.526" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/wednesdayLayout"
             android:layout_width="match_parent"
-            android:layout_height="40dp">
+            android:layout_height="40dp"
+            android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/datePicker3"
+                android:layout_width="124dp"
+                android:layout_height="21dp"
+                android:layout_marginStart="16dp"
+                android:lineSpacingExtra="18sp"
+                android:text="Select Date"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/addDay3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.958"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_add_circle_24"
-                android:visibility="invisible"
-                app:tint="#147650"/>
+                app:tint="#147650" />
 
             <EditText
                 android:id="@+id/endText3"
@@ -246,7 +260,7 @@
                 android:layout_height="23dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.828"
@@ -260,7 +274,7 @@
                 android:layout_height="23dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.546"
@@ -268,38 +282,39 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.588" />
 
-            <Spinner
-                android:id="@+id/daySpinner3"
-                android:layout_width="124dp"
-                android:layout_height="21dp"
-                android:entries="@array/day_array"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.056"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.526" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/thursdayLayout"
             android:layout_width="match_parent"
-            android:layout_height="40dp">
+            android:layout_height="40dp"
+            android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/datePicker4"
+                android:layout_width="124dp"
+                android:layout_height="21dp"
+                android:layout_marginStart="16dp"
+                android:lineSpacingExtra="18sp"
+                android:text="Select Date"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/addDay4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.958"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_add_circle_24"
-                android:visibility="invisible"
-                app:tint="#147650"/>
+                app:tint="#147650" />
 
             <EditText
                 android:id="@+id/endText4"
@@ -307,7 +322,7 @@
                 android:layout_height="23dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.828"
@@ -321,7 +336,7 @@
                 android:layout_height="23dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.546"
@@ -329,40 +344,41 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.588" />
 
-            <Spinner
-                android:id="@+id/daySpinner4"
-                android:layout_width="124dp"
-                android:layout_height="21dp"
-                android:entries="@array/day_array"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.056"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.526" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/fridayLayout"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/datePicker5"
+                android:layout_width="124dp"
+                android:layout_height="21dp"
+                android:layout_marginStart="16dp"
+                android:lineSpacingExtra="18sp"
+                android:text="Select Date"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/addDay5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.958"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_add_circle_24"
-                android:visibility="invisible"
-                app:tint="#147650"/>
+                app:tint="#147650" />
 
             <EditText
                 android:id="@+id/endText5"
@@ -370,7 +386,7 @@
                 android:layout_height="23dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.828"
@@ -384,7 +400,7 @@
                 android:layout_height="23dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.546"
@@ -392,40 +408,41 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.588" />
 
-            <Spinner
-                android:id="@+id/daySpinner5"
-                android:layout_width="124dp"
-                android:layout_height="21dp"
-                android:entries="@array/day_array"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.056"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.526" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/saturdayLayout"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/datePicker6"
+                android:layout_width="124dp"
+                android:layout_height="21dp"
+                android:layout_marginStart="16dp"
+                android:lineSpacingExtra="18sp"
+                android:text="Select Date"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/addDay6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.958"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_add_circle_24"
-                android:visibility="invisible"
-                app:tint="#147650"/>
+                app:tint="#147650" />
 
             <EditText
                 android:id="@+id/endText6"
@@ -433,7 +450,7 @@
                 android:layout_height="23dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.828"
@@ -447,7 +464,7 @@
                 android:layout_height="23dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.546"
@@ -455,26 +472,27 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.588" />
 
-            <Spinner
-                android:id="@+id/daySpinner6"
-                android:layout_width="124dp"
-                android:layout_height="21dp"
-                android:entries="@array/day_array"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.056"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.526" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/sundayLayout"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/datePicker7"
+                android:layout_width="124dp"
+                android:layout_height="21dp"
+                android:layout_marginStart="16dp"
+                android:lineSpacingExtra="18sp"
+                android:text="Select Date"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/endText7"
@@ -482,7 +500,7 @@
                 android:layout_height="23dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.828"
@@ -496,7 +514,7 @@
                 android:layout_height="23dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.546"
@@ -504,18 +522,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.588" />
 
-            <Spinner
-                android:id="@+id/daySpinner7"
-                android:layout_width="124dp"
-                android:layout_height="21dp"
-                android:entries="@array/day_array"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.056"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.526" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -1,18 +1,11 @@
 package com.example.foodforthoughtapp;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Pair;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
+import android.widget.DatePicker;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,24 +13,14 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import com.example.foodforthoughtapp.model.contributions.ResourceContribution;
-import com.example.foodforthoughtapp.model.contributions.VolunteerContribution;
-import com.example.foodforthoughtapp.model.pantry.PantryHours;
 import com.example.foodforthoughtapp.model.pantry.PantryInfo;
-import com.example.foodforthoughtapp.model.pantry.Resource;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class ContributeActivity extends AppCompatActivity {
     List conResourceList = new ArrayList();
@@ -49,13 +32,31 @@ public class ContributeActivity extends AppCompatActivity {
     private String pantryID;
     private DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
     private static final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private final View.OnClickListener dateOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Calendar cal = Calendar.getInstance();
+            int year = cal.get(Calendar.YEAR);
+            int month = cal.get(Calendar.MONTH);
+            int day = cal.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePicker1 = new DatePickerDialog(ContributeActivity.this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker datePicker1, int year, int month, int day) {
+                    ((TextView) view).setText(month + "/" + day + "/" + year);
+                }
+            }, year, month, day);
+            datePicker1.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+            datePicker1.show();
+        }
+    };
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.contribute_page);
         //NEW CONTRIBUTE PAGE
         setContentView(R.layout.new_contribute_page);
-        findViewById(R.id.mainLayout2).setVisibility(View.INVISIBLE);
+//        findViewById(R.id.mainLayout2).setVisibility(View.INVISIBLE);
         //back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -64,8 +65,12 @@ public class ContributeActivity extends AppCompatActivity {
 
         //have to get the arrayList of resources in the specific pantry
         dbref.child("pantries").child(pantryID).get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.d("ContributeActivity", "Unsuccessful");
+                Log.d("ContributeActivity", task.getException().toString());
+            }
             PantryInfo pantry = task.getResult().getValue(PantryInfo.class);
-            this.pantry = pantry;
+//            this.pantry = pantry;
             populateView(pantry);
             findViewById(R.id.mainLayout2).setVisibility(View.VISIBLE);
         });
@@ -78,6 +83,8 @@ public class ContributeActivity extends AppCompatActivity {
             this.finish();
         });*/
 
+        TextView datePicker = findViewById(R.id.datePicker);
+        datePicker.setOnClickListener(dateOnClickListener);
         ImageButton addDay = (ImageButton) findViewById(R.id.addDay1);
         addDay.setOnClickListener(view -> {
             newDay2();
@@ -85,6 +92,7 @@ public class ContributeActivity extends AppCompatActivity {
     }
 
     private void populateView(PantryInfo pantry) {
+        Log.d("ContributeActivity", "Populating view with pantry information");
         setTitle(pantry.getName());
         //populateHours(pantry);
         conResourceList = pantry.getResources();
@@ -97,22 +105,20 @@ public class ContributeActivity extends AppCompatActivity {
 
         //setAdapter to the arrayList that we need to use
         //connect listview to the array adapter
-        resourceConListView .setAdapter(ca);
-        registerForContextMenu(resourceConListView);
+        resourceConListView.setAdapter(ca);
+        // registerForContextMenu(resourceConListView);
         ca.notifyDataSetChanged();
     }
 
 
     //set the add button
     private void newDay2() {
-        Spinner daySpinner = (Spinner) findViewById(R.id.daySpinner2);
+        TextView datePicker = findViewById(R.id.datePicker2);
+        datePicker.setOnClickListener(dateOnClickListener);
         TextView startText2 = (TextView) findViewById(R.id.startText2);
         TextView endText2 = (TextView) findViewById(R.id.endText2);
         ImageButton addDay = (ImageButton) findViewById(R.id.addDay2);
-        daySpinner.setVisibility(View.VISIBLE);
-        startText2.setVisibility(View.VISIBLE);
-        endText2.setVisibility(View.VISIBLE);
-        addDay.setVisibility(View.VISIBLE);
+        findViewById(R.id.tuesdayLayout).setVisibility(View.VISIBLE);
         ImageButton addDay2 = (ImageButton) findViewById(R.id.addDay2);
         addDay.setOnClickListener(view -> {
             newDay3();
@@ -120,14 +126,11 @@ public class ContributeActivity extends AppCompatActivity {
     }
 
     private void newDay3() {
-        Spinner daySpinner = (Spinner) findViewById(R.id.daySpinner3);
-        TextView startText2 = (TextView) findViewById(R.id.startText3);
+        TextView datePicker = findViewById(R.id.datePicker3);
+        datePicker.setOnClickListener(dateOnClickListener);
         TextView endText2 = (TextView) findViewById(R.id.endText2);
         ImageButton addDay = (ImageButton) findViewById(R.id.addDay3);
-        daySpinner.setVisibility(View.VISIBLE);
-        startText2.setVisibility(View.VISIBLE);
-        endText2.setVisibility(View.VISIBLE);
-        addDay.setVisibility(View.VISIBLE);
+        findViewById(R.id.wednesdayLayout).setVisibility(View.VISIBLE);
         ImageButton addDay2 = (ImageButton) findViewById(R.id.addDay3);
         addDay.setOnClickListener(view -> {
             newDay4();
@@ -135,14 +138,11 @@ public class ContributeActivity extends AppCompatActivity {
     }
 
     private void newDay4() {
-        Spinner daySpinner = (Spinner) findViewById(R.id.daySpinner4);
-        TextView startText2 = (TextView) findViewById(R.id.startText4);
+        TextView datePicker = findViewById(R.id.datePicker4);
+        datePicker.setOnClickListener(dateOnClickListener);
         TextView endText2 = (TextView) findViewById(R.id.endText2);
         ImageButton addDay = (ImageButton) findViewById(R.id.addDay2);
-        daySpinner.setVisibility(View.VISIBLE);
-        startText2.setVisibility(View.VISIBLE);
-        endText2.setVisibility(View.VISIBLE);
-        addDay.setVisibility(View.VISIBLE);
+        findViewById(R.id.thursdayLayout).setVisibility(View.VISIBLE);
         ImageButton addDay2 = (ImageButton) findViewById(R.id.addDay2);
         addDay.setOnClickListener(view -> {
             newDay5();
@@ -150,14 +150,12 @@ public class ContributeActivity extends AppCompatActivity {
     }
 
     private void newDay5() {
-        Spinner daySpinner = (Spinner) findViewById(R.id.daySpinner2);
+        TextView datePicker = findViewById(R.id.datePicker5);
+        datePicker.setOnClickListener(dateOnClickListener);
         TextView startText2 = (TextView) findViewById(R.id.startText2);
         TextView endText2 = (TextView) findViewById(R.id.endText2);
         ImageButton addDay = (ImageButton) findViewById(R.id.addDay2);
-        daySpinner.setVisibility(View.VISIBLE);
-        startText2.setVisibility(View.VISIBLE);
-        endText2.setVisibility(View.VISIBLE);
-        addDay.setVisibility(View.VISIBLE);
+        findViewById(R.id.fridayLayout).setVisibility(View.VISIBLE);
         ImageButton addDay2 = (ImageButton) findViewById(R.id.addDay2);
         addDay.setOnClickListener(view -> {
             newDay6();
@@ -165,14 +163,12 @@ public class ContributeActivity extends AppCompatActivity {
     }
 
     private void newDay6() {
-        Spinner daySpinner = (Spinner) findViewById(R.id.daySpinner2);
+        TextView datePicker = findViewById(R.id.datePicker6);
+        datePicker.setOnClickListener(dateOnClickListener);
         TextView startText2 = (TextView) findViewById(R.id.startText2);
         TextView endText2 = (TextView) findViewById(R.id.endText2);
         ImageButton addDay = (ImageButton) findViewById(R.id.addDay2);
-        daySpinner.setVisibility(View.VISIBLE);
-        startText2.setVisibility(View.VISIBLE);
-        endText2.setVisibility(View.VISIBLE);
-        addDay.setVisibility(View.VISIBLE);
+        findViewById(R.id.saturdayLayout).setVisibility(View.VISIBLE);
         ImageButton addDay2 = (ImageButton) findViewById(R.id.addDay2);
         addDay.setOnClickListener(view -> {
             newDay7();
@@ -180,14 +176,12 @@ public class ContributeActivity extends AppCompatActivity {
     }
 
     private void newDay7() {
-        Spinner daySpinner = (Spinner) findViewById(R.id.daySpinner2);
+        TextView datePicker = findViewById(R.id.datePicker7);
+        datePicker.setOnClickListener(dateOnClickListener);
         TextView startText2 = (TextView) findViewById(R.id.startText2);
         TextView endText2 = (TextView) findViewById(R.id.endText2);
         ImageButton addDay = (ImageButton) findViewById(R.id.addDay2);
-        daySpinner.setVisibility(View.VISIBLE);
-        startText2.setVisibility(View.VISIBLE);
-        endText2.setVisibility(View.VISIBLE);
-        addDay.setVisibility(View.VISIBLE);
+        findViewById(R.id.sundayLayout).setVisibility(View.VISIBLE);
     }
 
     /*// submits a user's contribution to the database

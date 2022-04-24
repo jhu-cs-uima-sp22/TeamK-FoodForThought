@@ -20,7 +20,7 @@ public class ResourceContribution extends Contribution {
 
     @Override
     public String toString() {
-        StringBuilder str = new StringBuilder("Donated on " + date + ":\n");
+        StringBuilder str = new StringBuilder(" on " + date + ":\n");
         for (int i = 0; i < resources.size(); i++) {
             Resource res = resources.get(i);
             str.append("- " + res.resourceName + ": " + res.count);

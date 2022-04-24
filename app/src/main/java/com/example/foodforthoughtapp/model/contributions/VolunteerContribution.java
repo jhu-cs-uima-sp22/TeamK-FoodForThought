@@ -17,6 +17,6 @@ public class VolunteerContribution extends Contribution {
 
     @Override
     public String toString() {
-        return hours.toString() + " on " + date;
+        return " on " + date + ":\n" + hours.toString();
     }
 }

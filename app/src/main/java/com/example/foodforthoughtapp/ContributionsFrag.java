@@ -32,14 +32,23 @@ import java.util.List;
 
 public class ContributionsFrag extends Fragment {
 
+    private static final @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     private final String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
     private final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+
+    private final boolean showFutureOnly;
+    private final String title;
+
     private List<Contribution> contributions;
     private ComplexRecyclerViewAdapter list;
     private Context context;
     private MainActivity main;
     private View view;
-    private static final @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+
+    public ContributionsFrag(boolean showFutureOnly) {
+        this.showFutureOnly = showFutureOnly;
+        title = showFutureOnly ? "My Opportunities" : "My Contributions";
+    }
 
     @Nullable
     @Override
@@ -48,7 +57,7 @@ public class ContributionsFrag extends Fragment {
         view = inflater.inflate(R.layout.frag_contributions, container, false);
         main = (MainActivity) getActivity();
         context = main.getApplicationContext();
-        main.getSupportActionBar().setTitle("My Contributions");
+        main.getSupportActionBar().setTitle(title);
         contributions = new ArrayList<>();
         initUI();
         readData();
@@ -64,15 +73,16 @@ public class ContributionsFrag extends Fragment {
                 return;
             }
             DataSnapshot result = task.getResult();
-            Log.d("ContributionHistory", "Successfully read " + result.getChildrenCount()
-                    + " resource contributions");
+            Log.d("ContributionHistory", "Successfully read " + result.getChildrenCount() + " resource contributions");
             for (DataSnapshot child : result.getChildren()) {
                 ResourceContribution cur = child.getValue(ResourceContribution.class);
                 cur.type = "RESOURCE";
-                // TODO: Don't add if date is in the future -- should exist in contributions
                 try {
                     Date curDate = dateFormat.parse(cur.date);
-                    if (new Date().compareTo(curDate) >= 0) {
+                    if (new Date().compareTo(curDate) >= 0 && !showFutureOnly) {
+                        contributions.add(cur);
+                    }
+                    if (new Date().compareTo(curDate) < 0 && showFutureOnly) {
                         contributions.add(cur);
                     }
                 } catch (ParseException e) {
@@ -86,21 +96,23 @@ public class ContributionsFrag extends Fragment {
                     return;
                 }
                 DataSnapshot result1 = task1.getResult();
-                Log.d("ContributionHistory", "Successfully read " + result1.getChildrenCount()
-                        + " volunteer contributions");
+                Log.d("ContributionHistory", "Successfully read " + result1.getChildrenCount() + " volunteer contributions");
                 for (DataSnapshot child : result1.getChildren()) {
                     VolunteerContribution cur = child.getValue(VolunteerContribution.class);
                     cur.type = "VOLUNTEER";
                     try {
                         Date curDate = dateFormat.parse(cur.date);
-                        if (new Date().compareTo(curDate) >= 0) {
+                        if (new Date().compareTo(curDate) >= 0 && !showFutureOnly) {
+                            contributions.add(cur);
+                        }
+                        if (new Date().compareTo(curDate) < 0 && showFutureOnly) {
                             contributions.add(cur);
                         }
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 }
-                Collections.sort(contributions, (c, other) -> {
+                contributions.sort((c, other) -> {
                     // sort by date
                     String date1 = c.type.equals("RESOURCE") ? ((ResourceContribution) c).date : ((VolunteerContribution) c).date;
                     String date2 = other.type.equals("RESOURCE") ? ((ResourceContribution) other).date : ((VolunteerContribution) other).date;

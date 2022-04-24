@@ -12,6 +12,14 @@ public class PantryHours {
         this.endTime = endTime;
     }
 
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
     @Override
     public String toString() {
         return startTime + " - " + endTime;

@@ -1,10 +1,15 @@
 package com.example.foodforthoughtapp;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -13,15 +18,21 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.example.foodforthoughtapp.model.contributions.ResourceContribution;
+import com.example.foodforthoughtapp.model.contributions.VolunteerContribution;
 import com.example.foodforthoughtapp.model.pantry.PantryInfo;
+import com.example.foodforthoughtapp.model.pantry.Resource;
 import com.example.foodforthoughtapp.model.pantry.VolDateTime;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ContributeActivity extends AppCompatActivity {
     List conResourceList = new ArrayList();
@@ -71,13 +82,13 @@ public class ContributeActivity extends AppCompatActivity {
             //findViewById(R.id.mainLayout2).setVisibility(View.VISIBLE);
         });
 
-        /*Button submitButton = (Button) findViewById(R.id.submitButtonNew);
+        Button submitButton = (Button) findViewById(R.id.submitButtonNew);
         submitButton.setOnClickListener(view -> {
             submitContribution();
             Intent intent = new Intent(this, SubmitActivity.class);
             startActivity(intent);
             this.finish();
-        });*/
+        });
     }
 
     private void addDay(PantryInfo pantry) {
@@ -119,17 +130,19 @@ public class ContributeActivity extends AppCompatActivity {
         ca.notifyDataSetChanged();
     }
 
-    /*// submits a user's contribution to the database
+    // submits a user's contribution to the database
     private void submitContribution() {
-        List<VolunteerContribution> volunteering = getVolunteerHours();
-        if (volunteering != null) {
+        //TODO: get the volunteer hours
+        //List<VolunteerContribution> volunteering = getVolunteerHours();
+        /*if (volunteering != null) {
             for (VolunteerContribution contribution : volunteering) {
                 dbref.child("contributions").child(userID).child("volunteerHistory").push().setValue(contribution);
             }
             Log.d("ContributeActivity", "Submitted "
                     + volunteering.size() + " volunteer opportunities for user "
                     + userID);
-        }
+        }*/
+
         Pair<ResourceContribution, Set<String>> donations = getDonation();
         if (donations != null) {
             dbref.child("contributions").child(userID).child("resourceHistory").push().setValue(donations.first);
@@ -137,6 +150,32 @@ public class ContributeActivity extends AppCompatActivity {
                     + userID);
             submitContributionToPantry(donations.first, donations.second);
         }
+    }
+
+    private Pair<ResourceContribution, Set<String>> getDonation() {
+        List<Resource> resources = new ArrayList<>();
+        Set<String> donated = new HashSet<>();
+        for (int i = 0; i < resourceConListView.getChildCount(); i++) {
+            View cur = resourceConListView.getChildAt(i);
+            CheckBox resourceCheck = (CheckBox) cur.findViewById(R.id.resCheckBox);
+            EditText resourceCount = (EditText) cur.findViewById(R.id.editCount);
+            if (resourceCheck.isChecked()) {
+                if (!resourceCount.getText().toString().isEmpty()) {
+                    Resource res = new Resource(resourceCheck.getText().toString(),
+                            Integer.parseInt(resourceCount.getText().toString()));
+                    resources.add(res);
+                    donated.add(res.resourceName);
+                }
+            }
+        }
+        if (resources.isEmpty()) {
+            return null;
+        }
+        // TODO: hardcode date for now
+        String date = "01/04/2020";
+        Pair<ResourceContribution, Set<String>> res = new Pair<>(new ResourceContribution
+                (date, pantryID, resources), donated);
+        return res;
     }
 
     private void submitContributionToPantry(ResourceContribution contribution, Set<String> changed) {
@@ -167,7 +206,7 @@ public class ContributeActivity extends AppCompatActivity {
         });
     }
 
-    private List<VolunteerContribution> getVolunteerHours() {
+    /*private List<VolunteerContribution> getVolunteerHours() {
         List<VolunteerContribution> volunteering = new ArrayList<>();
         for (String day : pantry.hours.keySet()) {
             Pair<Spinner, Spinner> times = getTimeSpinners(day);
@@ -201,35 +240,11 @@ public class ContributeActivity extends AppCompatActivity {
             default:
                 return null;
         }
-    }
-
-    private Pair<ResourceContribution, Set<String>> getDonation() {
-        List<Resource> resources = new ArrayList<>();
-        Set<String> donated = new HashSet<>();
-        for (int i = 0; i < resourceConListView.getChildCount(); i++) {
-            View cur = resourceConListView.getChildAt(i);
-            CheckBox resourceCheck = (CheckBox) cur.findViewById(R.id.resCheckBox);
-            EditText resourceCount = (EditText) cur.findViewById(R.id.editCount);
-            if (resourceCheck.isChecked()) {
-                if (!resourceCount.getText().toString().isEmpty()) {
-                    Resource res = new Resource(resourceCheck.getText().toString(),
-                            Integer.parseInt(resourceCount.getText().toString()));
-                    resources.add(res);
-                    donated.add(res.resourceName);
-                }
-            }
-        }
-        if (resources.isEmpty()) {
-            return null;
-        }
-        // TODO: hardcode date for now
-        String date = "01/04/2020";
-        return new Pair<>(new ResourceContribution(date, pantryID, resources), donated);
-    }
+    }*/
 
 
 
-    private void populateHours(PantryInfo pantry) {
+    /*private void populateHours(PantryInfo pantry) {
         Map<String, PantryHours> hours = pantry.hours;
         LinearLayout days = findViewById(R.id.linearLayout);
         if (hours.containsKey("Monday")) {

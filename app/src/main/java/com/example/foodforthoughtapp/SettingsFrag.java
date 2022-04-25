@@ -87,7 +87,7 @@ public class SettingsFrag extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
                 String newEmail = emailBox.getText().toString();
-                emailBox.setText(newEmail);
+                //emailBox.setText(newEmail);
                 FirebaseAuth.getInstance().getCurrentUser().updateEmail(newEmail);
             }
         });
@@ -107,7 +107,7 @@ public class SettingsFrag extends Fragment {
             public void afterTextChanged(Editable editable) {
                 String newPhone = phoneBox.getText().toString();
                 dbref.child("users").child(userId).child("phone").setValue(newPhone);
-                phoneBox.setText(newPhone);
+                //phoneBox.setText(newPhone);
             }
         });
     }

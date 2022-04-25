@@ -1,5 +1,6 @@
 package com.example.foodforthoughtapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -32,6 +34,7 @@ public class SettingsFrag extends Fragment {
     private TextInputEditText dobBox;
     private TextInputEditText phoneBox;
     private TextInputEditText emailBox;
+    private Button logOutButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,6 +63,8 @@ public class SettingsFrag extends Fragment {
         dobBox = view.findViewById(R.id.dobInput);
         phoneBox = view.findViewById(R.id.phoneInput);
         emailBox = view.findViewById(R.id.emailInput);
+
+        logOutButton = view.findViewById(R.id.logOut);
 
         return view;
     }
@@ -110,6 +115,16 @@ public class SettingsFrag extends Fragment {
                 //phoneBox.setText(newPhone);
             }
         });
+
+        logOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(myact, WelcomeActivity.class));
+                myact.finish();
+            }
+        });
+
     }
 
 }

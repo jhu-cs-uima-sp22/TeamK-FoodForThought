@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="130dp"
     android:background="#147650"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="bottom">
 
-    <ImageView
-        android:layout_width="172dp"
-        android:layout_height="160dp"
-        android:background="@drawable/ic_baseline_person_pin_24" />
+    <TextView
+        android:id="@+id/welcome_name"
+        android:layout_width="318dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:shadowColor="#FFFFFF"
+        android:text="Welcome, User!"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:translationX="20dp"
+        android:translationY="-10dp" />
 
 </LinearLayout>

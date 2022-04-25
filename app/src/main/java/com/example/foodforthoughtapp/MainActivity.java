@@ -2,9 +2,12 @@ package com.example.foodforthoughtapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -15,8 +18,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.foodforthoughtapp.model.UserInfo;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -128,6 +135,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         });
          */
+        /*String userId;
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final UserInfo[] user = new UserInfo[1];
+
+        dbref.child("users").child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.d("SettingsFrag", task.getException().toString());
+                }
+                user[0] = task.getResult().getValue(UserInfo.class);
+                TextView welcome = (TextView) findViewById(R.id.welcome_name);
+                welcome.setText("Welcome, " + user[0].fname + " " + user[0].lname + "!");
+            }
+        });*/
+
 
     }
 

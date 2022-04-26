@@ -33,12 +33,12 @@ import java.util.List;
 import java.util.Set;
 
 public class ContributeActivity extends AppCompatActivity {
-    List conResourceList = new ArrayList();
+    List<Resource> conResourceList = new ArrayList<>();
     ContributeAdapter ca;
     private ListView resourceConListView;
     private CardView contributeCard;
 
-    protected List conVolunteerList = new ArrayList();
+    protected List<VolDateTime> conVolunteerList = new ArrayList<>();
     VolunteerDateAdapter va;
     private ListView conDateHoursView;
     private CardView datePickerCard;

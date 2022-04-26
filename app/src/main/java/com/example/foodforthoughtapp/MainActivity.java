@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Fragment contributions;
     private Fragment opportunities;
 
+    private UserInfo user;
+
     DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
 
     @Override
@@ -49,6 +51,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        /*String userId;
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        dbref.child("users").child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.d("MainActivity", task.getException().toString());
+                }
+                user = task.getResult().getValue(UserInfo.class);
+                if (user != null) {
+                    TextView welcome = (TextView) findViewById(R.id.welcome_name);
+                    welcome.setText("Welcome, " + user.fname + " " + user.lname + "!");
+                }
+            }
+        });*/
+
 
         //Menu menu = toolbar.getMenu();
         //menu.findItem(R.id.action_search).setVisible(false);
@@ -135,21 +155,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         });
          */
-        /*String userId;
-        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        final UserInfo[] user = new UserInfo[1];
-
-        dbref.child("users").child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.d("SettingsFrag", task.getException().toString());
-                }
-                user[0] = task.getResult().getValue(UserInfo.class);
-                TextView welcome = (TextView) findViewById(R.id.welcome_name);
-                welcome.setText("Welcome, " + user[0].fname + " " + user[0].lname + "!");
-            }
-        });*/
 
 
     }
@@ -168,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
         int id = item.getItemId();
 
         if (id == R.id.map_view) {

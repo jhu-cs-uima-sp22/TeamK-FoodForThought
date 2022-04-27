@@ -49,25 +49,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Set the layout file as the content view.
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /*String userId;
+        String userId;
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        dbref.child("users").child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.d("MainActivity", task.getException().toString());
-                }
-                user = task.getResult().getValue(UserInfo.class);
-                if (user != null) {
-                    TextView welcome = (TextView) findViewById(R.id.welcome_name);
-                    welcome.setText("Welcome, " + user.fname + " " + user.lname + "!");
-                }
+        dbref.child("users").child(userId).get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.d("MainActivity", task.getException().toString());
             }
-        });*/
+            user = task.getResult().getValue(UserInfo.class);
+            if (user != null) {
+                TextView welcome = findViewById(R.id.welcome_name);
+                welcome.setText("Welcome, " + user.fname + "!");
+            }
+        });
 
 
         //Menu menu = toolbar.getMenu();
@@ -120,14 +117,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, map).commit();
 
-        dl = (DrawerLayout)findViewById(R.id.my_drawer_layout);
+        dl = findViewById(R.id.my_drawer_layout);
         abdt = new ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close);
         abdt.setDrawerIndicatorEnabled(true);
         dl.addDrawerListener(abdt);
         abdt.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         /*
@@ -155,8 +152,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         });
          */
-
-
     }
 
     @Override

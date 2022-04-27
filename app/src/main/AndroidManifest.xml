@@ -13,21 +13,26 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.FFT">
+        android:theme="@style/Theme.FFT"
+        android:screenOrientation="portrait">
         <activity
             android:name=".ContributionsFrag"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SubmitActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SignUpActivity"
             android:exported="false"
-            android:label="@string/app_sign_up" />
+            android:label="@string/app_sign_up"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".LoginActivity"
             android:exported="false"
-            android:label="@string/app_log_in" />
+            android:label="@string/app_log_in"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".WelcomeActivity"
             android:exported="true">
@@ -49,15 +54,18 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/title_activity_maps"
-            android:theme="@style/Theme.FFT.NoActionBar"/>
+            android:theme="@style/Theme.FFT.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".PantryDetail"
             android:exported="true"
-            android:label="@string/pantry_details" />
+            android:label="@string/pantry_details"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ContributeActivity"
             android:exported="true"
-            android:label="@string/contribute_activity" />
+            android:label="@string/contribute_activity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

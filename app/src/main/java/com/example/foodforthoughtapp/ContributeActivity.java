@@ -50,8 +50,6 @@ public class ContributeActivity extends AppCompatActivity {
     private DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
     private static final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_contribute_page);
@@ -91,8 +89,8 @@ public class ContributeActivity extends AppCompatActivity {
                 startActivity(intent);
                 this.finish();
             } else {
-                Toast toast = DynamicToast.makeError(getApplicationContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT);
-                toast.show();
+                //Toast toast = DynamicToast.makeError(getApplicationContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT);
+                //toast.show();
             }
         });
     }
@@ -138,6 +136,7 @@ public class ContributeActivity extends AppCompatActivity {
 
     // submits a user's contribution to the database
     private boolean submitContribution() {
+        // TODO: If an error occurred for volunteering, it still submits if a donation is valid
         List<VolunteerContribution> volunteering = getVolunteerHours();
         if (volunteering != null) {
             for (VolunteerContribution contribution : volunteering) {

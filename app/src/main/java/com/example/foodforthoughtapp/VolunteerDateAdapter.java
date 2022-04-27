@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
@@ -43,14 +44,11 @@ public class VolunteerDateAdapter extends ArrayAdapter<VolDateTime> {
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePicker1 = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker1, int year, int month, int day) {
-                ((TextView) view).setText((month + 1) + "/" + day + "/" + year);
-                Calendar temp = Calendar.getInstance();
-                temp.set(year, month, day);
-                updateTimePickers(days[temp.get(Calendar.DAY_OF_WEEK) - 1]);
-            }
+        DatePickerDialog datePicker1 = new DatePickerDialog(getContext(), (datePicker11, year1, month1, day1) -> {
+            ((TextView) view).setText((month1 + 1) + "/" + day1 + "/" + year1);
+            Calendar temp = Calendar.getInstance();
+            temp.set(year1, month1, day1);
+            updateTimePickers(days[temp.get(Calendar.DAY_OF_WEEK) - 1]);
         }, year, month, day);
 
         cal.add(Calendar.DAY_OF_MONTH, 1);
@@ -78,7 +76,7 @@ public class VolunteerDateAdapter extends ArrayAdapter<VolDateTime> {
             Log.d("VolunteerDateAdapter", e.toString());
         }
     }
-    public void setSpinner(Spinner spinner, List<CharSequence> times) {
+    private void setSpinner(Spinner spinner, List<CharSequence> times) {
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, times);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -90,6 +88,11 @@ public class VolunteerDateAdapter extends ArrayAdapter<VolDateTime> {
         resource = res;
         this.pantry = pantry;
         Log.d("VolunteerDateAdapter", pantry.toString());
+    }
+
+    private void updateEntry(VolDateTime position, String date, String start, String end) {
+        position.setDate(date);
+        position.setTime(start, end);
     }
 
     @Override
@@ -112,13 +115,30 @@ public class VolunteerDateAdapter extends ArrayAdapter<VolDateTime> {
         datePicker.setOnClickListener(dateOnClickListener);
 
         ImageButton delete = itemView.findViewById(R.id.delete);
-        delete.setOnClickListener(new View.OnClickListener() {
+        delete.setOnClickListener(v -> {
+            // TODO: Fix removal not working for some reason
+            ((ContributeActivity) getContext()).conVolunteerList.remove(position);
+            notifyDataSetChanged();
+        });
+
+        startTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                // TODO: Fix removal not working for some reason
-                ((ContributeActivity) getContext()).conVolunteerList.remove(position);
-                notifyDataSetChanged();
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                updateEntry(res, datePicker.getText().toString(), startTime.getSelectedItem().toString(), endTime.getSelectedItem().toString());
             }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {}
+        });
+
+        endTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                updateEntry(res, datePicker.getText().toString(), startTime.getSelectedItem().toString(), endTime.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {}
         });
 
         return itemView;

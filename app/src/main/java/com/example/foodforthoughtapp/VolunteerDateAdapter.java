@@ -46,7 +46,7 @@ public class VolunteerDateAdapter extends ArrayAdapter<VolDateTime> {
         DatePickerDialog datePicker1 = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker1, int year, int month, int day) {
-                ((TextView) view).setText(month + "/" + day + "/" + year);
+                ((TextView) view).setText((month + 1) + "/" + day + "/" + year);
                 Calendar temp = Calendar.getInstance();
                 temp.set(year, month, day);
                 updateTimePickers(days[temp.get(Calendar.DAY_OF_WEEK) - 1]);

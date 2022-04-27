@@ -165,16 +165,18 @@ public class ContributeActivity extends AppCompatActivity {
         if (resources.isEmpty()) {
             return null;
         }
-        try {
-            // TODO: set date to current date for now
-            String date = new SimpleDateFormat("MM/dd/yyyy").parse(new Date().toString())
-                    .toString();
-            return new Pair<>(new ResourceContribution
-                    (date, pantryID, resources), donated);
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }
-        return null;
+//        try {
+//            // TODO: set date to current date for now
+//            String date = new SimpleDateFormat("MM/dd/yyyy").parse(new Date().toString())
+//                    .toString();
+//            return new Pair<>(new ResourceContribution
+//                    (date, pantryID, resources), donated);
+//        } catch (ParseException ex) {
+//            ex.printStackTrace();
+//        }
+        String date = "04/27/2022";
+        return new Pair<>(new ResourceContribution
+                (date, pantryID, resources), donated);
     }
 
     private void submitContributionToPantry(ResourceContribution contribution, Set<String> changed) {

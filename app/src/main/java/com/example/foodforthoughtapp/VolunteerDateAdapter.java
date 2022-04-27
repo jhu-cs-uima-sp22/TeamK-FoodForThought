@@ -45,7 +45,7 @@ public class VolunteerDateAdapter extends ArrayAdapter<VolDateTime> {
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePicker1 = new DatePickerDialog(getContext(), (datePicker11, year1, month1, day1) -> {
-            ((TextView) view).setText((month1 + 1) + "/" + day1 + "/" + year1);
+            ((TextView) view).setText(String.format("%02d/%02d/%04d", (month1 + 1), day1, year1));
             Calendar temp = Calendar.getInstance();
             temp.set(year1, month1, day1);
             updateTimePickers(days[temp.get(Calendar.DAY_OF_WEEK) - 1]);
@@ -117,7 +117,7 @@ public class VolunteerDateAdapter extends ArrayAdapter<VolDateTime> {
         ImageButton delete = itemView.findViewById(R.id.delete);
         delete.setOnClickListener(v -> {
             // TODO: Fix removal not working for some reason
-            ((ContributeActivity) getContext()).conVolunteerList.remove(position);
+            ((ContributeActivity) getContext()).conVolunteerList.remove(res);
             notifyDataSetChanged();
         });
 

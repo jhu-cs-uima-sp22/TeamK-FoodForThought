@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -23,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -72,7 +74,12 @@ public class ContributeActivity extends AppCompatActivity {
             initVolHours(pantry);
             ImageButton addDay = (ImageButton) findViewById(R.id.add_day);
             addDay.setOnClickListener(view -> {
-                addDay(pantry);
+                if(va.getCount() == 0 || va.getItem(va.getCount() - 1).isComplete())
+                    addDay(pantry);
+                else {
+                    Toast toast = DynamicToast.makeError(getApplicationContext(), getString(R.string.complete_hours_first), Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             });
             //findViewById(R.id.mainLayout2).setVisibility(View.VISIBLE);
         });

@@ -4,6 +4,7 @@
     <string name="auth_password_mismatch">Passwords do not match!</string>
     <string name="auth_email_collision">A user with this email already exists!</string>
     <string name="auth_weak_password">Please provide a password with at least 6 characters!</string>
+    <string name="complete_hours_first">Please fill existing slots first!</string>
     <string name="app_name">Food For Thought.</string>
     <string name="app_subtitle">Give back to your community</string>
     <string name="app_sign_up">Sign Up</string>

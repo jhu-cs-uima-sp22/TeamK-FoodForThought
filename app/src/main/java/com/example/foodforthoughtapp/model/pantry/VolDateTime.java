@@ -17,4 +17,8 @@ public class VolDateTime {
         time.setStartTime(start);
         time.setEndTime(end);
     }
+
+    public boolean isComplete() {
+        return !date.equals("") && !time.startTime.equals("") && !time.endTime.equals("");
+    }
 }

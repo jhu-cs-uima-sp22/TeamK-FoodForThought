@@ -86,10 +86,14 @@ public class ContributeActivity extends AppCompatActivity {
 
         Button submitButton = (Button) findViewById(R.id.submitButtonNew);
         submitButton.setOnClickListener(view -> {
-            submitContribution();
-            Intent intent = new Intent(this, SubmitActivity.class);
-            startActivity(intent);
-            this.finish();
+            if(submitContribution()) {
+                Intent intent = new Intent(this, SubmitActivity.class);
+                startActivity(intent);
+                this.finish();
+            } else {
+                Toast toast = DynamicToast.makeError(getApplicationContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT);
+                toast.show();
+            }
         });
     }
 
@@ -133,7 +137,7 @@ public class ContributeActivity extends AppCompatActivity {
     }
 
     // submits a user's contribution to the database
-    private void submitContribution() {
+    private boolean submitContribution() {
         List<VolunteerContribution> volunteering = getVolunteerHours();
         if (volunteering != null) {
             for (VolunteerContribution contribution : volunteering) {
@@ -151,6 +155,7 @@ public class ContributeActivity extends AppCompatActivity {
                     + userID);
             submitContributionToPantry(donations.first, donations.second);
         }
+        return volunteering != null || donations != null;
     }
 
     private Pair<ResourceContribution, Set<String>> getDonation() {
@@ -166,6 +171,10 @@ public class ContributeActivity extends AppCompatActivity {
                             Integer.parseInt(resourceCount.getText().toString()));
                     resources.add(res);
                     donated.add(res.resourceName);
+                } else {
+                    Toast toast = DynamicToast.makeError(getApplicationContext(), getString(R.string.invalid_resource_count), Toast.LENGTH_SHORT);
+                    toast.show();
+                    return null;
                 }
             }
         }
@@ -218,6 +227,11 @@ public class ContributeActivity extends AppCompatActivity {
         List<VolunteerContribution> volunteering = new ArrayList<>();
         for (int i = 0; i < va.getCount(); i++) {
             VolDateTime cur = va.getItem(i);
+            if (!cur.time.isValid()) {
+                Toast toast = DynamicToast.makeError(getApplicationContext(), getString(R.string.invalid_hours), Toast.LENGTH_SHORT);
+                toast.show();
+                return null;
+            }
             volunteering.add(new VolunteerContribution(cur.date, pantryID, cur.time));
         }
         return !volunteering.isEmpty() ? volunteering : null;

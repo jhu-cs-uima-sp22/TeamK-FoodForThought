@@ -5,6 +5,10 @@
     <string name="auth_email_collision">A user with this email already exists!</string>
     <string name="auth_weak_password">Please provide a password with at least 6 characters!</string>
     <string name="complete_hours_first">Please fill existing slots first!</string>
+    <string name="invalid_hours">Please ensure all end times are after start times!</string>
+    <string name="empty_fields">Please select resources or add dates!</string>
+    <string name="invalid_resource_count">Please enter resource counts!</string>
+
     <string name="app_name">Food For Thought.</string>
     <string name="app_subtitle">Give back to your community</string>
     <string name="app_sign_up">Sign Up</string>

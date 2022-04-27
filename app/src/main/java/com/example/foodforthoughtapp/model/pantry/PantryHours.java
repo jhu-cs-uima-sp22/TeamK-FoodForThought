@@ -5,7 +5,8 @@ public class PantryHours {
     public String startTime;
     public String endTime;
 
-    public PantryHours() {}
+    public PantryHours() {
+    }
 
     public PantryHours(String startTime, String endTime) {
         this.startTime = startTime;
@@ -18,6 +19,10 @@ public class PantryHours {
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
+    }
+
+    public boolean isValid() {
+        return startTime.compareTo(endTime) < 0;
     }
 
     @Override

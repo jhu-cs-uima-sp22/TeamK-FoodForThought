@@ -35,13 +35,13 @@ import java.util.List;
 import java.util.Set;
 
 public class ContributeActivity extends AppCompatActivity {
-    List<Resource> conResourceList = new ArrayList<>();
-    ContributeAdapter ca;
+    private List<Resource> conResourceList = new ArrayList<>();
+    private ContributeAdapter ca;
     private ListView resourceConListView;
     private CardView contributeCard;
 
     protected List<VolDateTime> conVolunteerList = new ArrayList<>();
-    VolunteerDateAdapter va;
+    private VolunteerDateAdapter va;
     private ListView conDateHoursView;
     private CardView datePickerCard;
 
@@ -64,7 +64,6 @@ public class ContributeActivity extends AppCompatActivity {
         //have to get the arrayList of resources in the specific pantry
         dbref.child("pantries").child(pantryID).get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
-                Log.d("ContributeActivity", "Unsuccessful");
                 Log.d("ContributeActivity", task.getException().toString());
             }
             PantryInfo pantry = task.getResult().getValue(PantryInfo.class);
@@ -139,14 +138,17 @@ public class ContributeActivity extends AppCompatActivity {
     // submits a user's contribution to the database
     private boolean submitContribution() {
         List<VolunteerContribution> volunteering = getVolunteerHours();
-        if (volunteering != null) {
-            for (VolunteerContribution contribution : volunteering) {
-                dbref.child("contributions").child(userID).child("volunteerHistory").push().setValue(contribution);
-            }
-            Log.d("ContributeActivity", "Submitted "
-                    + volunteering.size() + " volunteer opportunities for user "
-                    + userID);
+        if (volunteering == null) {
+            // user did not fill out all volunteer slots
+            return false;
         }
+        for (VolunteerContribution contribution : volunteering) {
+            dbref.child("contributions").child(userID).child("volunteerHistory").push().setValue(contribution);
+        }
+        Log.d("ContributeActivity", "Submitted "
+                + volunteering.size() + " volunteer opportunities for user "
+                + userID);
+
 
         Pair<ResourceContribution, Set<String>> donations = getDonation();
         if (donations != null) {
@@ -155,7 +157,7 @@ public class ContributeActivity extends AppCompatActivity {
                     + userID);
             submitContributionToPantry(donations.first, donations.second);
         }
-        return volunteering != null || donations != null;
+        return !volunteering.isEmpty() || donations != null;
     }
 
     private Pair<ResourceContribution, Set<String>> getDonation() {
@@ -234,6 +236,6 @@ public class ContributeActivity extends AppCompatActivity {
             }
             volunteering.add(new VolunteerContribution(cur.date, pantryID, cur.time));
         }
-        return !volunteering.isEmpty() ? volunteering : null;
+        return volunteering;
     }
 }

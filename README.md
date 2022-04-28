@@ -66,21 +66,21 @@ Overall, we made all expected deliverables for Sprint 1.
 
 ## Meeting Notes:
 March 11, 2022
--Sign- up View:
--plus sign in circle --> change to mountain or avatar 
+- Sign- up View:
+- plus sign in circle --> change to mountain or avatar 
 with plus 
--do not have to implement forgot password/remember me 
--Map View:
--don't need green dots
--take ratings out(?) --> not relevant
--Help Page:
-    -font colors against green not contrasted enough
-     -darker green/accent colors-> material design
-     -larger font
-     -"contribute" instead of "Help Food Pantry"
-   -More Help:
-      -move count to the right 
-      -populate hours of operation with real hours
+- do not have to implement forgot password/remember me 
+- Map View:
+- don't need green dots
+- take ratings out(?) --> not relevant
+- Help Page:
+    - font colors against green not contrasted enough
+     - darker green/accent colors-> material design
+     - larger font
+     - "contribute" instead of "Help Food Pantry"
+   - More Help:
+      - move count to the right 
+      - populate hours of operation with real hours
    -Profile:
       -name consistent
       -age->change to birthday

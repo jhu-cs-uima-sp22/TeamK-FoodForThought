@@ -66,14 +66,14 @@ Overall, we made all expected deliverables for Sprint 1.
 
 ## Meeting Notes:
 March 11, 2022
-  -Sign- up View:
-    -plus sign in circle --> change to mountain or avatar 
-    with plus 
-    -do not have to implement forgot password/remember me 
-  -Map View:
-    -don't need green dots
-    -take ratings out(?) --> not relevant
-  -Help Vire:
+-Sign- up View:
+-plus sign in circle --> change to mountain or avatar 
+with plus 
+-do not have to implement forgot password/remember me 
+-Map View:
+-don't need green dots
+-take ratings out(?) --> not relevant
+-Help Page:
     -font colors against green not contrasted enough
      -darker green/accent colors-> material design
      -larger font

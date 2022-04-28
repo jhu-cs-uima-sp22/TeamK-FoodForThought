@@ -67,12 +67,12 @@ Overall, we made all expected deliverables for Sprint 1.
 ## Meeting Notes:
 March 11, 2022
 - Sign- up View:
-- plus sign in circle --> change to mountain or avatar 
-with plus 
-- do not have to implement forgot password/remember me 
+	- plus sign in circle --> change to mountain or avatar 
+	with plus 
+	- do not have to implement forgot password/remember me 
 - Map View:
-- don't need green dots
-- take ratings out(?) --> not relevant
+	- don't need green dots
+	- take ratings out(?) --> not relevant
 - Help Page:
     - font colors against green not contrasted enough
      - darker green/accent colors-> material design
@@ -81,96 +81,96 @@ with plus
    - More Help:
       - move count to the right 
       - populate hours of operation with real hours
-   -Profile:
-      -name consistent
-      -age->change to birthday
-      -clarify that when you click on profile attributes you can 
+   - Profile:
+      - name consistent
+      - age->change to birthday
+      - clarify that when you click on profile attributes you can 
       change then
-   -Extra Comments:
-      -hard code imaginary food pantries 
-      -good maps API->actual food pantries?
-      -"a little light"
-      -make up your own coordinates
-      -not as much output/everything static
-        -add record of what user signed up for (History)
-        -update count
-        -scrollable list of (or grid view) my donations
-        -map view?
-        -two tabbed view? nav drawer?
-          -map view and contributions and settings
-            -log out button in nav drawer
-            -opportunities for volunteering name
-          -details page doesn't have nav drawer
-        -hours of a particular day of what week
-          -current date of week is indicated->day would be 
+   - Extra Comments:
+      - hard code imaginary food pantries 
+      - good maps API->actual food pantries?
+      - "a little light"
+      - make up your own coordinates
+      - not as much output/everything static
+        - add record of what user signed up for (History)
+        - update count
+        - scrollable list of (or grid view) my donations
+        - map view?
+        - two tabbed view? nav drawer?
+          - map view and contributions and settings
+            - log out button in nav drawer
+            - opportunities for volunteering name
+          - details page doesn't have nav drawer
+        - hours of a particular day of what week
+          - current date of week is indicated->day would be 
           highlighted
-          -or if it started with the current day of the week
-          -grey out days that have passed
-  -First Sprint:
-    -Login (simplified)
-    -opportunities
-      -map view
-      -pop up to pantry needs
-    -nav drawer placeholder
-  -Second Sprint:
-    -saved contributions and settings
-    -items changing
+          - or if it started with the current day of the week
+          - grey out days that have passed
+  - First Sprint:
+    - Login (simplified)
+    - opportunities
+      - map view
+      - pop up to pantry needs
+    - nav drawer placeholder
+  - Second Sprint:
+    - saved contributions and settings
+    - items changing
 
 
 March 16, 2022
--Meeting discussing the design, who would revise the wireframe, 
+- Meeting discussing the design, who would revise the wireframe, 
 set up the backlog, and making sure we understood github
--decided that only if you click on the icon you see the information
+- decided that only if you click on the icon you see the information
 
 
 April 3, 2022
--Meeting to clarify the donation and detail pages
--check boxes for donation - added comment on how to do 
--add count in donation view 
+- Meeting to clarify the donation and detail pages
+- check boxes for donation - added comment on how to do 
+- add count in donation view 
 
 
 April 4, 2022
--Splitting up work for Sprint 1 
--search bar
--tool bar
--populating marker on map
--resource objects under food pantry object 
-  -pass food pantry object  with the same ID
--make action bar 
--fixes github errors 
+- Splitting up work for Sprint 1 
+- search bar
+- tool bar
+- populating marker on map
+- resource objects under food pantry object 
+  - pass food pantry object  with the same ID
+- make action bar 
+- fixes github errors 
 
 
 April 13, 2022
--Splitting up work for sprint 2
--making sure hours are dynamic and specific to pantry 
--submit button-> put into database
--update resources based on donation
--past donations and volunteering
--account settings
--map search bar
--get rid of pantry details page 
--drew diagrams for new contributions page 
+- Splitting up work for sprint 2
+- making sure hours are dynamic and specific to pantry 
+- submit button-> put into database
+- update resources based on donation
+- past donations and volunteering
+- account settings
+- map search bar
+- get rid of pantry details page 
+- drew diagrams for new contributions page 
 
 
 April 26, 2022
--Planning presentation and last minute debugging 
--Introduce- Noah
--What we focused on in sprint 2
-	-Before and after pics
-	-Updated map search bar- Saketh
-	-Dynamic hours for pantry- Emma 
-	-On submit storing the input- Emma 
-	-Nav drawer-Sachet
-	-Store users contributions (past donations and volunteering)-
-  Sachet
-	-Opportunities tab (future donations and volunteering)- Sachet
-	-Settings tab- Saketh
--Android features we did not cover in class
-	-Map View- Noah 
-	-Firebase Accounts- Noah 
-	-ADD MORE
--Demo- Sachet 
--Any future development-Emma
-	-Making some further developments 
-	-Change password 
--Small changes
+- Planning presentation and last minute debugging 
+- Introduce- Noah
+- What we focused on in sprint 2
+	- Before and after pics
+	- Updated map search bar- Saketh
+	- Dynamic hours for pantry- Emma 
+	- On submit storing the input- Emma 
+	- Nav drawer-Sachet
+	- Store users contributions (past donations and volunteering)-
+ 	 Sachet
+	- Opportunities tab (future donations and volunteering)- Sachet
+	- Settings tab- Saketh
+- Android features we did not cover in class
+	- Map View- Noah 
+	- Firebase Accounts- Noah 
+	- ADD MORE
+- Demo- Sachet 
+- Any future development-Emma
+	- Making some further developments 
+	- Change password 
+- Small changes

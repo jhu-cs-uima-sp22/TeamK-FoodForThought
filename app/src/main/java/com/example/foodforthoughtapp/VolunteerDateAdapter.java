@@ -61,20 +61,20 @@ public class VolunteerDateAdapter extends ArrayAdapter<VolDateTime> {
     @SuppressLint("NewApi")
     private void updateTimePickers(String dayOfWeek) {
         Log.d("VolDateAdapter", "TimePickerUpdate: " + dayOfWeek);
+        List<CharSequence> times = new ArrayList<>(Collections.singletonList("None"));
         PantryHours hours = pantry.hours.get(dayOfWeek);
         try {
             LocalTime start = LocalTime.parse(hours.startTime);
             LocalTime end = LocalTime.parse(hours.endTime);
             int intervals = (int) start.until(end, ChronoUnit.MINUTES) / 30;
-            List<CharSequence> times = new ArrayList<>(Collections.singletonList("None"));
             for (int i = 0 ; i < intervals + 1; i++) {
                 times.add(start.plusMinutes(i * 30).toString());
             }
-            setSpinner(startTime, times);
-            setSpinner(endTime, times);
         } catch (Exception e) {
             Log.d("VolunteerDateAdapter", e.toString());
         }
+        setSpinner(startTime, times);
+        setSpinner(endTime, times);
     }
     private void setSpinner(Spinner spinner, List<CharSequence> times) {
         // Create an ArrayAdapter using the string array and a default spinner layout

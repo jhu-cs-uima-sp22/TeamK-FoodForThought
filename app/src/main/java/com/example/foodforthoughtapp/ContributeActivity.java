@@ -30,8 +30,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ContributeActivity extends AppCompatActivity {
@@ -49,6 +51,7 @@ public class ContributeActivity extends AppCompatActivity {
     private String pantryID;
     private DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
     private static final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private Map<String, Toast> errorToasts;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +61,13 @@ public class ContributeActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         pantryID = extras.getString("Food Pantry");
+
+        errorToasts = new HashMap<String, Toast>() {{
+            put("incompleteHours", DynamicToast.makeError(getApplicationContext(), getString(R.string.complete_hours_first), Toast.LENGTH_SHORT));
+            put("invalidResourceCount", DynamicToast.makeError(getApplicationContext(), getString(R.string.invalid_resource_count), Toast.LENGTH_SHORT));
+            put("invalidHours", DynamicToast.makeError(getApplicationContext(), getString(R.string.invalid_hours), Toast.LENGTH_SHORT));
+            put("emptyFields", DynamicToast.makeError(getApplicationContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT));
+        }};
 
         //have to get the arrayList of resources in the specific pantry
         dbref.child("pantries").child(pantryID).get().addOnCompleteListener(task -> {
@@ -74,8 +84,9 @@ public class ContributeActivity extends AppCompatActivity {
                 if(va.getCount() == 0 || va.getItem(va.getCount() - 1).isComplete())
                     addDay(pantry);
                 else {
-                    Toast toast = DynamicToast.makeError(getApplicationContext(), getString(R.string.complete_hours_first), Toast.LENGTH_SHORT);
-                    toast.show();
+                    if (!toastIsShown()) {
+                        errorToasts.get("incompleteHours").show();
+                    }
                 }
             });
             //findViewById(R.id.mainLayout2).setVisibility(View.VISIBLE);
@@ -87,11 +98,18 @@ public class ContributeActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, SubmitActivity.class);
                 startActivity(intent);
                 this.finish();
-            } else {
-                //Toast toast = DynamicToast.makeError(getApplicationContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT);
-                //toast.show();
             }
         });
+    }
+
+    // returns whether a toast is currently being displayed
+    private boolean toastIsShown() {
+        for (Toast toast : errorToasts.values()) {
+            if (toast.getView().isShown()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void addDay(PantryInfo pantry) {
@@ -156,6 +174,11 @@ public class ContributeActivity extends AppCompatActivity {
                     + userID);
             submitContributionToPantry(donations.first, donations.second);
         }
+        if (volunteering.isEmpty() && donations == null) {
+            if (!toastIsShown()) {
+                errorToasts.get("emptyFields").show();
+            }
+        }
         return !volunteering.isEmpty() || donations != null;
     }
 
@@ -173,8 +196,9 @@ public class ContributeActivity extends AppCompatActivity {
                     resources.add(res);
                     donated.add(res.resourceName);
                 } else {
-                    Toast toast = DynamicToast.makeError(getApplicationContext(), getString(R.string.invalid_resource_count), Toast.LENGTH_SHORT);
-                    toast.show();
+                    if (!toastIsShown()) {
+                        errorToasts.get("invalidResourceCount").show();
+                    }
                     return null;
                 }
             }
@@ -182,16 +206,8 @@ public class ContributeActivity extends AppCompatActivity {
         if (resources.isEmpty()) {
             return null;
         }
-//        try {
-//            // TODO: set date to current date for now
-//            String date = new SimpleDateFormat("MM/dd/yyyy").parse(new Date().toString())
-//                    .toString();
-//            return new Pair<>(new ResourceContribution
-//                    (date, pantryID, resources), donated);
-//        } catch (ParseException ex) {
-//            ex.printStackTrace();
-//        }
-        String date = "04/27/2022";
+        // TODO: use current date for now
+        String date = new SimpleDateFormat("MM/dd/yyyy").format(new Date());
         return new Pair<>(new ResourceContribution
                 (date, pantryID, resources), donated);
     }
@@ -229,8 +245,9 @@ public class ContributeActivity extends AppCompatActivity {
         for (int i = 0; i < va.getCount(); i++) {
             VolDateTime cur = va.getItem(i);
             if (!cur.time.isValid()) {
-                Toast toast = DynamicToast.makeError(getApplicationContext(), getString(R.string.invalid_hours), Toast.LENGTH_SHORT);
-                toast.show();
+                if (!toastIsShown()) {
+                    errorToasts.get("invalidHours").show();
+                }
                 return null;
             }
             volunteering.add(new VolunteerContribution(cur.date, pantryID, cur.time));
